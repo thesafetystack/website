@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#feecd3;color:#333;font-family:'Merriweather Sans',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:#028090;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+  a:hover{color:#114b5f}
+  summary{cursor:pointer;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  select,button,input{font-family:inherit;color:#333}
+  ::selection{background:#02809033}
+</style>
+</helmet>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="120" fill="#feecd3"></rect><polygon points="24,52 60,34 96,52 60,70" fill="#114b5f"></polygon><polygon points="24,68 60,50 96,68 60,86" fill="#114b5f" opacity="0.55"></polygon><line x1="60" y1="20" x2="60" y2="96" stroke="#da532c" stroke-width="3"></line></svg>
+</template>
+<div style="background:#feecd3;min-height:100vh;font-family:'Merriweather Sans',Helvetica,Arial,sans-serif;color:#333">
+
+  <header style="max-width:1080px;margin:0 auto;padding:56px 28px 26px">
+    <p style="margin:0 0 22px"><a href="index.html" style="font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:13px;line-height:1.3;font-weight:500;color:#114b5f;text-decoration:none">thesafetystack.ai</a></p>
+    <h1 style="margin:0 0 14px;font-size:36px;line-height:1.15;font-weight:800;letter-spacing:-0.01em;color:#114b5f;text-wrap:pretty">The safety stack, as far as anyone outside can see it.</h1>
+    <p style="margin:0;font-size:19px;line-height:1.5;max-width:860px;text-wrap:pretty">{{ intro }}</p>
+  </header>
+
+  <div ref="{{ wrapRef }}" style="position:relative">
+    <div style="height:100vh;display:flex;flex-direction:column;overflow:hidden;background:#feecd3">
+
+      <div ref="{{ barRef }}" style="flex:none;position:relative;z-index:6;padding:8px 18px 7px;border-top:1px solid #114b5f33;border-bottom:1px solid #114b5f33;background:#fff8ec">
+        <div style="display:flex;flex-wrap:wrap;gap:6px 26px;align-items:flex-start">
+          <div style="flex:0 1 auto;min-width:0">
+            <label style="display:block;font-size:11px;font-weight:700;color:#114b5f;margin-bottom:3px">Labs <span style="font-weight:400;color:#5c7f88;font-family:'IBM Plex Mono',monospace;font-size:10px">{{ labsNote }}</span></label>
+            <div style="display:flex;flex-wrap:wrap;gap:0 9px;min-height:29px;align-items:center">
+              <sc-for list="{{ labToggles }}" as="l" hint-placeholder-count="8">
+                <label style="{{ l.style }}">
+                  <input type="checkbox" checked="{{ l.checked }}" onChange="{{ l.onChange }}" style="margin:0;accent-color:#028090">
+                  <span>{{ l.name }}</span>
+                </label>
+              </sc-for>
+            </div>
+          </div>
+          <div style="flex:0 1 300px;min-width:230px">
+            <label style="display:block;font-size:11px;font-weight:700;color:#114b5f;margin-bottom:3px">Evidence of use <span style="font-weight:400;color:#5c7f88;font-family:'IBM Plex Mono',monospace;font-size:10px">{{ stopHint }}</span></label>
+            <input type="range" min="0" max="2" step="1" value="{{ stop }}" disabled="{{ stopDisabled }}" onChange="{{ onStop }}" onInput="{{ onStop }}" aria-label="Evidence of use" style="{{ stopSliderStyle }}">
+            <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10px;line-height:1.2">
+              <sc-for list="{{ stopLabels }}" as="s" hint-placeholder-count="3"><span style="{{ s.style }}">{{ s.t }}</span></sc-for>
+            </div>
+          </div>
+          <div ref="{{ searchRef }}" style="flex:0 1 240px;min-width:180px;position:relative">
+            <label style="display:block;font-size:11px;font-weight:700;color:#114b5f;margin-bottom:3px">Find a technique</label>
+            <input type="search" value="{{ search }}" onChange="{{ onSearch }}" onKeyDown="{{ onSearchKey }}" placeholder="type part of a name" aria-label="Find a technique" style="width:100%;font-size:12.5px;padding:5px 8px;border:1px solid #114b5f66;background:#fff;border-radius:2px">
+            <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;left:0;top:100%;width:min(430px,88vw);margin-top:3px;background:#fff8ec;border:1px solid #114b5f;box-shadow:0 10px 24px #114b5f33;max-height:310px;overflow:auto;z-index:9">
+                <sc-for list="{{ searchResults }}" as="r" hint-placeholder-count="0">
+                  <div style="{{ r.style }}" onClick="{{ r.onClick }}" onKeyDown="{{ r.onKey }}" tabindex="0" role="button">{{ r.name }} <span style="font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:10.5px;color:#5c7f88">{{ r.layer }}</span></div>
+                </sc-for>
+                <div style="font-size:11px;color:#5c7f88;padding:6px 9px">{{ searchNote }}</div>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.45;color:#5c7f88;margin-top:6px">Tick a lab to draw its stack. Move the cursor up and down a stack to spread the slices under it. Hover a slice for one technique and click it for its dossier. Click the name of a layer to open the layer. Esc, or a click outside, closes.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 16px;align-items:center;margin-top:7px;padding-top:6px;border-top:1px solid #114b5f1f">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:#5c7f88">Key</span>
+          <sc-for list="{{ keyItems }}" as="m" hint-placeholder-count="7">
+            <div style="display:flex;align-items:center;gap:6px">
+              <svg width="34" height="16" style="flex:none;overflow:visible"><polygon points="2,13 11,2 32,2 23,13" style="{{ m.style }}"></polygon><ellipse cx="17" cy="7.5" rx="5" ry="2.2" style="{{ m.hole }}"></ellipse></svg>
+              <div style="font-size:11.5px;line-height:1.3;color:#333">{{ m.text }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div ref="{{ boxRef }}" style="position:relative;flex:1 1 auto;min-height:0;overflow:hidden" onClick="{{ onSceneClick }}">
+        <svg viewBox="{{ viewBox }}" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;display:block" onMouseMove="{{ onLens }}" onMouseLeave="{{ onLensOut }}">
+          <defs>
+            <pattern id="isoA" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(21.8)">
+              <line x1="0" y1="0" x2="44" y2="0" style="stroke:#114b5f;stroke-width:0.7;stroke-opacity:0.09"></line>
+            </pattern>
+            <pattern id="isoB" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(-21.8)">
+              <line x1="0" y1="0" x2="44" y2="0" style="stroke:#114b5f;stroke-width:0.7;stroke-opacity:0.09"></line>
+            </pattern>
+            <sc-for list="{{ stripeDefs }}" as="p" hint-placeholder-count="0">
+              <pattern id="{{ p.id }}" width="{{ p.w }}" height="{{ p.w }}" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+                <rect x="0" y="0" width="{{ p.w }}" height="{{ p.w }}" style="{{ p.base }}"></rect>
+                <rect x="0" y="0" width="{{ p.sw }}" height="{{ p.w }}" style="{{ p.stripe }}"></rect>
+              </pattern>
+            </sc-for>
+          </defs>
+          <rect x="-400" y="-940" width="{{ sceneW }}" height="2820" style="fill:url(#isoA);pointer-events:none"></rect>
+          <rect x="-400" y="-940" width="{{ sceneW }}" height="2820" style="fill:url(#isoB);pointer-events:none"></rect>
+
+          <g><sc-for list="{{ wPolys }}" as="p" hint-placeholder-count="0"><polygon points="{{ p.pts }}" style="{{ p.style }}"></polygon></sc-for></g>
+          <g><sc-for list="{{ wEdges }}" as="e" hint-placeholder-count="0"><line x1="{{ e.x1 }}" y1="{{ e.y1 }}" x2="{{ e.x2 }}" y2="{{ e.y2 }}" style="{{ e.style }}"></line></sc-for></g>
+          <g><sc-for list="{{ wRings }}" as="r" hint-placeholder-count="0"><polygon points="{{ r.pts }}" style="{{ r.style }}"></polygon></sc-for></g>
+          <g><sc-for list="{{ wTags }}" as="t" hint-placeholder-count="0"><foreignObject x="{{ t.x }}" y="{{ t.y }}" width="{{ t.w }}" height="{{ t.h }}" style="overflow:visible"><div style="{{ t.style }}">{{ t.text }}</div><div style="{{ t.style2 }}">{{ t.text2 }}</div></foreignObject></sc-for></g>
+
+          <g>
+            <sc-for list="{{ brackets }}" as="k" hint-placeholder-count="4">
+              <g>
+                <polyline points="{{ k.pts }}" style="{{ k.style }}"></polyline>
+                <line x1="{{ k.x }}" y1="{{ k.my }}" x2="{{ k.lx }}" y2="{{ k.my }}" style="{{ k.leadStyle }}"></line>
+                <circle cx="{{ k.dx }}" cy="{{ k.my }}" r="9" style="{{ k.discStyle }}"></circle>
+                <foreignObject x="{{ k.nx }}" y="{{ k.ny }}" width="18" height="18" style="overflow:visible"><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:18px;text-align:center;color:#feecd3;font-weight:500">{{ k.n }}</div></foreignObject>
+                <sc-if value="{{ k.showLabel }}" hint-placeholder-val="{{ true }}">
+                  <foreignObject x="16" y="{{ k.foY }}" width="{{ k.w }}" height="70" style="overflow:visible">
+                    <div style="text-align:right"><span style="{{ k.labelStyle }}" onClick="{{ k.onClick }}" onKeyDown="{{ k.onKey }}" onMouseEnter="{{ k.onEnter }}" onMouseLeave="{{ k.onLeave }}" onFocus="{{ k.onEnter }}" onBlur="{{ k.onLeave }}" tabindex="0" role="button" aria-label="{{ k.aria }}"><span style="{{ k.infoStyle }}">i</span>{{ k.label }}</span></div>
+                    <div style="{{ k.subStyle }}">{{ k.sub }}</div>
+                  </foreignObject>
+                </sc-if>
+              </g>
+            </sc-for>
+          </g>
+          <g><sc-for list="{{ leaders }}" as="l" hint-placeholder-count="0"><g><polyline points="{{ l.pts }}" style="{{ l.style }}"></polyline><circle cx="{{ l.dx }}" cy="{{ l.dy }}" r="2.4" style="{{ l.dotStyle }}"></circle></g></sc-for></g>
+          <g>
+            <sc-for list="{{ sliceLabels }}" as="s" hint-placeholder-count="0">
+              <g>
+                <foreignObject x="{{ s.x }}" y="{{ s.foY }}" width="{{ s.w }}" height="{{ s.h }}" style="overflow:visible">
+                  <div style="{{ s.style }}" onClick="{{ s.onClick }}" onKeyDown="{{ s.onKey }}" onMouseEnter="{{ s.onEnter }}" onMouseLeave="{{ s.onLeave }}" tabindex="0" role="button">{{ s.chips }}{{ s.name }}</div>
+                </foreignObject>
+              </g>
+            </sc-for>
+          </g>
+
+          <g>
+            <sc-for list="{{ qHits }}" as="h" hint-placeholder-count="0">
+              <polygon points="{{ h.pts }}" data-k="{{ h.k }}" style="{{ h.style }}" onMouseEnter="{{ h.onEnter }}" onMouseMove="{{ h.onEnter }}" onMouseLeave="{{ h.onLeave }}" onClick="{{ h.onClick }}"></polygon>
+            </sc-for>
+          </g>
+          <g data-focus="1">
+            <sc-for list="{{ oHits }}" as="h" hint-placeholder-count="0">
+              <polygon points="{{ h.pts }}" data-k="{{ h.k }}" tabindex="0" role="button" aria-label="{{ h.aria }}" style="{{ h.style }}" onMouseEnter="{{ h.onEnter }}" onMouseMove="{{ h.onEnter }}" onMouseLeave="{{ h.onLeave }}" onFocus="{{ h.onEnter }}" onClick="{{ h.onClick }}" onKeyDown="{{ h.onKey }}"></polygon>
+            </sc-for>
+          </g>
+        </svg>
+
+        <sc-if value="{{ hoverShow }}" hint-placeholder-val="{{ false }}">
+          <div style="{{ hoverBoxStyle }}">
+            <div style="font-size:15px;font-weight:800;color:#114b5f;line-height:1.25">{{ hoverTitle }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5c7f88;margin-top:3px">{{ hoverSub }}</div>
+            <sc-for list="{{ hoverSections }}" as="sec" hint-placeholder-count="2">
+              <div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:#5c7f88;margin-top:11px">{{ sec.title }}</div>
+                <div style="height:1px;background:#114b5f33;margin:4px 0 7px"></div>
+                <sc-for list="{{ sec.lines }}" as="l" hint-placeholder-count="1"><div style="{{ l.style }}">{{ l.t }}</div></sc-for>
+                <sc-for list="{{ sec.rows }}" as="r" hint-placeholder-count="0">
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+                    <div style="flex:0 0 104px;font-size:12px;font-weight:700;color:#114b5f;line-height:1.2">{{ r.name }}</div>
+                    <svg width="32" height="15" style="flex:none;overflow:visible"><polygon points="2,13 10,2 30,2 22,13" style="{{ r.swatch }}"></polygon></svg>
+                    <div style="font-size:12px;line-height:1.3;color:#333">{{ r.text }}</div>
+                  </div>
+                </sc-for>
+                <div style="display:flex;flex-wrap:wrap;gap:4px">
+                  <sc-for list="{{ sec.chips }}" as="c" hint-placeholder-count="0"><span style="font-size:11px;line-height:1.3;padding:2px 6px;border:1px solid #114b5f66;border-radius:2px;background:#fffdf7;color:#114b5f">{{ c.t }}</span></sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="max-width:1120px;margin:16px auto 34px;padding:0 22px">
+    <sc-for list="{{ keyNotes }}" as="n" hint-placeholder-count="1"><div style="font-size:11.5px;line-height:1.5;color:#5c7f88">{{ n.t }}</div></sc-for>
+  </div>
+
+      <sc-if value="{{ dossierOpen }}" hint-placeholder-val="{{ false }}">
+        <div ref="{{ drawerRef }}" style="{{ drawerStyle }}">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;border-bottom:1px solid #114b5f;padding-bottom:12px">
+            <div>
+              <h2 style="margin:0;font-size:21px;line-height:1.2;font-weight:800;color:#114b5f">{{ dName }}</h2>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5c7f88;margin-top:4px">{{ dKind }}</div>
+              <div style="font-size:11px;color:#5c7f88;margin-top:2px">{{ dAliases }}</div>
+            </div>
+            <button ref="{{ closeRef }}" onClick="{{ onClose }}" aria-label="Close dossier" style="flex:none;background:none;border:1px solid #028090;color:#028090;font-size:12px;padding:5px 9px;cursor:pointer;border-radius:2px">Close</button>
+          </div>
+
+          <div style="{{ hStyle }}">Definition</div>
+          <p style="font-size:14px;line-height:1.55;margin:0 0 6px">{{ dDescription }}</p>
+          <div style="font-size:12px;color:#114b5f;font-style:italic">{{ dParent }}</div>
+
+          <div style="{{ hStyle }}">Use by lab</div>
+          <div style="display:grid;grid-template-columns:112px repeat(4,1fr);gap:6px;align-items:end;font-family:'IBM Plex Mono',monospace;font-size:9.5px;line-height:1.25;color:#5c7f88;padding-bottom:5px">
+            <div></div><div>stated in the lab's cards</div><div>used in the lab's papers</div><div>suspected by others</div><div>disputed</div>
+          </div>
+          <sc-for list="{{ dEvidence }}" as="e" hint-placeholder-count="7">
+            <div style="border-top:1px solid #114b5f22;padding:5px 0">
+              <div style="display:grid;grid-template-columns:112px repeat(4,1fr);gap:6px;align-items:center">
+                <div style="{{ e.labStyle }}">{{ e.lab }}</div>
+                <sc-for list="{{ e.cells }}" as="c" hint-placeholder-count="4">
+                  <div style="{{ c.style }}" onClick="{{ c.onClick }}" onKeyDown="{{ c.onKey }}" tabindex="{{ c.tab }}" role="{{ c.role }}" title="{{ c.title }}">
+                    <div style="display:flex;gap:2px"><sc-for list="{{ c.pips }}" as="p" hint-placeholder-count="0"><span style="{{ p.style }}"></span></sc-for></div>
+                    <div style="{{ c.textStyle }}">{{ c.text }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ e.open }}" hint-placeholder-val="{{ false }}">
+                <div style="margin:7px 0 4px;padding:9px 11px;background:#fff8ec;border:1px solid #114b5f44">
+                  <div style="font-size:12px;font-weight:700;color:#114b5f;line-height:1.35">{{ e.openTitle }}</div>
+                  <sc-for list="{{ e.docs }}" as="q" hint-placeholder-count="1">
+                    <div style="margin:8px 0 0;padding-left:9px;border-left:2px solid #02809066">
+                      <div style="font-size:12px;line-height:1.4"><a href="{{ q.href }}" target="_blank" rel="noopener">{{ q.title }}</a></div>
+                      <div style="font-size:10.5px;font-family:'IBM Plex Mono',monospace;color:#5c7f88;line-height:1.4;margin-top:2px">{{ q.meta }}</div>
+                      <sc-for list="{{ q.sentences }}" as="s" hint-placeholder-count="1"><div style="font-size:12px;line-height:1.45;font-style:italic;margin-top:3px">{{ s.t }}</div></sc-for>
+                    </div>
+                  </sc-for>
+                  <div style="font-size:11px;color:#5c7f88;margin-top:7px">{{ e.more }}</div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+          <div style="font-size:11px;line-height:1.45;color:#5c7f88;margin-top:8px">{{ dEvidenceNote }}</div>
+
+          <div style="{{ hStyle }}">In the dataset</div>
+          <div style="font-size:12.5px;line-height:1.45">{{ dDocsLine }}</div>
+          <div style="{{ dYearsStyle }}">
+            <div style="display:flex;align-items:flex-end;gap:3px;height:58px;margin:10px 0 3px;border-bottom:1px solid #114b5f55">
+              <sc-for list="{{ dYears }}" as="y" hint-placeholder-count="0"><div title="{{ y.title }}" style="{{ y.style }}"></div></sc-for>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5c7f88"><span>{{ dYearFirst }}</span><span>{{ dYearLast }}</span></div>
+          </div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5c7f88;margin-top:3px">{{ dYearsNote }}</div>
+
+          <div style="font-size:12.5px;line-height:1.45;margin-top:14px">{{ dModelsLine }}</div>
+          <sc-for list="{{ dModelBars }}" as="m" hint-placeholder-count="0">
+            <div style="display:grid;grid-template-columns:150px 1fr 48px;gap:8px;align-items:center;margin-top:4px">
+              <div style="font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</div>
+              <div style="height:9px;background:#114b5f18"><div style="{{ m.bar }}"></div></div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5c7f88;text-align:right">{{ m.n }}</div>
+            </div>
+          </sc-for>
+
+          <div style="height:44px"></div>
+        </div>
+      </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;reducedMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Scene&quot;}}">
+/* Which fields of the summary file drive which visual elements
+   layers[]                         -> the three layers, top to bottom; bracket, name and info box on the left of the first stack
+   techniques[]                     -> one slice per technique, in the order of the file, at the same height in every stack
+   labs[]                           -> lab tick boxes; one stack per ticked lab; the counts under each stack's name
+   techniques[].labs[lab].cards     -> solid slice
+   techniques[].labs[lab].own       -> lighter slice
+   techniques[].labs[lab].suspected -> fog (ghost matter), when the lab's cards do not state the technique
+   techniques[].labs[lab].argues_not-> disputed: the slice is filled with slanted stripes
+   labs[].dark_matter               -> dashed, lightly filled slices in the tray under the lab's stack
+   techniques[].definition/n_docs/years/models, documents -> hover box and dossier
+   key[], notes[]                   -> the key in the bar above the scene; the line at the foot of the page
+   Holes are cosmetic: they are drawn from the technique's id, not from data. */
+class Component extends DCLogic {
+  K = {COS:0.9, PW:300, PD:120, OY:700, AVAIL:560, H:940, LEFT:330};
+  C = {plate:'#114b5f', teal:'#028090', acc:'#da532c', cream:'#feecd3', ink:'#333'};
+  boxRef = React.createRef(); wrapRef = React.createRef(); barRef = React.createRef();
+  closeRef = React.createRef(); drawerRef = React.createRef(); searchRef = React.createRef();
+  state = {ready:false, failed:false, stop:0, lens:null, side:'right', selected:null, expandT:0, hover:null, open:null, ev:null,
+           cat:false, search:'', narrow:false, stacks:[], boxW:1200, boxH:700};
+
+  /* The one place the page gets its data. It asks for summary.json beside the page. When the page is opened
+     from disk, where a browser refuses that request, it loads summary.js, which holds the same content.
+     To take the summary from somewhere else, change this function and nothing else. */
+  loadSummary(){
+    const fromScript = () => new Promise((resolve, reject) => {
+      if(window.STACK_SUMMARY){ resolve(window.STACK_SUMMARY); return; }
+      const s = document.createElement('script'); s.src = './summary.js';
+      s.onload = () => window.STACK_SUMMARY ? resolve(window.STACK_SUMMARY) : reject(new Error('summary.js holds no data'));
+      s.onerror = () => reject(new Error('summary.js could not be loaded'));
+      document.head.appendChild(s);
+    });
+    if(location.protocol === 'file:') return fromScript();
+    return fetch('./summary.json').then(r => { if(!r.ok) throw new Error('summary.json: ' + r.status); return r.json(); }).catch(fromScript);
+  }
+
+  componentDidMount(){
+    this.reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    this.onResize();
+    this.loadSummary().then(d => {
+      this.prepare(d);
+      /* default view: Anthropic, OpenAI and Google DeepMind, unless the address says otherwise */
+      const patch = Object.assign({ready:true}, this.hashPatch());
+      if(!patch.stacks){
+        patch.stacks = ['anthropic', 'openai', 'google'].filter(id => this.labOf[id]).slice(0, this.maxLabs()).map(id => ({lab:id, slide:1, mat:1, dir:1}));
+      }
+      this.setState(patch, () => { this.writeHash(); this.onResize(); });
+    }).catch(err => { console.error(err); this.setState({failed:true}); });
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('keydown', this.onKeyDown);
+    window.addEventListener('hashchange', this.readHash);
+    document.addEventListener('mousedown', this.onDocDown);
+    setTimeout(this.onResize, 50);
+  }
+  componentDidUpdate(){
+    /* when the dossier opens, the keyboard goes to its Close button */
+    const open = !!this.state.open;
+    if(open && !this.wasOpen && this.closeRef.current) this.closeRef.current.focus();
+    this.wasOpen = open;
+  }
+  /* how many lab stacks may be drawn side by side: four, and one in a narrow window. The scene is drawn smaller when they do not fit. */
+  maxLabs(){ return window.innerWidth < 1020 ? 1 : 4; }
+  componentWillUnmount(){
+    cancelAnimationFrame(this.raf); cancelAnimationFrame(this.raf2); clearTimeout(this.lensTimer);
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('keydown', this.onKeyDown);
+    window.removeEventListener('hashchange', this.readHash);
+    document.removeEventListener('mousedown', this.onDocDown);
+  }
+
+  /* ---- the summary, indexed once ---- */
+  prepare(d){
+    this.D = d; this.tech = {}; this.labOf = {}; this.keyText = {};
+    d.techniques.forEach(t => { this.tech[t.id] = t; });
+    d.labs.forEach(l => { this.labOf[l.id] = l; });
+    d.key.forEach(k => { this.keyText[k.id] = k.text; });
+    this.blocks = d.layers.map((l, i) => ({role:l.id, idx:i, label:l.name, definition:l.definition || '', flat:false,
+      slices:d.techniques.filter(t => t.kind === l.id).map((t, j) => ({slug:t.id, name:t.name, tech:t, holes:this.holesFor(t.id, j)}))}));
+    this.blocks.push({role:'off-taxonomy', idx:d.layers.length, label:'Not in the taxonomy', definition:'', flat:true, slices:[]});
+    this.blocks.forEach(b => {
+      b.n = b.slices.length; b.w = b.n + 6;
+      /* the examples in a layer's info box: the techniques of the layer that most documents name */
+      b.examples = b.slices.slice().sort((x, y) => y.tech.n_docs - x.tech.n_docs).slice(0, 5).map(x => x.name);
+    });
+    let rank = 0; this.blocks.forEach(b => b.slices.forEach(sl => { sl.rank = rank++; }));
+    this.dmMax = d.labs.reduce((a, l) => Math.max(a, l.dark_matter.length), 0);
+  }
+  /* Holes are cosmetic. Each slice gets two to four. Their place along the slice steps by the golden ratio
+     from one slice to the next, so the holes of neighbouring slices never line up; depth and size vary by id. */
+  holesFor(slug, j){
+    const n = 2 + (this.hash01(slug + '|n') > 0.45 ? 1 : 0) + (this.hash01(slug + '|m') > 0.8 ? 1 : 0), out = [];
+    for(let q = 0; q < n; q++){
+      const u = (0.11 + (j + 1) * 0.6180339887 + q * 0.41 + (this.hash01(slug + '|u' + q) - 0.5) * 0.14 + 2) % 1;
+      /* the first hole is small and sits by the front edge, the strip that shows when slices are spread; the others lie anywhere on the slice */
+      if(q === 0) out.push({u, v:null, r:3.4 + 2.8 * this.hash01(slug + '|r0')});
+      else out.push({u, v:0.14 + 0.6 * this.hash01(q + '|v|' + slug), r:5 + 11 * Math.pow(this.hash01(slug + '|r' + q), 1.6)});
+    }
+    return out;
+  }
+
+  onResize = () => {
+    const narrow = window.innerWidth < 1020;
+    const box = this.boxRef.current;
+    const boxW = box ? box.clientWidth : window.innerWidth, boxH = box ? box.clientHeight : window.innerHeight - 200;
+    const patch = {narrow, boxW, boxH};
+    const vis = this.state.stacks.filter(s => s.dir > 0), max = this.maxLabs();
+    if(vis.length > max){ const keep = vis.slice(-max); patch.stacks = this.state.stacks.map(s => keep.indexOf(s) >= 0 ? s : Object.assign({}, s, {dir:-1})); }
+    this.setState(patch, () => { if(patch.stacks) this.kick(); });
+  };
+  /* The lens follows the slice under the cursor. Anywhere else in the scene it stays where it is. */
+  onLens = (e) => {
+    const box = this.boxRef.current;
+    /* which part of the scene the cursor is in: the hover box sits in the other half; in an open layer it sits at the left, away from the names, unless the cursor is where the box would be */
+    if(box){ const r = box.getBoundingClientRect(), x = e.clientX - r.left, side = (this.state.selected ? x > 370 : x > r.width / 2) ? 'right' : 'left'; if(side !== this.state.side) this.setState({side}); }
+    const k = e.target && e.target.getAttribute ? (e.target.getAttribute('data-k') || '') : '';
+    const mm = k.match(/^[^-]+-[hg]-(.+)$/);
+    if(!mm){ clearTimeout(this.lensTimer); this.lensWant = this.state.lens; return; }
+    const slug = mm[1];
+    if(slug === this.lensWant) return;
+    clearTimeout(this.lensTimer); this.lensWant = slug;
+    const apply = () => { if(this.state.lens !== slug) this.setState({lens:slug}); };
+    /* in an open layer the lens waits a moment, so the cursor can cross the stack to the names without changing them */
+    if(this.state.selected) this.lensTimer = setTimeout(apply, 90); else apply();
+  };
+  onLensOut = () => { clearTimeout(this.lensTimer); this.lensWant = null; if(this.state.lens !== null) this.setState({lens:null}); };
+  onKeyDown = (e) => {
+    if(e.key !== 'Escape') return;
+    if(this.state.search) this.setState({search:''});
+    else if(this.state.open) this.set({open:null, ev:null});
+    else if(this.state.selected) this.selectBlock(null);
+  };
+  /* a press of the mouse outside the dossier closes it; outside the search box it closes the list of results */
+  onDocDown = (e) => {
+    const st = this.state;
+    if(st.search && this.searchRef.current && !this.searchRef.current.contains(e.target)) this.setState({search:''});
+    if(st.open && this.drawerRef.current && !this.drawerRef.current.contains(e.target)){ this.closedAt = performance.now(); this.set({open:null, ev:null}); }
+  };
+  reducedMotion(){ return this.reduced || this.props.reducedMotion === true; }
+  set(patch){ this.setState(patch, () => this.writeHash()); }
+
+  hashPatch(){
+    const d = this.D, patch = {}; if(!d) return patch;
+    const h = (location.hash || '').replace(/^#/, ''); if(!h) return patch;
+    const q = {}; h.split('&').forEach(kv => { const i = kv.indexOf('='); if(i > 0){ let v = kv.slice(i + 1); try { v = decodeURIComponent(v); } catch(err) {} q[kv.slice(0, i)] = v; } });
+    if(q.labs !== undefined){
+      patch.stacks = q.labs.split(',').filter((id, i, a) => this.labOf[id] && a.indexOf(id) === i).slice(-this.maxLabs()).map(id => ({lab:id, slide:1, mat:1, dir:1}));
+    }
+    if(q.cat !== undefined) patch.cat = q.cat === '1';
+    if(q.stop !== undefined) patch.stop = Math.max(0, Math.min(2, parseInt(q.stop, 10) || 0));
+    if(q.slice !== undefined) patch.open = this.tech[q.slice] ? q.slice : null;
+    if(q.level !== undefined && d.layers.some(l => l.id === q.level)){ patch.selected = q.level; patch.expandT = 1; }
+    return patch;
+  }
+  /* an address typed or pasted while the page is open: a layer or dossier it does not name is closed */
+  readHash = () => { if(this.D) this.setState(Object.assign({selected:null, expandT:0, open:null, ev:null}, this.hashPatch())); };
+  writeHash(){
+    if(!this.D) return;
+    const s = this.state;
+    const parts = ['labs=' + s.stacks.filter(x => x.dir > 0).map(x => x.lab).join(','), 'stop=' + s.stop];
+    if(s.cat) parts.push('cat=1');
+    if(s.selected) parts.push('level=' + s.selected);
+    if(s.open) parts.push('slice=' + encodeURIComponent(s.open));
+    const h = '#' + parts.join('&');
+    if(location.hash !== h) history.replaceState(null, '', h);
+  }
+
+  /* ---- stack slide/material tween ---- */
+  kick(){
+    if(this.animating) return;
+    if(this.reducedMotion() || document.hidden){
+      this.setState({stacks:this.state.stacks.filter(s => s.dir > 0).map(s => Object.assign({}, s, {slide:1, mat:1}))}, () => this.writeHash());
+      return;
+    }
+    this.animating = true; let last = performance.now();
+    const step = (now) => {
+      const dt = Math.min(50, now - last); last = now;
+      let busy = false;
+      const next = this.state.stacks.map(s => {
+        const o = Object.assign({}, s);
+        if(o.dir > 0){
+          if(o.slide < 1){ o.slide = Math.min(1, o.slide + dt / 400); busy = true; }
+          else if(o.mat < 1){ o.mat = Math.min(1, o.mat + dt / 500); busy = true; }
+        } else {
+          if(o.mat > 0){ o.mat = Math.max(0, o.mat - dt / 500); busy = true; }
+          else if(o.slide > 0){ o.slide = Math.max(0, o.slide - dt / 400); busy = true; }
+        }
+        return o;
+      }).filter(o => !(o.dir < 0 && o.slide <= 0));
+      this.setState({stacks:next});
+      if(busy) this.raf2 = requestAnimationFrame(step); else { this.animating = false; this.writeHash(); }
+    };
+    this.raf2 = requestAnimationFrame(step);
+  }
+  toggleLab(id){
+    const st = this.state, max = this.maxLabs();
+    let stacks = st.stacks.slice();
+    const cur = stacks.find(s => s.lab === id);
+    if(cur && cur.dir > 0){ cur.dir = -1; }
+    else {
+      /* make room first: the lab ticked longest ago leaves */
+      const vis = stacks.filter(s => s.dir > 0);
+      const drop = vis.length - (max - 1);
+      for(let i = 0; i < drop; i++) vis[i].dir = -1;
+      if(cur) cur.dir = 1; else stacks.push({lab:id, slide:0, mat:0, dir:1});
+    }
+    this.setState({stacks}, () => this.kick());
+  }
+
+  selectBlock(role){
+    const st = this.state;
+    if(st.selected === role && st.expandT === (role ? 1 : 0)) return;
+    cancelAnimationFrame(this.raf);
+    const from = st.expandT, to = role ? 1 : 0;
+    if(this.reducedMotion() || document.hidden){ this.set({selected:role, expandT:to, hover:null}); return; }
+    if(role) this.set({selected:role, hover:null});
+    const t0 = performance.now(), dur = 480;
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / dur);
+      const e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+      this.setState({expandT: from + (to - from) * e});
+      if(k < 1) this.raf = requestAnimationFrame(step);
+      else if(!role) this.set({selected:null});
+    };
+    this.raf = requestAnimationFrame(step);
+  }
+  onSceneClick = (e) => {
+    if(!this.state.selected) return;
+    /* the click that closed the dossier does not also close the layer */
+    if(this.closedAt && performance.now() - this.closedAt < 400) return;
+    /* a click among the names of an open layer does not close the layer */
+    const svg = e && e.currentTarget && e.currentTarget.querySelector ? e.currentTarget.querySelector('svg') : null;
+    if(svg && this.labelX0 !== undefined && svg.getScreenCTM()){ const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; if(pt.matrixTransform(svg.getScreenCTM().inverse()).x > this.labelX0 - 34) return; }
+    this.selectBlock(null);
+  };
+  onStop = (e) => { this.set({stop:+e.target.value}); };
+  onClose = () => { this.set({open:null, ev:null}); };
+  onCat = (e) => { this.set({cat:e.target.checked}); };
+  onSearch = (e) => { this.setState({search:e.target.value}); };
+  onSearchKey = (e) => { if(e.key === 'Enter'){ const r = this.searchFor(this.state.search); if(r.length){ e.preventDefault(); this.pick(r[0].id); } } };
+  /* techniques whose name, or one of whose other names, holds the typed text */
+  searchFor(text){
+    const q = (text || '').trim().toLowerCase();
+    if(q.length < 2 || !this.D) return [];
+    return this.D.techniques.filter(t => t.name.toLowerCase().indexOf(q) >= 0 || (t.aliases || []).some(a => a.toLowerCase().indexOf(q) >= 0));
+  }
+  /* open a technique's dossier, and spread the stacks at its slice */
+  pick(slug){ this.lensWant = slug; this.set({open:slug, ev:null, search:'', lens:slug}); }
+
+  /* ---- heights: every slice has a fixed place; an open layer takes the room of the other two ---- */
+  layout(sel){
+    const K = this.K, blocks = this.blocks, layers = blocks.filter(b => !b.flat);
+    const gap = sel ? 8 : 16, pad = 3, small = 14;
+    const dmPitch = 9, trayTh = Math.max(10, 2 * pad + this.dmMax * dmPitch), trayGap = gap * 1.6;
+    const budget = K.AVAIL - gap * (layers.length - 1) - trayGap - trayTh;
+    const wsum = layers.reduce((a, b) => a + b.w, 0);
+    let z = K.AVAIL; const res = {};
+    blocks.forEach(b => {
+      if(b.flat){
+        z -= trayGap - gap;
+        const dmOffs = []; for(let i = 0; i < this.dmMax; i++) dmOffs.push(pad + (i + 0.5) * dmPitch);
+        res[b.role] = {topZ:z, th:trayTh, offs:[], pitch:dmPitch, dmOffs};
+        return;
+      }
+      const t = sel ? (b.role === sel ? budget - small * (layers.length - 1) : small) : budget * b.w / wsum;
+      const pitch = (t - 2 * pad) / Math.max(1, b.n);
+      res[b.role] = {topZ:z, th:t, offs:b.slices.map((s, i) => pad + (i + 0.5) * pitch), pitch, dmOffs:[]};
+      z -= t + gap;
+    });
+    return res;
+  }
+  /* the lens: the slices nearest in the stack to the slice `slug` spread to a readable pitch, and that slice
+     stays where it is. Nearness is counted in slices, not in height, so the lens does not jump at the gap between layers. */
+  applyLens(l0, slug, Pmax, sigma, only){
+    const centre = slug ? this.tech[slug] : null;
+    if(!centre || (only && centre.kind !== only)) return {L:l0, w:{}};
+    let rc = 0; this.blocks.forEach(b => b.slices.forEach(sl => { if(sl.slug === slug) rc = sl.rank; }));
+    const res = {}, w = {}; let shift = 0, above = 0;
+    this.blocks.forEach(b => {
+      const A = l0[b.role]; let extraSum = 0; const offs = [];
+      const active = !b.flat && (!only || only === b.role);
+      b.slices.forEach((sl, i) => {
+        const dr = sl.rank - rc;
+        const wi = active ? Math.exp(-Math.pow(dr / sigma, 2)) : 0;
+        const extra = Math.max(0, wi * (Pmax - A.pitch));
+        offs.push(A.offs[i] + extraSum + extra / 2);
+        extraSum += extra;
+        if(dr < 0) above += extra; else if(dr === 0) above += extra / 2;
+        if(wi > 0.02) w[sl.slug] = wi;
+      });
+      res[b.role] = {topZ:A.topZ - shift, th:A.th + extraSum, offs, pitch:A.pitch, dmOffs:A.dmOffs};
+      shift += extraSum;
+    });
+    Object.keys(res).forEach(k => { res[k].topZ += above; });
+    return {L:res, w};
+  }
+  mix(A, B, t){
+    const lerp = (a, b) => a + (b - a) * t, res = {};
+    this.blocks.forEach(b => { const a = A[b.role], c = B[b.role]; res[b.role] = {topZ:lerp(a.topZ, c.topZ), th:lerp(a.th, c.th), offs:a.offs.map((o, i) => lerp(o, c.offs[i])), pitch:lerp(a.pitch, c.pitch), dmOffs:a.dmOffs.map((o, i) => lerp(o, c.dmOffs[i]))}; });
+    return res;
+  }
+
+  /* ---- evidence helpers ---- */
+  evOf(tech, lab){ return (tech.labs && tech.labs[lab]) || {}; }
+  /* How a slice is drawn for a lab, at one position of the slider (0 counts suspicion, 1 needs the lab's own
+     papers, 2 needs the lab's cards). Fog is ghost matter: suspected by others and not stated in the cards. */
+  lookOf(ev, stop){
+    if(ev.cards) return 'cards';
+    if(stop >= 2) return 'none';
+    if(ev.suspected && stop === 0) return 'ghost';
+    return ev.own ? 'own' : 'none';
+  }
+  lookWord(g){ return {cards:'stated in the lab\'s cards', own:'used in the lab\'s papers', ghost:'suspected by others', none:'unknown'}[g]; }
+  /* the evidence about one lab in a few words; with none of it, unknown */
+  evidenceWords(ev){
+    const parts = [];
+    if(ev.cards) parts.push('stated in cards');
+    if(ev.own) parts.push('used in the lab\'s papers');
+    if(ev.suspected) parts.push('suspected by others');
+    if(ev.argues_not) parts.push('disputed');
+    return parts.length ? parts.join(' · ') : 'unknown';
+  }
+  /* The colours of a slice by its look: top and two sides. A lighter slice is an opaque lighter tint, so a packed
+     run of lighter slices still reads lighter than a run of solid ones. Fog is see-through and blurred. 'solid' is
+     the catalogue's slice. */
+  material(g){
+    const P = this.C.plate, tint = k => this.mixHex(this.C.cream, P, k);
+    return {
+      solid:{top:P, front:tint(0.9), right:tint(0.82), stroke:'#2f7f94', sw:0.8, edge:'#9fd6e2', filled:true},
+      cards:{top:P, front:tint(0.9), right:tint(0.82), stroke:'#7ec7d8', sw:1.4, edge:'#9fd6e2', filled:true},
+      own:{top:tint(0.46), front:tint(0.38), right:tint(0.31), stroke:'#2f7f94', sw:0.8, edge:tint(0.75), filled:true},
+      ghost:{top:P, front:P, right:P, stroke:'none', sw:0, edge:P, filled:true, fog:true},
+      none:{top:'none', front:'none', right:'none', stroke:P, sw:1, edge:P, filled:false}
+    }[g];
+  }
+  /* the small slice drawn in the key and in the hover box */
+  swatchStyle(g, disputed){
+    const m = this.material(g), f = hex => disputed ? this.stripe(hex, true) : (hex || 'none');
+    if(g === 'ghost') return 'fill:' + f(this.C.plate) + ';fill-opacity:.42;filter:blur(1.3px)';
+    if(g === 'none') return 'fill:' + f(null) + ';stroke:' + this.C.plate + ';stroke-width:1;stroke-opacity:.7';
+    return 'fill:' + f(m.top) + ';stroke:' + m.stroke + ';stroke-width:' + Math.min(1, m.sw);
+  }
+  /* A disputed slice is filled with slanted stripes: its own colour and a much lighter one. An unknown slice that
+     is disputed has thin slanted lines and no fill. Each colour asked for gets one pattern in the scene's <defs>;
+     `small` is the finer pattern of the swatches in the key and the hover box. */
+  stripes = {};
+  stripe(hex, small){
+    const id = 'st' + (small ? 'k' : '') + (hex ? hex.slice(1) : 'line');
+    if(!this.stripes[id]){
+      const w = small ? 5 : 10;
+      this.stripes[id] = hex
+        ? {k:id, id, w, sw:w / 2, base:'fill:' + hex, stripe:'fill:' + this.mixHex(hex, this.C.cream, 0.8)}
+        : {k:id, id, w, sw:small ? 1 : 1.4, base:'fill:none', stripe:'fill:' + this.C.plate + ';fill-opacity:.6'};
+    }
+    return 'url(#' + id + ')';
+  }
+  /* the same stripes for a small square drawn by the page's style sheet */
+  stripeCss(hex){
+    return hex ? 'repeating-linear-gradient(125deg,' + hex + ' 0 1.6px,' + this.mixHex(hex.slice(0, 7), this.C.cream, 0.8) + ' 1.6px 3.3px)'
+      : 'repeating-linear-gradient(125deg,#114b5f99 0 1px,transparent 1px 3.3px)';
+  }
+  mixHex(a, b, t){
+    const pa = [1, 3, 5].map(i => parseInt(a.slice(i, i + 2), 16)), pb = [1, 3, 5].map(i => parseInt(b.slice(i, i + 2), 16));
+    return '#' + pa.map((v, i) => Math.round(v + (pb[i] - v) * t).toString(16).padStart(2, '0')).join('');
+  }
+  plural(n, one, many){ return this.num(n) + ' ' + (n === 1 ? one : (many || one + 's')); }
+  num(n){ return (n || 0).toLocaleString('en-US'); }
+
+  renderVals(){
+    const st = this.state, K = this.K, C = this.C;
+    const sceneW = Math.max(900, Math.round(st.boxW * K.H / Math.max(200, st.boxH)));
+    const common = {
+      boxRef:this.boxRef, wrapRef:this.wrapRef, barRef:this.barRef, closeRef:this.closeRef, drawerRef:this.drawerRef, searchRef:this.searchRef,
+      drawerStyle:this.drawerStyle(), hStyle:this.hStyle(), viewBox:'0 0 ' + sceneW + ' ' + K.H, sceneW:sceneW + 800,
+      onSceneClick:this.onSceneClick, onStop:this.onStop, onClose:this.onClose, onLens:this.onLens, onLensOut:this.onLensOut,
+      onSearch:this.onSearch, onSearchKey:this.onSearchKey, hoverBoxStyle:this.hoverBoxStyle()
+    };
+    const emptyScene = {oHits:[], qHits:[], brackets:[], leaders:[], sliceLabels:[], wPolys:[], wEdges:[], wRings:[], wTags:[]};
+    if(!st.ready || !this.D){
+      return Object.assign(common, this.emptyDossier(), emptyScene, {
+        labToggles:[], keyItems:[], stripeDefs:[], keyNotes:[], hoverSections:[], hoverShow:false, hoverTitle:'', hoverSub:'', dossierOpen:false,
+        intro:st.failed ? 'The summary file could not be loaded. It is expected beside this page as summary.json or summary.js.' : 'loading data…',
+        stopHint:'', stopLabels:[], labsNote:'', stop:0, stopDisabled:true, stopSliderStyle:'width:100%',
+        search:'', searchOpen:false, searchResults:[], searchNote:''});
+    }
+    const d = this.D, sinA = 0.36, blocks = this.blocks, sel = st.selected, t = st.expandT;
+    this.stripes = {};
+    const vis = st.stacks;
+    const selBlock = sel ? blocks.find(b => b.role === sel) : null;
+    /* a layer whose names all fit beside it shows every name when open; a larger one names the slices under the lens.
+       In both, the slices near the cursor move apart. */
+    const fitsAll = !!selBlock && selBlock.n <= 40;
+
+    /* at rest: compact, and a lens spreads the slices under the cursor; an open layer takes most of the height */
+    const l0 = this.layout(null);
+    let L, lensW = {}, lb = null;
+    if(!sel){ L = this.applyLens(l0, st.lens, 15, 5, null).L; }
+    else {
+      lb = this.layout(sel);
+      if(t < 1) L = this.mix(l0, lb, t);
+      else { const r = fitsAll ? this.applyLens(lb, st.lens, 40, 2, sel) : this.applyLens(lb, st.lens, 17, 6.5, sel); L = r.L; lensW = r.w; }
+    }
+    const selOpen = sel && t > 0.5;
+    const ease = k => k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+    /* the stacks drawn, left to right: the full catalogue when ticked, then the labs. A stack that is sliding
+       in or out counts for part of a stack, so the scale changes with it and not in one step. */
+    const first = st.cat ? 1 : 0, nCols = first + vis.length;
+    const nEff = first + vis.reduce((a, x) => a + ease(x.slide), 0);
+
+    const rightCol = 40 + 400 * (sel ? t : 0);
+    const leftCol = K.LEFT - 170 * (sel ? t : 0);
+    /* scale: the whole scene is drawn smaller when the stacks would not fit side by side; an open layer is framed, with room for the slices the lens spreads */
+    const stackW = (K.PW + K.PD) * K.COS;
+    const fitRest = Math.min(1, sceneW / (K.LEFT + 40 + Math.max(1, nEff) * (stackW + 44)));
+    let zoom = fitRest, vbY0 = (K.H - K.H / fitRest) / 2;
+    if(sel && t > 0){
+      const ls = lb[sel], grow = fitsAll ? 52 : 85;
+      const yMin = K.OY - (ls.topZ + 24 + grow), yMax = K.OY + (K.PW + K.PD) * sinA - (ls.topZ - ls.th - 16 - grow);
+      const frameH = yMax - yMin + 30;
+      const zt = Math.min(K.H / frameH, sceneW / (K.LEFT - 170 + 440 + Math.max(1, nEff) * (stackW + 44)));
+      zoom = fitRest + (zt - fitRest) * t;
+      const vbH = K.H / zt;
+      const ySel = Math.max(Math.min(0, K.H - vbH), Math.min(Math.max(0, K.H - vbH), (yMin + yMax) / 2 - vbH / 2));
+      vbY0 = vbY0 + (ySel - vbY0) * t;
+    }
+    const sceneWz = sceneW / zoom, vbHz = K.H / zoom;
+    /* when the scene is drawn smaller, text is drawn larger by part of the difference, so it stays readable */
+    const ts = 1 / Math.max(0.6, Math.min(1, zoom));
+    common.sceneW = Math.ceil(sceneWz) + 800;
+    common.viewBox = '0 ' + vbY0.toFixed(1) + ' ' + sceneWz.toFixed(1) + ' ' + vbHz.toFixed(1);
+    const availW = sceneWz - leftCol - rightCol;
+    /* stacks share the space evenly, but never stretch past a readable slot; the group stays centred */
+    const slotW = Math.min(availW / Math.max(1, nCols), stackW + 150);
+    const groupPad = (availW - slotW * Math.max(1, nCols)) / 2;
+    const rhOff = (K.PW - K.PD) * K.COS / 2;
+    const oxAt = i => leftCol + groupPad + slotW * (i + 0.5) - rhOff;
+    const OX0 = oxAt(0);
+    const zEntry = K.AVAIL + 60;
+    const setHover = (kind, payload) => () => { const h = this.state.hover; if(h && h.key === payload.key) return; this.setState({hover:Object.assign({kind}, payload)}); };
+    const clearHover = () => { if(this.state.hover) this.setState({hover:null}); };
+    const hov = st.hover;
+    const hovSlug = hov && hov.kind === 'slice' ? hov.slug : null;
+    const stackInfo = [];
+
+    /* ---------- one stack ---------- */
+    const drawStack = (ox, ctx) => {
+      const P = {polys:[], edges:[], rings:[], tags:[], hits:[], fills:[]};
+      const proj = (x, y, z) => [ox + (x - y) * K.COS, K.OY + (x + y) * sinA - z];
+      const poly = pts => pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+      const face = (z, x0, x1, y0, y1) => poly([proj(x0, y0, z), proj(x1, y0, z), proj(x1, y1, z), proj(x0, y1, z)]);
+      const topFace = z => face(z, 0, K.PW, 0, K.PD);
+      const sides = (z, th, x0, x1) => [poly([proj(x0, K.PD, z), proj(x1, K.PD, z), proj(x1, K.PD, z - th), proj(x0, K.PD, z - th)]), poly([proj(x1, K.PD, z), proj(x1, 0, z), proj(x1, 0, z - th), proj(x1, K.PD, z - th)])];
+      const lab = ctx.lab, mt = ctx.mt, pre = ctx.pre, alpha = ctx.alpha;
+      const labRec = lab ? this.labOf[lab] : null;
+      const meta = {}, counts = {cards:0, own:0, ghost:0, none:0};
+      const solid = this.material('solid');
+
+      blocks.slice().reverse().forEach(b => {
+        const lay = L[b.role], zTop = lay.topZ, th = lay.th;
+        const isSel = sel === b.role;
+        const dimBlock = (sel && !isSel ? 0.75 : 1) * alpha;
+        const kb = pre + b.role;
+        if(b.flat){
+          /* the tray under the stack: what the lab's cards name that the taxonomy does not hold */
+          P.polys.push({k:kb, pts:topFace(zTop), style:'fill:' + C.plate + ';fill-opacity:' + (0.06 * alpha).toFixed(2) + ';stroke:' + C.plate + ';stroke-width:.8;stroke-dasharray:3 4;stroke-opacity:' + (0.6 * alpha).toFixed(2)});
+          const dms = labRec ? labRec.dark_matter : [];
+          for(let i = dms.length - 1; i >= 0; i--){
+            const dm = dms[i], z = zTop - lay.dmOffs[i], pts = face(z, 16, K.PW - 16, 0, K.PD), key = 'dm-' + lab + '-' + i;
+            P.polys.push({k:pre + 'dm' + i, pts, style:'fill:' + C.plate + ';fill-opacity:' + (0.2 * alpha).toFixed(2) + ';stroke:' + C.plate + ';stroke-width:1.1;stroke-dasharray:3 3;stroke-opacity:' + (0.9 * alpha * mt).toFixed(2)});
+            P.hits.push({k:pre + 'hdm' + i, pts, aria:'Dark matter: ' + dm.name, style:'fill:transparent;stroke:none;cursor:pointer;outline:none', onEnter:setHover('dm', {key, lab, i}), onLeave:clearHover,
+              onClick:(e) => { e.stopPropagation(); const u = (d.documents[dm.d] || {}).u; if(u) window.open(u, '_blank', 'noopener'); }, onKey:() => {}});
+            if(hov && hov.key === key) P.rings.push({k:pre + 'rdm' + i, pts, style:'fill:none;stroke:' + C.acc + ';stroke-width:1.8'});
+          }
+          return;
+        }
+        const sd = sides(zTop, th, 0, K.PW);
+        /* the box of a layer: in a lab's stack its walls are almost clear, so a run of unknown slices stays as light as the page */
+        const wall = lab ? 1 - 0.85 * mt : 1;
+        P.polys.push({k:kb + 'a', pts:sd[0], style:'fill:' + C.plate + ';fill-opacity:' + (0.18 * wall * dimBlock).toFixed(3)});
+        P.polys.push({k:kb + 'b', pts:sd[1], style:'fill:' + C.plate + ';fill-opacity:' + (0.28 * wall * dimBlock).toFixed(3)});
+        P.polys.push({k:kb, pts:topFace(zTop), style:'fill:' + C.plate + ';fill-opacity:' + ((isSel ? 0.06 : 0.12) * wall * alpha).toFixed(3) + ';stroke:' + C.plate + ';stroke-width:1;stroke-opacity:' + (0.75 * alpha).toFixed(2)});
+        P.polys.push({k:kb + 'c', pts:topFace(zTop - th), style:'fill:none;stroke:' + C.plate + ';stroke-width:.8;stroke-opacity:' + (0.5 * alpha).toFixed(2)});
+
+        /* each slice's look in this stack, worked out before drawing so a slice knows whether the one above covers it */
+        const mats = b.slices.map(s => {
+          const ev = lab ? this.evOf(s.tech, lab) : null, look = lab ? this.lookOf(ev, st.stop) : 'solid';
+          const m = this.material(look);
+          if(lab) counts[look]++;
+          /* a lab stack starts as a copy of the catalogue and then takes its own look: mt runs from 0 to 1 */
+          const mixc = f => m.filled ? this.mixHex(solid[f], m[f], mt) : solid[f];
+          const op = m.filled ? (m.fog ? 1 - 0.58 * mt : 1) : 1 - mt;
+          return {ev, look, m, op, filled:op > 0.05, crisp:op > 0.05 && !(m.fog && mt > 0.5), top:mixc('top'), front:mixc('front'), right:mixc('right')};
+        });
+        const gapUp = []; let lastFilled = -1;
+        mats.forEach((mi, i) => { gapUp.push(lastFilled < 0 ? Infinity : lay.offs[i] - lay.offs[lastFilled]); if(mi.crisp) lastFilled = i; });
+        for(let i = b.slices.length - 1; i >= 0; i--){
+          const s = b.slices[i], z = zTop - lay.offs[i], mi = mats[i], m = mi.m, op = mi.op;
+          const localPitch = b.n > 1 ? (i > 0 ? lay.offs[i] - lay.offs[i - 1] : lay.offs[1] - lay.offs[0]) : lay.pitch;
+          const slTh = Math.max(1.4, Math.min(6, localPitch * 0.45));
+          const tf = topFace(z);
+          const dim = (st.open && st.open !== s.slug ? 0.35 : 1) * dimBlock;
+          /* disputed: another document argues the lab does not use the technique. The slice keeps its look and is filled with slanted stripes. */
+          const disp = !!(lab && mt > 0.5 && mi.ev && mi.ev.argues_not);
+          const fl = hex => disp ? this.stripe(hex) : hex;
+          if(m.fog){
+            /* ghost matter: the slice is see-through and blurred, with no edge */
+            const blur = ';filter:blur(' + (Math.max(0.8, Math.min(2.8, localPitch * 0.3)) * mt).toFixed(1) + 'px)';
+            const ss = sides(z, slTh, 0, K.PW);
+            P.polys.push({k:pre + 'a-' + s.slug, pts:ss[0], style:'fill:' + C.plate + ';fill-opacity:' + (op * 0.8 * dim).toFixed(2) + blur});
+            P.polys.push({k:pre + 'b-' + s.slug, pts:ss[1], style:'fill:' + C.plate + ';fill-opacity:' + (op * 0.7 * dim).toFixed(2) + blur});
+            P.polys.push({k:pre + 't-' + s.slug, pts:tf, style:'fill:' + fl(C.plate) + ';fill-opacity:' + (op * dim).toFixed(2) + blur});
+          } else {
+            /* an outline-only slice in a compact layer is a hairline, so a run of them reads as pale, not solid */
+            const strokeOp = mi.filled ? Math.min(0.9, 0.3 + localPitch / 8) : Math.min(0.9, 0.06 + localPitch / 14);
+            const strokeW = mi.filled ? Math.min(m.sw, 0.3 + localPitch / 6) : Math.min(m.sw, 0.25 + localPitch / 10);
+            if(mi.filled){
+              const ss = sides(z, slTh, 0, K.PW);
+              P.polys.push({k:pre + 'a-' + s.slug, pts:ss[0], style:'fill:' + fl(mi.front) + ';fill-opacity:' + (op * 0.97 * dim).toFixed(2)});
+              P.polys.push({k:pre + 'b-' + s.slug, pts:ss[1], style:'fill:' + fl(mi.right) + ';fill-opacity:' + (op * 0.97 * dim).toFixed(2)});
+            }
+            P.polys.push({k:pre + 't-' + s.slug, pts:tf, style:'fill:' + (mi.filled ? fl(mi.top) : (disp ? this.stripe(null) : 'none')) + ';fill-opacity:' + ((mi.filled ? op * 0.97 : 1) * dim).toFixed(2) + ';stroke:' + (mt > 0.5 ? m.stroke : '#2f7f94') + ';stroke-width:' + strokeW.toFixed(2) + ';stroke-opacity:' + (strokeOp * dim).toFixed(2) + ';transition:fill-opacity 400ms ease,stroke-opacity 400ms ease'});
+            if(mi.filled && localPitch > 2.4){
+              const e1 = proj(0, K.PD, z), e2 = proj(K.PW, K.PD, z);
+              P.edges.push({k:pre + 'e-' + s.slug, x1:e1[0].toFixed(1), y1:e1[1].toFixed(1), x2:e2[0].toFixed(1), y2:e2[1].toFixed(1), style:'stroke:' + (mt > 0.5 ? m.edge : solid.edge) + ';stroke-width:1;stroke-opacity:' + (0.95 * dim).toFixed(2)});
+            }
+            /* holes: cosmetic; drawn where the top of the slice shows, inside this layer's pass so slices above still cover them */
+            if(mi.filled){
+              /* how much of this slice shows past the nearest filled slice above it: a strip this deep along its two front edges */
+              const strip = gapUp[i] / (2 * sinA);
+              s.holes.forEach((h, j) => {
+                const margin = h.r + 14, cx = margin + h.u * (K.PW - 2 * margin), cy = h.v === null ? K.PD - h.r - 5 : K.PD * h.v;
+                if(cx + h.r <= K.PW - strip && cy + h.r <= K.PD - strip) return;
+                const c = proj(cx, cy, z + 0.3), rx = h.r * K.COS * 1.12, ry = Math.max(1.4, h.r * sinA * 1.12);
+                /* the far wall of the hole stays a thin crescent, so the hole always reads as a hole */
+                const hs = this.holeShape(c[0], c[1], rx, ry, Math.min(slTh, ry * 0.7));
+                P.polys.push({k:pre + 'hw-' + s.slug + j, pts:hs.rim, style:'fill:' + this.mixHex(mi.top, '#07202b', 0.5) + ';fill-opacity:' + (alpha * dim).toFixed(2) + ';stroke:#07202b;stroke-width:.8;stroke-opacity:' + (0.9 * alpha * dim).toFixed(2)});
+                if(hs.open) P.polys.push({k:pre + 'ho-' + s.slug + j, pts:hs.open, style:'fill:' + C.cream + ';fill-opacity:' + (alpha * dim).toFixed(2)});
+              });
+            }
+          }
+          meta[s.slug] = {z, look:mi.look, disp};
+          /* Where the cursor counts as on this slice. The exact area is the slice as it shows: its top and its own
+             edge. Under all the exact areas lies a filler that reaches down to the next slice, so that no point of a
+             stack is left between two slices. A click on a slice opens its dossier. */
+          const box = zb => poly([proj(0, 0, z), proj(0, K.PD, z), proj(0, K.PD, zb), proj(K.PW, K.PD, zb), proj(K.PW, 0, zb), proj(K.PW, 0, z)]);
+          const zDown = i < b.n - 1 ? zTop - lay.offs[i + 1] : zTop - th;
+          const hit = {aria:s.name + ', ' + b.label + (lab ? ', ' + this.lookWord(mi.look) : ''), style:'fill:transparent;stroke:none;cursor:pointer;outline:none',
+            onEnter:setHover('slice', {key:s.slug, slug:s.slug}), onLeave:clearHover,
+            onClick:(e) => { e.stopPropagation(); this.set({open:s.slug, ev:null}); },
+            onKey:(e) => this.sliceKey(e, s.slug)};
+          P.fills.push(Object.assign({k:pre + 'g-' + s.slug, pts:box(zDown)}, hit));
+          P.hits.push(Object.assign({k:pre + 'h-' + s.slug, pts:box(z - slTh)}, hit));
+          if(hovSlug === s.slug || st.open === s.slug) P.rings.push({k:pre + 'rg-' + s.slug, pts:tf, style:'fill:none;stroke:' + C.acc + ';stroke-width:1.8'});
+        }
+      });
+
+      /* name, and under it the count of each look as drawn at this position of the slider */
+      const nameY0 = K.OY + (K.PW / 2 + K.PD / 2) * sinA - zEntry - 150;
+      const nameY = Math.max(nameY0, vbY0 + 12);
+      const name2 = lab ? counts.cards + ' cards · ' + counts.own + ' papers · ' + counts.ghost + ' suspected · ' + counts.none + ' unknown' : 'all ' + d.techniques.length + ' techniques in the taxonomy';
+      P.tags.push({k:pre + 'name', x:(ox - K.PD * K.COS + (lab ? 68 : 0)).toFixed(1), y:nameY.toFixed(1), w:340 * ts, h:34 * ts, text:ctx.name, text2:name2,
+        style:'font-size:' + (15 * ts).toFixed(1) + 'px;font-weight:800;color:' + C.plate + ';white-space:nowrap;line-height:1.2;opacity:' + alpha.toFixed(2), style2:'font-family:\'IBM Plex Mono\',monospace;font-size:' + (10 * ts).toFixed(1) + 'px;color:#5c7f88;white-space:nowrap;line-height:1.25;opacity:' + alpha.toFixed(2)});
+      P.meta = meta;
+      return P;
+    };
+
+    /* the stacks, drawn from the right so that nearer ones paint on top; a lab's stack slides out from the first place */
+    const cols = [];
+    let lastOx = OX0;
+    vis.slice().reverse().forEach(s => {
+      const slot = first + vis.indexOf(s);
+      const ox = OX0 + (oxAt(slot) - OX0) * ease(s.slide);
+      lastOx = Math.max(lastOx, ox);
+      const lr = this.labOf[s.lab];
+      const P = drawStack(ox, {lab:s.lab, mt:s.mat, pre:'L' + s.lab + '-', alpha:Math.min(1, 0.35 + 0.65 * s.slide), name:lr.name});
+      cols.push({P, slot});
+      if(s.dir > 0) stackInfo.push({lab:s.lab, name:lr.name, meta:P.meta});
+    });
+    stackInfo.reverse();
+    if(st.cat) cols.push({P:drawStack(OX0, {lab:null, mt:1, pre:'R-', alpha:1, name:'Full catalogue'}), slot:0});
+    const all = k => cols.reduce((a, c) => a.concat(c.P[k]), []);
+    /* the slices of the leftmost stack take the keyboard */
+    const firstCol = cols.find(c => c.slot === 0) || cols[cols.length - 1];
+    const tags = all('tags');
+
+    /* left column: brackets, layer names and their info boxes, beside the first stack */
+    const projRef = (x, y, z) => [OX0 + (x - y) * K.COS, K.OY + (x + y) * sinA - z];
+    const brackets = [], sliceLabels = [], leaders = [];
+    if(cols.length) blocks.forEach(b => {
+      const lay = L[b.role], zTop = lay.topZ, th = lay.th;
+      const pTop = projRef(0, K.PD, zTop), pBot = projRef(0, K.PD, zTop - th), pMid = projRef(0, K.PD, zTop - th / 2);
+      const bx = pTop[0] - 16, tint = b.flat ? '#5c7f88' : this.roleTint(b.idx);
+      const fsz = (b.flat ? 17 : 24) * ts, hovered = hov && hov.key === 'lay-' + b.role;
+      const toggle = (e) => { e.stopPropagation(); if(!b.flat) this.selectBlock(sel === b.role ? null : b.role); };
+      brackets.push({k:'br-' + b.role, n:b.flat ? '' : String(b.idx + 1), showLabel:!sel,
+        pts:(bx + 6).toFixed(1) + ',' + pTop[1].toFixed(1) + ' ' + bx.toFixed(1) + ',' + pTop[1].toFixed(1) + ' ' + bx.toFixed(1) + ',' + pBot[1].toFixed(1) + ' ' + (bx + 6).toFixed(1) + ',' + pBot[1].toFixed(1),
+        style:'fill:none;stroke:' + tint + ';stroke-width:2;stroke-linecap:round;stroke-linejoin:round',
+        w:Math.max(150, bx - 56), x:bx, my:pMid[1], lx:sel ? bx - 24 : bx - 34, leadStyle:'stroke:' + tint + ';stroke-width:.9;stroke-opacity:.8', dx:bx - 14, discStyle:'fill:' + tint, nx:bx - 23, ny:pMid[1] - 9,
+        foY:pMid[1] - (b.flat ? 11 : 15) * ts, label:b.label, sub:b.flat ? 'dark matter' : b.n + ' techniques',
+        aria:b.label + (b.flat ? '' : ', click to open the layer'),
+        onClick:toggle, onKey:(e) => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(e); } },
+        onEnter:setHover('layer', {key:'lay-' + b.role, role:b.role}), onLeave:clearHover,
+        labelStyle:'display:inline-block;line-height:1.2;font-weight:700;outline:none;cursor:' + (b.flat ? 'help' : 'pointer') + ';font-size:' + fsz.toFixed(1) + 'px;color:' + (b.flat ? '#7d6a3a' : C.plate) + (hovered && !b.flat ? ';text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px' : ''),
+        /* the letter i in a circle, before the name: hovering the name gives the layer's definition and examples */
+        infoStyle:'display:inline-block;box-sizing:border-box;width:' + (fsz * 0.66).toFixed(1) + 'px;height:' + (fsz * 0.66).toFixed(1) + 'px;line-height:' + (fsz * 0.6).toFixed(1) + 'px;margin-right:' + (fsz * 0.3).toFixed(1) + 'px;vertical-align:' + (fsz * 0.1).toFixed(1) + 'px;border:1.5px solid #5c7f88;border-radius:50%;text-align:center;font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:' + (fsz * 0.5).toFixed(1) + 'px;color:#5c7f88',
+        subStyle:'text-align:right;line-height:1.3;font-size:' + (12 * ts).toFixed(1) + 'px;color:#5c7f88;font-family:\'IBM Plex Mono\',monospace'});
+    });
+    else tags.push({k:'none', x:leftCol, y:K.H / 2 - 20, w:availW, h:40, text:'Tick a lab, or the full catalogue, to draw a stack.', text2:'',
+      style:'font-size:17px;color:#5c7f88;text-align:center', style2:''});
+
+    /* an open layer: names beside the rightmost stack, with a line to each slice */
+    this.labelX0 = undefined;
+    if(selOpen && cols.length){
+      const b = selBlock, lay = L[b.role];
+      const op = Math.min(1, (t - 0.5) * 2);
+      const projR = (x, y, z) => [lastOx + (x - y) * K.COS, K.OY + (x + y) * sinA - z];
+      const colX0 = sceneWz - rightCol + 60, colW2 = rightCol - 76;
+      const colTop = vbY0 + 86 * ts, colBot = vbY0 + vbHz - 24;
+      this.labelX0 = colX0;
+      const items = [];
+      b.slices.forEach((s, i) => { if(fitsAll || (lensW[s.slug] || 0) > 0.12) items.push({key:s.slug, name:s.name, p:projR(K.PW, 0, lay.topZ - lay.offs[i])}); });
+      items.sort((a, c) => a.p[1] - c.p[1]);
+      const fs = 13.5 * ts;
+      const n = items.length, lp = Math.max(15 * ts, Math.min(26 * ts, (colBot - colTop) / Math.max(1, n)));
+      const mid = items.reduce((a, it) => a + it.p[1], 0) / Math.max(1, n);
+      const y0 = Math.max(colTop, Math.min(colBot - n * lp, mid - n * lp / 2));
+      items.forEach((it, i) => { it.ly = y0 + (i + 0.5) * lp; });
+      tags.push({k:'hdr', x:colX0, y:vbY0 + 14, w:colW2, h:44 * ts, text:'Layer ' + (b.idx + 1) + ' · ' + b.label,
+        text2:b.n + ' techniques · ' + (fitsAll ? '' : 'move the cursor over the layer to name its slices · ') + 'click a name for its dossier · Esc closes'
+          + (stackInfo.length ? ' · the squares before a name show ' + stackInfo.map(x => x.name).join(', ') : ''),
+        style:'font-size:' + (14 * ts).toFixed(1) + 'px;font-weight:800;color:' + C.plate + ';line-height:1.2;opacity:' + op.toFixed(2), style2:'font-family:\'IBM Plex Mono\',monospace;font-size:' + (10 * ts).toFixed(1) + 'px;line-height:1.35;color:#5c7f88;opacity:' + op.toFixed(2)});
+      items.forEach(it => {
+        const ly = it.ly, p = it.p;
+        const hovered = hov && hov.key === it.key;
+        /* one small square per visible lab, painted like that lab's slice */
+        const sq = (fs * 0.62).toFixed(1) + 'px';
+        const chips = stackInfo.map(si2 => { const mm = si2.meta[it.key] || {look:'none'}, g = mm.look, m = this.material(g);
+          const base = g === 'none' ? 'transparent' : (g === 'ghost' ? '#114b5f55' : m.top);
+          return React.createElement('span', {key:si2.lab, title:si2.name + ': ' + this.lookWord(g) + (mm.disp ? ', disputed' : ''), style:{display:'inline-block', width:sq, height:sq, marginRight:(fs * 0.22).toFixed(1) + 'px', boxSizing:'border-box',
+            border:'1px solid ' + (g === 'none' ? '#114b5f66' : (g === 'ghost' ? '#114b5f55' : '#114b5f')), background:mm.disp ? this.stripeCss(g === 'none' ? null : base) : base}}); });
+        const open = (e) => { e.stopPropagation(); this.set({open:it.key, ev:null}); };
+        sliceLabels.push({k:'sl-' + it.key, x:colX0, w:colW2, h:lp, foY:ly - lp / 2, name:it.name, chips,
+          onClick:open, onKey:(e) => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(e); } },
+          onEnter:setHover('slice', {key:it.key, slug:it.key}), onLeave:clearHover,
+          style:'height:' + lp.toFixed(1) + 'px;line-height:' + lp.toFixed(1) + 'px;font-size:' + fs.toFixed(1) + 'px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left;cursor:pointer;max-width:' + colW2 + 'px;' + (hovered ? 'text-decoration:underline;text-decoration-color:#028090;' : '') + 'font-weight:600;color:' + C.plate + ';opacity:' + op.toFixed(2)});
+        leaders.push({k:'sld-' + it.key, pts:p[0].toFixed(1) + ',' + p[1].toFixed(1) + ' ' + (p[0] + 40).toFixed(1) + ',' + p[1].toFixed(1) + ' ' + (colX0 - 22).toFixed(1) + ',' + ly.toFixed(1) + ' ' + (colX0 - 6).toFixed(1) + ',' + ly.toFixed(1),
+          style:'fill:none;stroke:' + C.teal + ';stroke-width:' + (hovered ? 1.4 : 0.7) + ';stroke-opacity:' + ((hovered ? 1 : 0.6) * op).toFixed(2), dx:p[0], dy:p[1], dotStyle:'fill:' + C.teal + ';fill-opacity:' + op.toFixed(2)});
+      });
+    }
+
+    /* hover box: a title, then sections, each with a heading and a rule */
+    let hoverShow = false, hoverTitle = '', hoverSub = '', hoverSections = [];
+    const sec = (title, o) => Object.assign({k:title, title, lines:[], rows:[], chips:[]}, o);
+    const line = (text, kind) => ({k:text.slice(0, 20), t:text, style:this.lineStyle(kind || '')});
+    if(hov && hov.kind === 'slice' && this.tech[hov.slug]){
+      const tech = this.tech[hov.slug], blk = blocks.find(b => b.role === tech.kind);
+      hoverShow = true; hoverTitle = tech.name; hoverSub = blk.label.toLowerCase();
+      hoverSections.push(sec('Definition', {lines:[line(tech.definition)]}));
+      if(stackInfo.length) hoverSections.push(sec('Labs', {rows:stackInfo.map(si2 => { const ev = this.evOf(tech, si2.lab);
+        return {k:si2.lab, name:si2.name, swatch:this.swatchStyle(this.lookOf(ev, 0), !!ev.argues_not), text:this.evidenceWords(ev)}; })}));
+      if(tech.models.length) hoverSections.push(sec('Models named most often', {chips:tech.models.slice(0, 6).map(o => ({k:o[0], t:o[0]}))}));
+    } else if(hov && hov.kind === 'layer'){
+      const b = blocks.find(x => x.role === hov.role); hoverShow = true; hoverTitle = b.label;
+      if(b.flat){
+        hoverSub = 'dark matter';
+        hoverSections.push(sec('Definition', {lines:[line(this.keyText.dark || '')]}));
+      } else {
+        hoverSub = 'layer ' + (b.idx + 1) + ' of ' + d.layers.length + ' · ' + b.n + ' techniques';
+        hoverSections.push(sec('Definition', {lines:[line(b.definition)]}));
+        hoverSections.push(sec('Examples: the techniques most documents name', {chips:b.examples.map(x => ({k:x, t:x}))}));
+      }
+    } else if(hov && hov.kind === 'dm' && this.labOf[hov.lab] && this.labOf[hov.lab].dark_matter[hov.i]){
+      const dm = this.labOf[hov.lab].dark_matter[hov.i], doc = d.documents[dm.d] || {};
+      hoverShow = true; hoverTitle = dm.name; hoverSub = 'dark matter · ' + this.labOf[hov.lab].name;
+      if(dm.gloss) hoverSections.push(sec('Definition', {lines:[line(dm.gloss)]}));
+      hoverSections.push(sec('In the lab’s cards', {lines:[line((doc.t || dm.d) + (doc.y ? ' (' + doc.y + ')' : '') + ' · ' + (dm.level ? 'level ' + dm.level + ' of 4' : 'named, not said to be in use'), 'mono')]
+        .concat((dm.s || []).map(q => line('“' + q + '”', 'quote'))).concat([line('click to open the document', 'mono')])}));
+    }
+
+    /* search */
+    const found = this.searchFor(st.search), layerName = {}; d.layers.forEach(l => { layerName[l.id] = l.name.toLowerCase(); });
+    const searchOpen = st.search.trim().length >= 2;
+
+    const dz = this.dossier(st.open);
+    const anyLab = vis.some(s => s.dir > 0);
+    const max = this.maxLabs();
+    const tick = 'display:flex;align-items:center;gap:5px;font-size:12.5px;color:#114b5f;cursor:pointer;white-space:nowrap';
+    return Object.assign(common, dz || this.emptyDossier(), {
+      wPolys:all('polys'), wEdges:all('edges'), wRings:all('rings'), wTags:tags,
+      /* hit areas from the bottom up: the fillers, then the slices; the slices of the leftmost stack come last and take the keyboard */
+      qHits:all('fills').concat(cols.filter(c => c !== firstCol).reduce((a, c) => a.concat(c.P.hits), [])),
+      oHits:firstCol ? firstCol.P.hits : [],
+      brackets, sliceLabels, leaders,
+      intro:'Each slice is one of the ' + d.techniques.length + ' safety techniques in the taxonomy, stacked in ' + d.layers.length + ' layers. Tick a lab to draw its stack. A solid slice is a technique the lab’s cards say it uses, a lighter slice is one the lab’s own papers use, fog is a technique that other documents suspect the lab of using, and an outline is unknown.',
+      labToggles:d.labs.map(l => ({k:l.id, name:l.name, style:tick, checked:vis.some(s => s.lab === l.id && s.dir > 0), onChange:() => this.toggleLab(l.id)}))
+        .concat([{k:'cat', name:'Full catalogue', style:tick + ';margin-left:10px;padding-left:12px;border-left:1px solid #114b5f44', checked:st.cat, onChange:this.onCat}]),
+      labsNote:max === 1 ? 'one lab at a time' : 'up to four labs; ticking another removes the one ticked first',
+      stop:st.stop, stopDisabled:!anyLab, stopHint:anyLab ? 'a slice is filled when a lab has at least this' : 'tick a lab first',
+      stopSliderStyle:'width:100%;margin:6px 0 2px;accent-color:#028090;' + (anyLab ? '' : 'opacity:.4'),
+      stopLabels:['suspected', 'lab’s papers', 'lab’s cards'].map((x, i) => ({k:'s' + i, t:x, style:'color:' + (i === st.stop && anyLab ? '#114b5f;font-weight:500' : '#5c7f88') + ';text-align:' + ['left', 'center', 'right'][i]})),
+      search:st.search, searchOpen,
+      searchResults:found.slice(0, 10).map(x => ({k:x.id, name:x.name, layer:layerName[x.kind] || '', onClick:(e) => { e.stopPropagation(); this.pick(x.id); },
+        onKey:(e) => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); this.pick(x.id); } },
+        style:'font-size:12.5px;font-weight:600;color:#114b5f;line-height:1.3;padding:6px 9px;cursor:pointer;border-bottom:1px solid #114b5f1f'})),
+      searchNote:!found.length ? 'no technique has that in its name' : (found.length > 10 ? 'the first 10 of ' + found.length + '; type more to narrow the list' : ''),
+      keyItems:['cards', 'own', 'ghost', 'none'].map(g => ({k:g, text:this.keyText[g] || '', style:this.swatchStyle(g), hole:'display:none'})).concat([
+        {k:'disp', text:this.keyText.argues_not || '', style:this.swatchStyle('cards', true), hole:'display:none'},
+        {k:'dark', text:this.keyText.dark || '', style:'fill:' + C.plate + ';fill-opacity:.2;stroke:' + C.plate + ';stroke-width:1;stroke-dasharray:2 2.5', hole:'display:none'},
+        {k:'hole', text:this.keyText.hole || '', style:'fill:' + C.plate, hole:'fill:' + C.cream + ';stroke:#07202b;stroke-width:1'}]),
+      keyNotes:d.notes.map((n, i) => ({k:'n' + i, t:n})),
+      hoverShow, hoverTitle, hoverSub, hoverSections, dossierOpen:!!dz,
+      /* last, so that it holds every stripe pattern asked for above */
+      stripeDefs:Object.keys(this.stripes).map(k => this.stripes[k])
+    });
+  }
+
+  sliceKey(e, slug){
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); this.set({open:slug, ev:null}); return; }
+    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){ e.preventDefault(); const all = Array.prototype.slice.call(document.querySelectorAll('g[data-focus] polygon')); const i = all.indexOf(e.currentTarget); const nx = all[i + (e.key === 'ArrowDown' ? -1 : 1)]; if(nx) nx.focus(); }
+  }
+  hoverBoxStyle(){
+    /* the box sits in the part of the scene the cursor is not in */
+    const side = this.state.side === 'right' ? 'left:14px' : 'right:14px';
+    return 'position:absolute;' + side + ';top:12px;width:340px;max-height:calc(100% - 24px);overflow:auto;background:#fff8ecf5;border:1px solid #114b5f55;padding:13px 15px 12px;z-index:5;pointer-events:none';
+  }
+  drawerStyle(){ return 'position:fixed;top:0;right:0;bottom:0;width:min(600px,94vw);border-left:1px solid #114b5f;background:#feecd3;box-shadow:-18px 0 40px #114b5f33;overflow:auto;padding:20px 24px 0;z-index:12'; }
+
+  /* a hole in a slice with thickness: the rim, and inside it the part one sees through, which is the rim
+     cut by the same rim one slice-thickness lower; what is left of the rim above that is the far wall of the hole */
+  holeShape(cx, cy, rx, ry, drop){
+    const N = 16, rim = [], open = [];
+    for(let q = 0; q < N; q++){ const a = q / N * Math.PI * 2; rim.push((cx + rx * Math.cos(a)).toFixed(1) + ',' + (cy + ry * Math.sin(a)).toFixed(1)); }
+    const xm = rx * Math.sqrt(Math.max(0, 1 - Math.pow(drop / (2 * ry), 2)));
+    if(xm > 0.6){
+      const M = 8, half = x => ry * Math.sqrt(Math.max(0, 1 - x * x / (rx * rx)));
+      for(let q = 0; q <= M; q++){ const x = -xm + 2 * xm * q / M; open.push((cx + x).toFixed(1) + ',' + (cy + drop - half(x)).toFixed(1)); }
+      for(let q = M; q >= 0; q--){ const x = -xm + 2 * xm * q / M; open.push((cx + x).toFixed(1) + ',' + (cy + half(x)).toFixed(1)); }
+    }
+    return {rim:rim.join(' '), open:open.join(' ')};
+  }
+  roleTint(i){ return 'oklch(' + (0.56 - i * 0.03).toFixed(2) + ' 0.075 ' + (198 + i * 5) + ')'; }
+  hash01(str){ let h = 2166136261; for(let i = 0; i < str.length; i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return ((h >>> 0) % 10000) / 10000; }
+
+  lineStyle(kind){
+    const base = 'font-size:13px;line-height:1.45;margin-bottom:6px;';
+    if(kind === 'mono') return base + 'font-family:\'IBM Plex Mono\',monospace;font-size:11.5px;color:#333';
+    if(kind === 'quote') return base + 'font-size:12px;font-style:italic;color:#333';
+    return base + 'color:#333';
+  }
+  hStyle(){ return 'font-family:\'IBM Plex Mono\',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#5c7f88;margin:20px 0 8px;border-top:1px solid #114b5f33;padding-top:10px'; }
+
+  /* ---- dossier: everything the summary holds about one technique ---- */
+  emptyDossier(){
+    return {dName:'', dKind:'', dAliases:'', dDescription:'', dParent:'', dDocsLine:'', dYears:[], dYearFirst:'', dYearLast:'', dYearsNote:'', dYearsStyle:'',
+      dModelsLine:'', dModelBars:[], dEvidence:[], dEvidenceNote:''};
+  }
+  dossier(slug){
+    const d = this.D, tech = slug ? this.tech[slug] : null; if(!tech) return null;
+    const li = d.layers.findIndex(l => l.id === tech.kind);
+    const kindWord = k => (k || 'document').split('_').join(' ');
+    const docRow = (x, key) => {
+      const doc = d.documents[x.d] || {};
+      const meta = [doc.y, kindWord(doc.k), 'level ' + x.l + ' of 4', x.a ? 'reports the technique in a deployment' : null, x.c ? 'relays an official statement' : null,
+        x.h === 'sentence' ? 'tied to the lab by a name in these sentences' : (x.h === 'models' ? 'tied to the lab by the models the document names' : null),
+        x.u ? 'the dataset did not find these sentences in the document’s text' : null].filter(Boolean).join(' · ');
+      return {k:key, href:doc.u, title:doc.t || x.d, meta, sentences:(x.s || []).map((q, j) => ({k:key + 's' + j, t:'“' + q + '”'}))};
+    };
+    const groups = ['cards', 'own', 'suspected', 'argues_not'];
+    const groupWord = {cards:'stated in the lab’s cards', own:'used in the lab’s papers', suspected:'suspected by others', argues_not:'disputed'};
+    const pipColor = {cards:this.C.plate, own:this.material('own').top, suspected:'#114b5f99', argues_not:this.stripeCss(this.C.plate)};
+    const pipEdge = {cards:this.C.plate, own:this.material('own').top, suspected:'#114b5f77', argues_not:this.C.plate};
+    /* one cell of the table: four squares filled up to the highest level among the documents, and the number of documents; a click opens the documents */
+    const cell = (rowKey, g, grp) => {
+      const key = rowKey + '|' + g;
+      if(!grp) return {k:key, tab:-1, role:'presentation', title:'', style:'min-height:28px', pips:[], text:'', textStyle:'', onClick:() => {}, onKey:() => {}};
+      const open = this.state.ev === key, pc = pipColor[g];
+      const toggle = (e) => { e.stopPropagation(); this.setState({ev:open ? null : key}); };
+      return {k:key, tab:0, role:'button', title:'click for the documents and their sentences',
+        style:'cursor:pointer;padding:3px 4px;margin:-3px -4px;border:1px solid ' + (open ? '#114b5f' : 'transparent') + ';background:' + (open ? '#fff8ec' : 'transparent'),
+        pips:[1, 2, 3, 4].map(i => ({k:'p' + i, style:'display:inline-block;box-sizing:border-box;width:10px;height:10px;border:1px solid ' + pipEdge[g] + (i <= grp.level ? ';background:' + pc + (g === 'suspected' ? ';filter:blur(1.1px)' : '') : '')})),
+        text:this.plural(grp.n, 'document'), textStyle:'font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:#5c7f88;margin-top:2px;white-space:nowrap',
+        onClick:toggle, onKey:(e) => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(e); } }};
+    };
+    const row = (key, name, ev, bold) => {
+      const openG = groups.find(g => ev[g] && this.state.ev === key + '|' + g), grp = openG ? ev[openG] : null;
+      const unknown = !groups.some(g => ev[g]);
+      const cells = groups.map(g => cell(key, g, ev[g]));
+      if(unknown) cells[0] = Object.assign(cells[0], {text:'unknown', textStyle:'font-size:12px;color:#5c7f88'});
+      return {k:key, lab:name, labStyle:'font-size:12.5px;line-height:1.2;color:#114b5f;font-weight:' + (bold ? 700 : 400), cells, open:!!grp,
+        openTitle:grp ? name + ' · ' + groupWord[openG] + ' · ' + this.plural(grp.n, 'document') + ' · highest level ' + grp.level + ' of 4' : '',
+        docs:grp ? grp.docs.map((x, i) => docRow(x, key + openG + i)) : [],
+        more:grp && grp.n > grp.docs.length ? 'and ' + this.plural(grp.n - grp.docs.length, 'more document') + ' in the dataset' : ''};
+    };
+    const visIds = this.state.stacks.filter(s => s.dir > 0).map(s => s.lab);
+    const labs = d.labs.filter(l => visIds.indexOf(l.id) >= 0).concat(d.labs.filter(l => visIds.indexOf(l.id) < 0));
+    const rows = labs.map(l => row(l.id, l.name, this.evOf(tech, l.id), visIds.indexOf(l.id) >= 0));
+    const un = tech.unassigned || {};
+    if(un.suspected || un.argues_not) rows.push(row('nolab', 'no lab named', {suspected:un.suspected, argues_not:un.argues_not}, false));
+    /* every year from the first to the last, with a zero for a year without a document */
+    const ys = []; tech.years.forEach(y => { while(ys.length && ys[ys.length - 1][0] < y[0] - 1) ys.push([ys[ys.length - 1][0] + 1, 0]); ys.push(y); });
+    const maxY = Math.max.apply(null, [1].concat(ys.map(y => y[1])));
+    const maxM = Math.max.apply(null, [1].concat(tech.models.map(o => o[1])));
+    return {
+      dName:tech.name,
+      dKind:d.layers[li].name.toLowerCase() + ' · layer ' + (li + 1) + ' of ' + d.layers.length + ' · ' + tech.id,
+      dAliases:(tech.aliases && tech.aliases.length) ? 'also called: ' + tech.aliases.join(', ') : '',
+      dDescription:tech.definition,
+      dParent:(tech.under && tech.under.length) ? 'Listed in the taxonomy under ' + tech.under.join(' and ') + '.' : '',
+      dEvidence:rows,
+      dEvidenceNote:'The squares show the highest level among the documents, from 1 (one sentence in the document) to 4 (central to the document). Click a row of squares for the documents and their sentences.'
+        + (un.suspected || un.argues_not ? ' The row “no lab named” holds documents that suspect the technique is in use, or argue that it is not, without making clear which lab they mean; they are not drawn on any stack.' : ''),
+      dDocsLine:this.plural(tech.n_docs, 'document') + ' in the release ' + (tech.n_docs === 1 ? 'names' : 'name') + ' this technique. Documents per year:',
+      dYears:ys.map(y => ({k:'y' + y[0], title:y[0] + ': ' + y[1], style:'flex:1 1 0;min-width:2px;background:#114b5f;height:' + (y[1] ? Math.max(2, Math.round(56 * y[1] / maxY)) : 0) + 'px'})),
+      dYearsStyle:'width:min(100%, ' + Math.max(90, ys.length * 26) + 'px)',
+      dYearFirst:ys.length ? String(ys[0][0]) : '', dYearLast:ys.length > 1 ? String(ys[ys.length - 1][0]) : '',
+      dYearsNote:ys.length ? 'most in one year: ' + this.num(maxY) : 'no dated document',
+      dModelsLine:tech.models.length ? 'Models named most often in these documents, with the number of documents:' : '',
+      dModelBars:tech.models.map(o => ({k:o[0], name:o[0], n:this.num(o[1]), bar:'height:9px;background:#114b5f;width:' + Math.max(1, Math.round(100 * o[1] / maxM)) + '%'}))
+    };
+  }
+}
+</script>
+</body>
+</html>

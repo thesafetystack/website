@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>thesafetystack.ai</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#feecd3;color:#333;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;-webkit-font-smoothing:antialiased}
+  a{color:#028090;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+  a:hover{color:#114b5f}
+  button{font-family:inherit}
+  ::selection{background:#02809033}
+</style>
+</helmet>
+<div ref="{{ scRef }}" data-scroller="1" tabindex="0" style="position:relative;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;background:#feecd3;color:#333;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;{{ scStyle }}">
+<div ref="{{ rootRef }}" style="position:relative">
+
+  <svg aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none">
+    <defs>
+      <pattern id="fpGridA" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(21.8)">
+        <line x1="0" y1="0" x2="44" y2="0" style="stroke:#114b5f;stroke-width:0.7;stroke-opacity:0.13"></line>
+      </pattern>
+      <pattern id="fpGridB" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(-21.8)">
+        <line x1="0" y1="0" x2="44" y2="0" style="stroke:#114b5f;stroke-width:0.7;stroke-opacity:0.13"></line>
+      </pattern>
+    </defs>
+    <rect x="0" y="0" width="100%" height="100%" style="fill:url(#fpGridA)"></rect>
+    <rect x="0" y="0" width="100%" height="100%" style="fill:url(#fpGridB)"></rect>
+  </svg>
+
+  <div style="position:sticky;top:0;height:0;z-index:6">
+    <div style="position:absolute;left:0;right:0;top:0;height:44px;background:#feecd3f2;border-bottom:1px solid #114b5f2b;transition:opacity 300ms ease;{{ ribBar }}"></div>
+    <a href="index.html" style="position:absolute;left:20px;top:0;height:44px;display:flex;align-items:center;white-space:nowrap;font-size:13px;line-height:1.3;font-weight:700;color:#114b5f;text-decoration:none">thesafetystack.ai</a>
+    <div style="position:absolute;white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.3;color:#114b5f;pointer-events:none;transition:opacity 200ms ease;{{ cueStyle }}">Scroll</div>
+    <nav style="position:absolute;right:20px;top:0;height:44px;display:flex;align-items:stretch;gap:28px;font-size:13px;line-height:1.3;font-weight:700;transition:opacity 300ms ease;{{ ribNav }}">
+      <a href="why.html" style="display:flex;align-items:center;height:44px;color:#114b5f;text-decoration:none;white-space:nowrap">Why Stack?</a>
+      <div data-box="r-explore" style="position:relative;display:flex;align-items:center" onMouseEnter="{{ rb.explore.enter }}" onMouseLeave="{{ rb.explore.leave }}" onFocus="{{ rb.explore.enter }}" onBlur="{{ rb.explore.blur }}">
+        <a href="stack.html" style="display:flex;align-items:center;height:44px;color:#114b5f;text-decoration:none;white-space:nowrap">Explore the stack</a>
+        <ul style="position:absolute;right:0;top:100%;margin:0;padding:10px 14px;list-style:none;min-width:250px;background:#feecd3;border:1px solid #114b5f33;font-weight:400;line-height:1.4;{{ rb.explore.list }}">
+          <li style="margin:0 0 6px"><a href="stack.html">The safety stack by lab</a></li>
+        </ul>
+      </div>
+      <div data-box="r-wargame" style="position:relative;display:flex;align-items:center" onMouseEnter="{{ rb.wargame.enter }}" onMouseLeave="{{ rb.wargame.leave }}" onFocus="{{ rb.wargame.enter }}" onBlur="{{ rb.wargame.blur }}">
+        <button type="button" onClick="{{ rb.wargame.enter }}" style="display:flex;align-items:center;height:44px;color:#114b5f;background:none;border:0;padding:0;margin:0;font-size:13px;font-weight:700;white-space:nowrap;cursor:default">Wargame safety surfaces</button>
+        <ul style="position:absolute;right:0;top:100%;margin:0;padding:10px 14px;list-style:none;min-width:270px;background:#feecd3;border:1px solid #114b5f33;font-weight:400;line-height:1.4;{{ rb.wargame.list }}">
+          <li style="margin:0 0 8px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#114b5f">in progress</li>
+          <li style="margin:0">Continuous probabilistic inference over frontier lab safety stacks—tracking safeguard deployment, overlap, and correlated failures to monitor live risk-surface coverage.</li>
+        </ul>
+      </div>
+      <div data-box="r-data" style="position:relative;display:flex;align-items:center" onMouseEnter="{{ rb.data.enter }}" onMouseLeave="{{ rb.data.leave }}" onFocus="{{ rb.data.enter }}" onBlur="{{ rb.data.blur }}">
+        <button type="button" onClick="{{ rb.data.enter }}" style="display:flex;align-items:center;height:44px;color:#114b5f;background:none;border:0;padding:0;margin:0;font-size:13px;font-weight:700;white-space:nowrap;cursor:default">Use the data</button>
+        <ul style="position:absolute;right:0;top:100%;margin:0;padding:10px 14px;list-style:none;min-width:230px;background:#feecd3;border:1px solid #114b5f33;font-weight:400;line-height:1.4;{{ rb.data.list }}">
+          <li style="margin:0 0 6px"><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model-by-technique matrix</a></li>
+          <li style="margin:0 0 6px"><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Dataset on Hugging Face</a></li>
+          <li style="margin:0 0 6px"><a href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Taxonomies on GitHub</a></li>
+          <li style="margin:0"><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline code on GitHub</a></li>
+        </ul>
+      </div>
+      <div data-box="r-blog" style="position:relative;display:flex;align-items:center" onMouseEnter="{{ rb.blog.enter }}" onMouseLeave="{{ rb.blog.leave }}" onFocus="{{ rb.blog.enter }}" onBlur="{{ rb.blog.blur }}">
+        <button type="button" onClick="{{ rb.blog.enter }}" style="display:flex;align-items:center;height:44px;color:#114b5f;background:none;border:0;padding:0;margin:0;font-size:13px;font-weight:700;white-space:nowrap;cursor:default">Blog</button>
+        <ul style="position:absolute;right:0;top:100%;margin:0;padding:10px 14px;list-style:none;min-width:140px;background:#feecd3;border:1px solid #114b5f33;font-weight:400;line-height:1.4;{{ rb.blog.list }}">
+          <li style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#114b5f">coming soon</li>
+        </ul>
+      </div>
+      <div data-box="r-team" style="position:relative;display:flex;align-items:center" onMouseEnter="{{ rb.team.enter }}" onMouseLeave="{{ rb.team.leave }}" onFocus="{{ rb.team.enter }}" onBlur="{{ rb.team.blur }}">
+        <button type="button" onClick="{{ rb.team.enter }}" style="display:flex;align-items:center;height:44px;color:#114b5f;background:none;border:0;padding:0;margin:0;font-size:13px;font-weight:700;white-space:nowrap;cursor:default">Team</button>
+        <ul style="position:absolute;right:0;top:100%;margin:0;padding:10px 14px;list-style:none;min-width:220px;background:#feecd3;border:1px solid #114b5f33;font-weight:400;line-height:1.4;{{ rb.team.list }}">
+          <li style="margin:0 0 6px">Jacob Livingston Slosser</li>
+          <li style="margin:0 0 6px">Tomáš Gavenčiak</li>
+          <li style="margin:0 0 6px">Finn Hambly</li>
+          <li style="margin:0 0 6px">Dan Elton</li>
+          <li style="margin:0">Advisor: Gavin Leech</li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div ref="{{ t1Ref }}" style="position:relative;{{ t1Style }}">
+    <div style="position:sticky;top:0;overflow:hidden;{{ sceneStyle }}">
+      <svg aria-hidden="true" width="{{ SW }}" height="{{ SH }}" style="position:absolute;left:0;top:0;display:block">
+        <g style="{{ stackG }}"><sc-for list="{{ shapes }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></g>
+        <g style="{{ oversG }}"><sc-for list="{{ overs }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></g>
+        <g><sc-for list="{{ isoShapes }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></g>
+      </svg>
+
+      <div style="position:absolute;text-align:right;white-space:nowrap;font-weight:700;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.int }}">Interventions</div>
+      <div style="position:absolute;text-align:right;white-space:nowrap;font-weight:700;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.mon }}">Monitoring</div>
+      <div style="position:absolute;text-align:right;white-space:nowrap;font-weight:700;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.ass }}">Assessments</div>
+
+      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.rlhf }}">RLHF</div>
+      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.refusal }}">Refusal training</div>
+      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.guard }}">Guard models</div>
+      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.cot }}">CoT monitoring</div>
+      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.red }}">Red-teaming</div>
+      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.jail }}">Jailbreak evaluations</div>
+
+      <div style="position:absolute;text-align:right;white-space:nowrap;font-family:'IBM Plex Mono',monospace;line-height:1.2;color:#a83a1b;pointer-events:none;{{ lab.t0 }}">Data issues</div>
+      <div style="position:absolute;text-align:right;white-space:nowrap;font-family:'IBM Plex Mono',monospace;line-height:1.2;color:#a83a1b;pointer-events:none;{{ lab.t1 }}">RL overtraining</div>
+      <div style="position:absolute;white-space:nowrap;font-family:'IBM Plex Mono',monospace;line-height:1.2;color:#a83a1b;pointer-events:none;{{ lab.t2 }}">Adversarial inputs</div>
+      <div style="position:absolute;white-space:nowrap;font-family:'IBM Plex Mono',monospace;line-height:1.2;color:#a83a1b;pointer-events:none;{{ lab.t3 }}">Deployment shift</div>
+      <div style="position:absolute;text-align:center;white-space:nowrap;font-weight:700;line-height:1.2;color:#a83a1b;pointer-events:none;{{ lab.harm }}">Harm</div>
+
+      <div style="position:absolute;text-align:right;white-space:nowrap;font-family:'IBM Plex Mono',monospace;line-height:1.3;color:#114b5f;pointer-events:none;{{ lab.dark }}">dark matter</div>
+      <div style="position:absolute;text-align:right;white-space:nowrap;font-family:'IBM Plex Mono',monospace;line-height:1.3;color:#114b5f;pointer-events:none;{{ lab.ghost }}">ghost matter</div>
+
+      <section ref="{{ p1Ref }}" style="position:absolute;font-size:16px;line-height:1.62;{{ p1Style }}">
+        <h2 style="margin:0 0 10px;font-size:1.3em;line-height:1.25;font-weight:700;color:#114b5f">Why Stack?</h2>
+        <p style="margin:0;text-wrap:pretty">The de facto plan for AI safety of frontier labs, and thus the world, is <a href="https://oscardelaney.substack.com/p/when-is-defense-in-depth-unhelpful" target="_blank" rel="noopener">defence</a>-<a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">in-depth</a>.</p>
+        <p style="margin:14px 0 0;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.3;color:#114b5f">Scroll down</p>
+      </section>
+
+      <div style="position:absolute;top:0;overflow:hidden;font-size:15px;line-height:1.65;-webkit-mask-image:linear-gradient(transparent 0,#000 13%,#000 94%,transparent 100%);mask-image:linear-gradient(transparent 0,#000 13%,#000 94%,transparent 100%);{{ colStyle }}">
+        <div ref="{{ reelRef }}" style="position:absolute;left:0;right:0;top:0;{{ reelStyle }}">
+          <p data-line="1" style="margin:0 0 14px;{{ ln.l0 }}">The idea is, that if you stack together enough weak alignment and control techniques, the failures of each layer will get caught by later layers.</p>
+          <p data-line="1" style="margin:0 0 14px;{{ ln.l1 }}">This “stack” includes all of the alignment, interpretability, and control methods that have tamed LLMs enough to make it possible to make money off of them.</p>
+          <h2 data-line="1" style="margin:30px 0 12px;font-size:1.3em;line-height:1.25;font-weight:700;color:#114b5f;{{ ln.l2 }}">How good is this plan?</h2>
+          <p data-line="1" style="margin:0 0 14px;{{ ln.l3 }}">We don’t know.</p>
+          <p data-line="1" style="margin:0 0 14px;{{ ln.l4 }}">The actual safety stack of deployed technologies is not public. So we don’t know what many of the layers are and how the defenses and vulnerabilities line up to specific risks.</p>
+          <p data-line="1" style="margin:0 0 14px;{{ ln.l5 }}">Let alone how well they work individually.</p>
+          <p data-line="1" style="margin:0 0 14px;{{ ln.l6 }}">Let alone how the layers interact with each other.</p>
+          <p data-line="1" style="margin:0 0 14px;{{ ln.l7 }}">This is because some research <a href="https://claude.ai/artifact/RAn3qmQFhrEoj9i9bEtaHp" target="_blank" rel="noopener">went dark</a> as it commercialised (and because it became irresponsible to release “dual-use” safety techniques).</p>
+          <p data-line="1" style="margin:0 0 14px;{{ ln.l8 }}">We call these layers <strong>dark matter</strong>: internal mitigations that are alluded to in system cards which may or may not be reflected in the public literature. AKA trust me bro techniques.</p>
+          <p data-line="1" style="margin:0 0 14px;{{ ln.l9 }}">We can try and infer some of these techniques, but they still remain as what we call <strong>ghost matter.</strong></p>
+          <p data-line="1" style="margin:46px 0 14px;{{ ln.l10 }}">As a result, it is quite possible that the strategy is giving the world a false sense of security, because the stack might be failing to cover some hazards.</p>
+          <p data-line="1" style="margin:0 0 14px;{{ ln.l11 }}">It is quite possible that external research into creating new layers for the stack is wasted effort - duplicating existing private techniques.</p>
+          <p data-line="1" style="margin:0 0 14px;{{ ln.l12 }}">It is also quite possible that layers developed in isolation from each other end up having contradictory effects on the target model’s safety.</p>
+          <p data-line="1" style="margin:0 0 14px;{{ ln.l13 }}">Where, for instance, a technique in one layer can weaken a technique in another.</p>
+          <p data-line="1" style="margin:0 0 14px;{{ ln.l14 }}">The situation makes it impossible for policy work to be calibrated to how much mandating the use of particular techniques would actually help.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ref="{{ t2Ref }}" style="position:relative;{{ t2Style }}">
+    <div style="position:sticky;top:0;overflow:hidden;{{ sceneStyle }}">
+      <svg aria-hidden="true" width="{{ SW }}" height="{{ SH }}" style="position:absolute;left:0;top:0;display:block">
+        <defs>
+          <pattern id="fpHatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="7" style="stroke:#feecd3;stroke-width:1.3;stroke-opacity:0.38"></line>
+          </pattern>
+        </defs>
+        <sc-for list="{{ boxG }}" as="g" hint-placeholder-count="0"><g style="{{ g.style }}"><sc-for list="{{ g.paths }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></g></sc-for>
+      </svg>
+
+      <section ref="{{ aRef }}" style="position:absolute;font-size:15px;line-height:1.62;{{ aStyle }}">
+        <p style="margin:0;text-wrap:pretty"><span style="{{ sv.c1 }}">As a first step, we built as complete an inventory of current AI safety techniques as we think can be done. We scraped safety papers and inferred use through OSINT to try and work out what people are probably using.</span> <span style="{{ sv.c2 }}">We are building a safety surface model that breaks threats into concrete slices, so that you can bring your own threat model, switch safeguards and failure scenarios on and off, and see which threats have no cover or a single point of failure.</span> <span style="{{ sv.c3 }}">All the data and code are held publicly and updated automatically on a weekly run. We’ll keep it maintained as new things get developed.</span> <span style="{{ sv.c4 }}">We will write up our findings and point to the more glaring presuppositions the stack assumes.</span></p>
+      </section>
+
+      <div data-box="explore" style="position:absolute;left:0;top:0;{{ bx.explore.wrap }}" onMouseEnter="{{ bx.explore.enter }}" onMouseLeave="{{ bx.explore.leave }}" onPointerDown="{{ bx.explore.down }}" onFocus="{{ bx.explore.enter }}" onBlur="{{ bx.explore.blur }}">
+        <a href="stack.html" onClick="{{ bx.explore.click }}" style="position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center;font-size:14px;font-weight:700;line-height:1.2;color:#114b5f;text-decoration:none;{{ bx.explore.hit }}"><span style="display:flex;align-items:flex-end;justify-content:center;{{ bx.explore.name }}">Explore the stack</span></a>
+        <ul style="position:absolute;list-style:none;margin:0;font-size:12.5px;line-height:1.4;color:#333;{{ bx.explore.list }}">
+          <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:#114b5f;{{ bx.explore.tick }}"></span><a href="stack.html">The safety stack by lab</a></li>
+        </ul>
+      </div>
+
+      <div data-box="wargame" style="position:absolute;left:0;top:0;{{ bx.wargame.wrap }}" onMouseEnter="{{ bx.wargame.enter }}" onMouseLeave="{{ bx.wargame.leave }}" onPointerDown="{{ bx.wargame.down }}" onFocus="{{ bx.wargame.enter }}" onBlur="{{ bx.wargame.blur }}">
+        <button type="button" onClick="{{ bx.wargame.click }}" style="position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center;font-size:14px;font-weight:700;line-height:1.2;color:#114b5f;background:none;border:0;padding:0;margin:0;cursor:default;{{ bx.wargame.hit }}"><span style="display:flex;align-items:flex-end;justify-content:center;{{ bx.wargame.name }}">Wargame safety surfaces</span></button>
+        <ul style="position:absolute;list-style:none;margin:0;font-size:12.5px;line-height:1.4;color:#333;{{ bx.wargame.list }}">
+          <li style="margin:0 0 8px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#114b5f">in progress</li>
+          <li style="position:relative;margin:0;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:#114b5f;{{ bx.wargame.tick }}"></span>Continuous probabilistic inference over frontier lab safety stacks—tracking safeguard deployment, overlap, and correlated failures to monitor live risk-surface coverage.</li>
+        </ul>
+      </div>
+
+      <div data-box="data" style="position:absolute;left:0;top:0;{{ bx.data.wrap }}" onMouseEnter="{{ bx.data.enter }}" onMouseLeave="{{ bx.data.leave }}" onPointerDown="{{ bx.data.down }}" onFocus="{{ bx.data.enter }}" onBlur="{{ bx.data.blur }}">
+        <button type="button" onClick="{{ bx.data.click }}" style="position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center;font-size:14px;font-weight:700;line-height:1.2;color:#114b5f;background:none;border:0;padding:0;margin:0;cursor:default;{{ bx.data.hit }}"><span style="display:flex;align-items:flex-end;justify-content:center;{{ bx.data.name }}">Use the data</span></button>
+        <ul style="position:absolute;list-style:none;margin:0;font-size:12.5px;line-height:1.4;color:#333;{{ bx.data.list }}">
+          <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:#114b5f;{{ bx.data.tick }}"></span><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model-by-technique matrix</a></li>
+          <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:#114b5f;{{ bx.data.tick }}"></span><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Dataset on Hugging Face</a></li>
+          <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:#114b5f;{{ bx.data.tick }}"></span><a href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Taxonomies on GitHub</a></li>
+          <li style="position:relative;margin:0;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:#114b5f;{{ bx.data.tick }}"></span><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline code on GitHub</a></li>
+        </ul>
+      </div>
+
+      <div data-box="blog" style="position:absolute;left:0;top:0;{{ bx.blog.wrap }}" onMouseEnter="{{ bx.blog.enter }}" onMouseLeave="{{ bx.blog.leave }}" onPointerDown="{{ bx.blog.down }}" onFocus="{{ bx.blog.enter }}" onBlur="{{ bx.blog.blur }}">
+        <button type="button" onClick="{{ bx.blog.click }}" style="position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center;font-size:14px;font-weight:700;line-height:1.2;color:#114b5f;background:none;border:0;padding:0;margin:0;cursor:default;{{ bx.blog.hit }}"><span style="display:flex;align-items:flex-end;justify-content:center;{{ bx.blog.name }}">Blog</span></button>
+        <ul style="position:absolute;list-style:none;margin:0;font-size:12.5px;line-height:1.4;color:#333;{{ bx.blog.list }}">
+          <li style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#114b5f">coming soon</li>
+        </ul>
+      </div>
+
+      <p style="position:absolute;margin:0;font-size:20px;line-height:1.25;font-weight:700;color:#114b5f;{{ helpLead }}">This could help</p>
+      <div style="position:absolute;font-size:16px;line-height:1.58;{{ help1 }}">
+        <p style="margin:0 0 6px;font-weight:700;color:#114b5f">Safety researchers.</p>
+        <p style="margin:0;text-wrap:pretty">In general, many researchers test their techniques piecemeal, comparing them individually. We can’t test the techniques in the environment (joint implementation), have no sense of how well they’re working as a whole, and have no sense of fault correlations. One of the few exceptions is a <a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">small AISI/FAR pilot study</a> which implemented and tested a few inference-time safeguards together.</p>
+      </div>
+      <div style="position:absolute;font-size:16px;line-height:1.58;{{ help2 }}">
+        <p style="margin:0 0 6px;font-weight:700;color:#114b5f">Policy community.</p>
+        <p style="margin:0;text-wrap:pretty">There are any number of efforts to set up "transparency", "vetting", "audits", and thereby promoting or mandating the use of existing safety technologies. But, in our experience, they usually don’t have a clear view of what these technologies are, or how much of the problem they would fix if they were mandatory and enforced.</p>
+      </div>
+      <div style="position:absolute;font-size:16px;line-height:1.58;{{ help3 }}">
+        <p style="margin:0 0 6px;font-weight:700;color:#114b5f">Funders.</p>
+        <p style="margin:0;text-wrap:pretty">Grantmakers weigh impact in any proposal. This relies on an accurate view of what the current safety landscape is. Public information alone often cannot answer that. Individual researchers and evaluators often cannot answer that. Funders should be able to see which threats appear to have no safeguards or where safeguards fail together (for one example) to make effective use of their funds.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"reducedMotion":{"editor":"boolean","default":false,"tsType":"boolean","section":"Scene"},"embedded":{"editor":null,"default":false,"tsType":"boolean"},"onDone":{"editor":null,"tsType":"() => void"},"$preview":{"width":1440,"height":900}}'>
+/* The front page of thesafetystack.ai.
+   The page has two scenes, one under the other, on one sheet of grid. Each scene is held in the window while the
+   reader scrolls through it, and the scroll position alone decides what it shows, so scrolling back reverses it.
+   The one exception is the ribbon at the top: it appears when the reader first reaches the last line and then stays.
+
+   Scene 1, the stack. TL1 lists its steps in order. A step named a.. draws something; a step named t.. shows one
+   sentence. The order in the list is the order on the page, so a drawing step listed before a sentence finishes
+   before that sentence appears.
+      a1   the layer names                     a2   the stack moves left, leans, separates; the holes appear
+      t1   "The idea is ..."                   a3   four lines from above: three are stopped, one reaches Harm
+      t2   "This stack includes ..."           a4   the six slice names
+      t3   "How good is this plan? We don't know."    a5   the slices without a name go out of focus
+      t4   "... is not public ..."             a6   the stopped lines may or may not go on: dotted, coming and going
+      t5   "... individually."                 a7   one slice grows out of the stack while the rest spreads apart and fades;
+                                                    its holes move and change size
+      t6   "... interact ..."                  a8   a second slice under it; the two shift, holes line up or not
+      t7   "... went dark ..."                 a9   the slice shrinks back into the stack as it closes up; two slices turn dashed
+      t8   dark matter                         a10  the label "dark matter"; the rest dims
+      t9   ghost matter                        a11  two slices turn to fog; the label "ghost matter"
+      a12  slice names, three lines and all line names go; the text moves to the next paragraph
+      t10  "... false sense of security ..."   a13  the line a fog slice had stopped gets through
+      t11  "... wasted effort ..."             a14  a solid slice settles on a dashed one
+      t12  "... contradictory effects ..."     a15  a new line is stopped; a slice is added above; a hole widens
+      t13  "... can weaken ..."                a16  that line gets through
+      t14  "... policy work ..."               a17  a heavy-outlined slice arrives; a new line passes it and all the rest
+   Scene 2, the four boxes. TL2: c1..c4 show a sentence and fill a box each; x clears the text above the boxes;
+   h1..h3 show the three "This could help" paragraphs one at a time and light two boxes for each; f shows the last line.
+
+   Nothing in the drawing comes from data. Which slice stops which line is arbitrary. */
+class Component extends DCLogic {
+  /* 'desktop' or 'phone': which of the two layouts this page is. The two pages are made from one source. */
+  MODE = 'desktop';
+  C = {plate:'#114b5f', teal:'#028090', acc:'#da532c', cream:'#feecd3', edge:'#2f7f94'};
+  /* where the lines from above meet the slices, in the plane of a slice: four named ones, then two without a name */
+  LP = [{x:-112, y:12}, {x:-62, y:-24}, {x:-8, y:26}, {x:104, y:-14}, {x:48, y:-26}, {x:62, y:28}];
+  /* the same for the steps that show one or two slices alone */
+  LI = [{x:-96, y:8}, {x:-34, y:-18}, {x:28, y:20}, {x:92, y:-10}];
+  TL1 = [['a1', 0.7], ['a2', 1.2], ['t1', 0.45], ['a3', 1.6], ['t2', 0.45], ['a4', 0.6], ['t3', 0.45], ['a5', 0.8], ['t4', 0.5], ['a6', 0.9],
+    ['t5', 0.4], ['a7', 1.5], ['t6', 0.4], ['a8', 1.6], ['t7', 0.5], ['a9', 1.0], ['t8', 0.5], ['a10', 0.7], ['t9', 0.5], ['a11', 0.8], ['a12', 0.7],
+    ['t10', 0.5], ['a13', 0.9], ['t11', 0.5], ['a14', 0.9], ['t12', 0.5], ['a15', 1.5], ['t13', 0.45], ['a16', 0.8], ['t14', 0.5], ['a17', 1.2]];
+  TL2 = [['c1', 0.8], ['c2', 0.8], ['c3', 0.8], ['c4', 0.8], ['x', 0.6], ['h1', 1.1], ['h2', 1.1], ['h3', 1.1], ['f', 0.8]];
+  T1 = (() => { const m = {}; let x = 0.15; this.TL1.forEach(e => { m[e[0]] = [x, e[1]]; x += e[1]; }); this.TOT1 = x + 0.6; return m; })();
+  T2 = (() => { const m = {}; let x = 0.15; this.TL2.forEach(e => { m[e[0]] = [x, e[1]]; x += e[1]; }); this.TOT2 = x + 0.35; return m; })();
+  scRef = React.createRef(); rootRef = React.createRef(); t1Ref = React.createRef(); t2Ref = React.createRef();
+  p1Ref = React.createRef(); reelRef = React.createRef(); aRef = React.createRef(); finRef = React.createRef();
+  state = {s:0, q:0, W:1440, V:900, p1H:110, ln:[], lnKey:'', aH:140, finKey:'', tx:0, ty:0, open:null, done:false, live:false};
+  ptx = 0; pty = 0;
+
+  componentDidMount(){
+    this.reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    window.addEventListener('pointermove', this.onPointer, {passive:true});
+    document.addEventListener('pointerdown', this.onDocDown);
+    if(this.MODE === 'phone'){
+      const sc = this.scRef.current;
+      if(sc){ sc.addEventListener('pointerdown', this.dragStart); sc.addEventListener('pointermove', this.dragMove); sc.addEventListener('pointerup', this.dragEnd); sc.addEventListener('pointercancel', this.dragEnd); sc.addEventListener('click', this.dragClick, true); }
+    }
+    this.tick();
+  }
+  componentWillUnmount(){
+    cancelAnimationFrame(this.raf); clearTimeout(this.closeTimer);
+    const sc0 = this.scRef.current;
+    if(sc0){ sc0.removeEventListener('pointerdown', this.dragStart); sc0.removeEventListener('pointermove', this.dragMove); sc0.removeEventListener('pointerup', this.dragEnd); sc0.removeEventListener('pointercancel', this.dragEnd); sc0.removeEventListener('click', this.dragClick, true); }
+    window.removeEventListener('pointermove', this.onPointer);
+    document.removeEventListener('pointerdown', this.onDocDown);
+  }
+  reducedMotion(){ return this.reduced || this.props.reducedMotion === true; }
+  /* how many pixels of scroll one step of length 1 takes */
+  unit(V){ return this.MODE === 'phone' ? Math.max(280, Math.min(360, V * 0.4)) : Math.max(340, Math.min(520, V * 0.5)); }
+
+  onPointer = (e) => {
+    if(e.pointerType === 'touch' || this.reducedMotion()) return;
+    this.ptx = Math.max(-1, Math.min(1, (e.clientX / Math.max(1, window.innerWidth) - 0.5) * 2));
+    this.pty = Math.max(-1, Math.min(1, (e.clientY / Math.max(1, window.innerHeight) - 0.5) * 2));
+  };
+
+  /* The phone page is moved by the finger directly. While the finger is down the page follows it. When the finger lifts,
+     the page keeps the speed it had and slows down as if by friction (the speed falls by about two thirds every half
+     second). A touch stops it at once. The mouse can drag the page the same way, and the wheel still works. */
+  dragStart = (e) => {
+    if(e.pointerType === 'mouse' && e.button !== 0) return;
+    if(e.target && e.target.closest && e.target.closest('[data-box="r-menu"]')) return;
+    this.glide = null;
+    const sc = this.scRef.current;
+    this.drag = {id:e.pointerId, y:e.clientY, y0:e.clientY, t:performance.now(), v:0, moved:false};
+    if(e.pointerType === 'mouse' && !(e.target.closest && e.target.closest('a,button'))) e.preventDefault();
+    this.dragSc = sc;
+  };
+  dragMove = (e) => {
+    const d = this.drag, sc = this.dragSc; if(!d || !sc || e.pointerId !== d.id) return;
+    if(!d.moved){ if(Math.abs(e.clientY - d.y0) < 6) return; d.moved = true; try { sc.setPointerCapture(e.pointerId); } catch(err){} }
+    const now = performance.now(), dy = e.clientY - d.y, dt = Math.max(1, now - d.t);
+    sc.scrollTop -= dy;
+    d.v = 0.7 * (-dy / dt * 1000) + 0.3 * d.v; d.y = e.clientY; d.t = now;
+  };
+  dragEnd = (e) => {
+    const d = this.drag, sc = this.dragSc; if(!d || e.pointerId !== d.id) return;
+    this.drag = null;
+    if(!d.moved || !sc) return;
+    this.dragged = performance.now();
+    if(performance.now() - d.t > 90 || Math.abs(d.v) < 40) return;
+    const v = Math.max(-7000, Math.min(7000, d.v)), amp = v * 0.5;
+    this.glide = {amp, target:sc.scrollTop + amp, t0:performance.now()};
+  };
+  /* a drag is not a tap: the click that follows a drag is dropped */
+  dragClick = (e) => { if(this.dragged && performance.now() - this.dragged < 350){ e.preventDefault(); e.stopPropagation(); } };
+
+  /* Once a frame: read how far the page's own scrolling area has moved through each scene, and how tall the text is.
+     The page scrolls inside its own area, which is as tall as the window, so it works whether or not the document
+     around it scrolls. */
+  tick = () => {
+    this.raf = requestAnimationFrame(this.tick);
+    const sc = this.scRef.current, t1 = this.t1Ref.current, t2 = this.t2Ref.current; if(!sc || !t1 || !t2) return;
+    const st = this.state;
+    const W = sc.clientWidth || window.innerWidth, ih = window.innerHeight;
+    /* a window this tall is a frame sized to hold a whole page: the scrolling area then takes the height of an ordinary window */
+    const V = ih > 1800 ? 900 : Math.max(480, ih), U = this.unit(V);
+    if(this.glide){
+      const g = this.glide, left = g.amp * Math.exp(-(performance.now() - g.t0) / 500), before = sc.scrollTop;
+      sc.scrollTop = g.target - left;
+      if(Math.abs(left) < 0.5 || (Math.abs(sc.scrollTop - before) < 0.01 && performance.now() - g.t0 > 120)) this.glide = null;
+    }
+    const scTop = sc.getBoundingClientRect().top;
+    const r3 = n => Math.round(n * 1000) / 1000;
+    const s = r3(Math.max(0, Math.min(this.TOT1, (scTop - t1.getBoundingClientRect().top) / U)));
+    /* embedded: this page is shown inside the front page, which has the destinations itself. Only the stack story is
+       played; when the reader has scrolled to its end, the front page is told, and it takes the story away again. */
+    const emb = this.props.embedded === true;
+    const q = emb ? 0 : r3(Math.max(0, Math.min(this.TOT2, (scTop - t2.getBoundingClientRect().top) / U)));
+    if(emb && s >= this.TOT1 - 0.02 && !this.toldDone){ this.toldDone = true; if(typeof this.props.onDone === 'function') this.props.onDone(); }
+    const p1 = this.p1Ref.current, a = this.aRef.current, reel = this.reelRef.current;
+    const p1H = (p1 && p1.offsetHeight) || st.p1H, aH = (a && a.offsetHeight) || st.aH;
+    let ln = st.ln, lnKey = st.lnKey;
+    if(reel){
+      const els = reel.querySelectorAll('[data-line]'), arr = [];
+      for(let i = 0; i < els.length; i++) arr.push([els[i].offsetTop, els[i].offsetTop + els[i].offsetHeight]);
+      const k = arr.join(); if(k !== lnKey){ ln = arr; lnKey = k; }
+    }
+    /* the ribbon: once the reader has reached the last line of the page, it stays */
+    const done = st.done || q >= this.T2.f[0] + this.T2.f[1] * 0.45;
+    let tx = st.tx + (this.ptx - st.tx) * 0.08, ty = st.ty + (this.pty - st.ty) * 0.08;
+    if(Math.abs(this.ptx - tx) < 0.002) tx = this.ptx;
+    if(Math.abs(this.pty - ty) < 0.002) ty = this.pty;
+    /* phone: where each of the four rows of the last step sits, so that each box can be drawn at the start of its row */
+    const fin = this.finRef.current, finKey = fin ? Array.prototype.map.call(fin.children, c => c.offsetTop).join(',') : '';
+    if(W !== st.W || V !== st.V || !st.live || s !== st.s || q !== st.q || p1H !== st.p1H || lnKey !== st.lnKey || aH !== st.aH || finKey !== st.finKey || done !== st.done || tx !== st.tx || ty !== st.ty)
+      this.setState({s, q, W, V, p1H, ln, lnKey, aH, finKey, done, tx, ty, live:true});
+  };
+
+  /* ---- lists that drop down: under a box, and under an entry of the ribbon ---- */
+  openBox(id){ clearTimeout(this.closeTimer); if(this.state.open !== id) this.setState({open:id}); }
+  closeBox(id){ clearTimeout(this.closeTimer); this.closeTimer = setTimeout(() => { if(this.state.open === id) this.setState({open:null}); }, 160); }
+  onDocDown = (e) => { if(this.state.open && !(e.target && e.target.closest && e.target.closest('[data-box]'))){ clearTimeout(this.closeTimer); this.setState({open:null}); } };
+  boxHandlers(id, isLink){
+    return {
+      enter:() => this.openBox(id),
+      leave:() => this.closeBox(id),
+      blur:(e) => { if(!(e.relatedTarget && e.currentTarget.contains(e.relatedTarget))) this.closeBox(id); },
+      down:(e) => { this.tap = {id, touch:e.pointerType === 'touch' || e.pointerType === 'pen', wasOpen:this.state.open === id}; },
+      click:(e) => {
+        const tp = this.tap && this.tap.id === id ? this.tap : null;
+        if(tp && tp.touch){
+          if(!tp.wasOpen){ if(isLink) e.preventDefault(); this.openBox(id); }
+          else if(!isLink){ clearTimeout(this.closeTimer); this.setState({open:null}); }
+        } else if(!isLink) this.openBox(id);
+      }
+    };
+  }
+
+  mixHex(a, b, t){
+    const pa = [1, 3, 5].map(i => parseInt(a.slice(i, i + 2), 16)), pb = [1, 3, 5].map(i => parseInt(b.slice(i, i + 2), 16));
+    return '#' + pa.map((v, i) => Math.round(v + (pb[i] - v) * t).toString(16).padStart(2, '0')).join('');
+  }
+  rng(seed){ let a = seed; return () => { a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+  /* The holes of every slice of the stack, made once. They differ in place and size from slice to slice. A line gets
+     through a slice when it falls anywhere inside one of the slice's holes, so the holes a line passes do not sit in
+     a column: each is put somewhere around the line. A slice that stops a line has no hole over that line. The other
+     holes are for the look and keep clear of every line. `pass` lists, for each slice, the lines that get through it. */
+  buildHoles(){
+    const pass = {N3:[3, 4, 5], Ia:[1, 2, 3, 4, 5], rlhf:[1, 2, 3, 4, 5], refusal:[1, 2, 3, 4, 5], Ib:[2, 3, 4, 5], N2:[3, 4, 5], Mb:[2, 3, 5],
+      guard:[2, 3, 4, 5], Ma:[2, 4, 5], cot:[2, 3, 4, 5], red:[2, 3, 4, 5], Aa:[2, 3, 4, 5], jail:[2, 3, 4, 5], Ab:[2, 3, 4, 5]};
+    const HW = 150, HD = 60, LP = this.LP, out = {};
+    const hash = str => { let h = 2166136261; for(let i = 0; i < str.length; i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; };
+    Object.keys(pass).forEach(id => {
+      const r = this.rng(hash('slice-' + id)), hs = [];
+      /* one hole of this slice stops a line by a little, and later widens until the line is inside it */
+      if(id === 'Mb') hs.push({x:LP[4].x - 10.2, y:LP[4].y + 9.0, r:10, rMax:19.5, grow:true});
+      const ok = (h, own) => Math.abs(h.x) <= HW - h.r - 5 && Math.abs(h.y) <= HD - h.r - 4
+        && hs.every(o => Math.hypot(o.x - h.x, o.y - h.y) > (o.rMax || o.r) + h.r + 4)
+        && LP.every((L, j) => j === own || Math.hypot(L.x - h.x, L.y - h.y) > h.r + 4);
+      pass[id].forEach(j => {
+        let h = null;
+        for(let k = 0; k < 120 && !h; k++){
+          const rr = 8 + 7.5 * r(), off = (rr - 4.5) * r(), an = r() * Math.PI * 2;
+          const c = {x:LP[j].x + off * Math.cos(an), y:LP[j].y + off * Math.sin(an), r:rr};
+          if(ok(c, j)) h = c;
+        }
+        hs.push(h || {x:LP[j].x, y:LP[j].y, r:8});
+      });
+      const n = 1 + Math.floor(r() * 2);
+      for(let i = 0, k = 0; i < n && k < 160; k++){
+        const rr = 4 + 8 * r(), c = {x:(r() * 2 - 1) * (HW - rr - 5), y:(r() * 2 - 1) * (HD - rr - 4), r:rr};
+        if(ok(c, -1)){ hs.push(c); i++; }
+      }
+      out[id] = hs;
+    });
+    out.N1 = out.Ib;
+    return out;
+  }
+  /* The holes for the steps with one and two slices alone. Those of the first slice move and change size; those of
+     the second stay where they are, and the two slices shift against each other. */
+  buildIso(){
+    const r = this.rng(29898), LI = this.LI, A = [], B = [];
+    for(let i = 0; i < 6; i++){ const L = LI[i % 4]; A.push({x0:L.x + (r() * 2 - 1) * 26, y0:L.y + (r() * 2 - 1) * 18, r0:9 + 7 * r(), ax:10 + 22 * r(), ay:5 + 11 * r(),
+      fx:0.6 + 1.2 * r(), fy:0.6 + 1.2 * r(), px:r() * 6.28, py:r() * 6.28, ar:0.2 + 0.3 * r(), fr:0.7 + 1.3 * r(), pr:r() * 6.28}); }
+    for(let i = 0; i < 6; i++){ const L = LI[i % 4]; B.push({x:L.x + (r() * 2 - 1) * 34, y:L.y + (r() * 2 - 1) * 16, r:9 + 8 * r()}); }
+    return {A, B};
+  }
+
+  renderVals(){
+    const st = this.state, C = this.C;
+    const W = st.W, V = st.V, U = this.unit(V), SW = W, SH = V, phone = this.MODE === 'phone';
+    const cl = x => Math.max(0, Math.min(1, x));
+    const ez = k => k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+    const win = (t, a, b) => cl((t - a) / (b - a));
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const f = n => (Math.round(n * 10) / 10).toString();
+    const px = n => (Math.round(n * 10) / 10) + 'px';
+    const S = o => Object.keys(o).map(k => k + ':' + o[k]).join(';');
+    const tint = k => this.mixHex(C.cream, C.plate, k);
+    const pt = p => f(p[0]) + ' ' + f(p[1]);
+    const poly = pts => 'M' + pts.map(pt).join('L') + 'Z';
+    const seg = (a, b) => 'M' + pt(a) + 'L' + pt(b);
+    const ell = (c, rx, ry) => 'M' + f(c[0] - rx) + ' ' + f(c[1]) + 'A' + f(rx) + ' ' + f(ry) + ' 0 1 0 ' + f(c[0] + rx) + ' ' + f(c[1]) + 'A' + f(rx) + ' ' + f(ry) + ' 0 1 0 ' + f(c[0] - rx) + ' ' + f(c[1]) + 'Z';
+    const show = (o, a) => S(Object.assign(o, a > 0.005 ? {opacity:a.toFixed(2)} : {display:'none'}));
+    const still = this.reducedMotion(), tiltK = still ? 0 : 1;
+    if(!this.HO){ this.HO = this.buildHoles(); this.ISO = this.buildIso(); }
+    const HO = this.HO;
+
+    /* ================= scene 1: the stack ================= */
+    const s = st.s, P = {};
+    Object.keys(this.T1).forEach(k => { P[k] = cl((s - this.T1[k][0]) / this.T1[k][1]); });
+    const mA = ez(win(P.a2, 0.05, 0.85));
+
+    /* camera: the turn of the visualisation's resting view; from step a2 the stack leans and is seen from a little higher */
+    const yawDeg = 45 - 5 * mA - 5 * cl((s - this.T1.t1[0]) / (this.TOT1 - this.T1.t1[0])) + st.tx * 4 * tiltK;
+    const sinP = 0.40 + 0.07 * mA + st.ty * 0.03 * tiltK;
+    const cosP = Math.sqrt(1 - sinP * sinP), yaw = yawDeg * Math.PI / 180, cs = Math.cos(yaw), sn = Math.sin(yaw);
+    const rho = (phone ? 6 : 12) * mA * Math.PI / 180, cr = Math.cos(rho), sr = Math.sin(rho);
+
+    /* the stack: three layers, each a list of places for slices, top to bottom */
+    const HW = 150, HD = 60, pad = 3, zBase = 64;
+    const pitch = 13 + 10 * mA, gap = 10 + 48 * mA;
+    const oN2 = ez(win(P.a15, 0.28, 0.5)), oN3 = ez(win(P.a17, 0, 0.3));
+    const layers = [
+      {id:'int', slots:[['N3', oN3], ['Ia', 1], ['rlhf', 1], ['refusal', 1], ['Ib', 1], ['N2', oN2]]},
+      {id:'mon', slots:[['Mb', 1], ['guard', 1], ['Ma', 1], ['cot', 1]]},
+      {id:'ass', slots:[['red', 1], ['Aa', 1], ['jail', 1], ['Ab', 1]]}];
+    let total = gap * 2;
+    layers.forEach(l => { l.th = 2 * pad + pitch * l.slots.reduce((a, x) => a + x[1], 0); total += l.th; });
+    const stackTop = zBase + total, Z = {};
+    { let z = stackTop;
+      layers.forEach(l => { l.top = z; let acc = 0; l.slots.forEach(x => { Z[x[0]] = z - pad - pitch * (acc + x[1] / 2); acc += x[1]; }); l.bot = z - l.th; z = l.bot - gap; }); }
+    Z.N1 = Z.Ib + 4.5;
+
+    /* where the stack is drawn: under the first sentence at first, then in the left part of the window beside the text */
+    const colX = Math.round(W * 0.6), colW = Math.max(260, Math.min(470, W - colX - 40));
+    /* phone: the drawing has the upper part of the window, the sentence being read the part under it */
+    const split = Math.round(V * 0.56), textTop = split + 6, textH = V - textTop - 40;
+    const p1W = phone ? W - 40 : Math.min(720, W - 48), p1Top = phone ? 58 : 66;
+    const rx0 = phone ? 0 : lerp(0, 12, mA), rx1 = phone ? W : lerp(W, colX - 20, mA), ry0 = lerp(p1Top + st.p1H + 22, 50, mA), ry1 = phone ? lerp(V - 44, split, mA) : V - 12;
+    const leftLab = phone ? 96 : lerp(Math.max(205, (W - 560) / 2), 200, mA), rightLab = phone ? 84 : lerp(Math.max(205, (W - 560) / 2), 186, mA);
+    const fsLayer = phone ? 10.5 : 17, fsSlice = phone ? 10 : 12, fsLine = phone ? 9.5 : 11, fsNote = phone ? 9.5 : 11.5;
+    const uy = (x, y, z) => (x * sn + y * cs) * sinP - z * cosP;
+    const minY = uy(-HW, -HD, stackTop + 62 * mA), maxY = uy(HW, HD, zBase) + 24 * mA;
+    const padT = 8 + 16 * mA, padB = 6 + 24 * mA;
+    const halfW = HW * cs + HD * sn, hU = maxY - minY, wU = 2 * halfW;
+    const availW = Math.max(120, rx1 - rx0 - leftLab - rightLab), availH = Math.max(160, ry1 - ry0 - padT - padB);
+    const zoom = Math.min(availH / (hU * cr + wU * sr * 0.6), availW / (wU * cr + hU * sr), phone ? 1 : 1.35);
+    const pivX = rx0 + leftLab + availW / 2, pivY = ry0 + padT + availH / 2;
+    const cx = pivX, cy = pivY - (minY + maxY) / 2 * zoom;
+    const roll = p => { const dx = p[0] - pivX, dy = p[1] - pivY; return [pivX + dx * cr - dy * sr, pivY + dx * sr + dy * cr]; };
+    const ps = (x, y, z) => roll([cx + (x * cs - y * sn) * zoom, cy + ((x * sn + y * cs) * sinP - z * cosP) * zoom]);
+
+    const shapes = [], overs = [], isoShapes = [];
+    /* The phone page draws the stack at a little over half the desktop size. Lines of the same width in pixels would then
+       look nearly twice as heavy, so there every line of the drawing, every dot and every blur is made finer in step. */
+    const sw = phone ? 0.6 : 1, dk = phone ? 0.72 : 1;
+    const fine = style => sw === 1 ? style : style.replace(/stroke-width:([0-9.]+)/g, (m, v) => 'stroke-width:' + (parseFloat(v) * sw).toFixed(2));
+    const put = (d, style) => { shapes.push({d, style:fine(style)}); };
+    const over = (d, style) => { overs.push({d, style:fine(style)}); };
+
+    /* Steps a7 to a9: one slice of the stack is taken out on its own. tau runs from 0 (the stack) to 1 (the slice alone).
+       As it rises, the slices above the chosen one move up and those below move down, like an accordion opening, and fade,
+       while the chosen slice grows to its full size. The return in a9 is the same in reverse. */
+    const tau = Math.min(ez(win(P.a7, 0, 0.32)), 1 - ez(win(P.a9, 0.1, 0.45)));
+    const stackA = 1 - win(tau, 0.1, 0.85), labA = 1 - win(tau, 0, 0.35);
+    /* while the dark and ghost matter are named, everything else in the stack is dimmed */
+    const dimD = ez(win(P.a10, 0, 0.6)) * (1 - ez(win(P.a12, 0, 0.6))), fogFree = ez(win(P.a11, 0, 0.4));
+    const labDim = 1 - 0.65 * dimD;
+
+    /* ---- the lines from above ---- */
+    const yHarmU = uy(HW, HD, zBase) + 24;
+    const zAtHarm = L => ((L.x * sn + L.y * cs) * sinP - yHarmU) / cosP;
+    const oldOut = ez(win(P.a12, 0, 0.5));
+    const LD = [
+      {dn:['a3', 0.03, 0.22], stop:'Ia', ext:0, out:oldOut, maybe:0},
+      {dn:['a3', 0.25, 0.45], stop:'Ib', ext:0, out:oldOut, maybe:1},
+      {dn:['a3', 0.7, 0.98], stop:null, ext:1, out:oldOut},
+      {dn:['a3', 0.48, 0.68], stop:'Ma', ext:ez(win(P.a13, 0.1, 0.9)), out:0, maybe:2},
+      {dn:['a15', 0, 0.26], stop:'Mb', ext:ez(win(P.a16, 0.05, 0.9)), out:0},
+      {dn:['a17', 0.45, 1], stop:null, ext:1, out:0}];
+    const lines = this.LP.map((p, i) => {
+      const D = LD[i], top = stackTop + (i === 0 || i === 3 ? 28 : (i > 3 ? 44 : 62)), zh = zAtHarm(p);
+      const dn = ez(win(P[D.dn[0]], D.dn[1], D.dn[2]));
+      const stopZ = D.stop ? Z[D.stop] : null, end = stopZ === null ? zh : lerp(stopZ, zh, D.ext), a = (1 - D.out) * (1 - 0.6 * dimD) * (1 - win(tau, 0, 0.3));
+      /* step a6: a line stopped at a slice that is out of focus may or may not go on. A dotted line comes and goes below the slice. */
+      const v = D.maybe === undefined ? 0 : cl((P.a6 - 0.08 * D.maybe) / 0.84), maybe = D.maybe === undefined ? 0 : 0.5 - 0.5 * Math.cos(4 * Math.PI * v);
+      return {x:p.x, y:p.y, top, head:lerp(top, end, dn), on:dn > 0 && a > 0.01, a, stopped:dn >= 1 && D.ext <= 0 && a > 0.01, stopZ, atHarm:dn >= 1 && D.ext >= 1 && a > 0.01, zh, maybe,
+        la:win(P[D.dn[0]], D.dn[1], D.dn[1] + 0.08) * (1 - oldOut) * labDim,
+        style:'fill:none;stroke:' + C.acc + ';stroke-width:1.8;stroke-linecap:round;stroke-opacity:' + a.toFixed(2)};
+    });
+    /* step a15: the slice added in the top layer acts on one slice of the middle layer. A dashed line joins the two. */
+    const grow = ez(win(P.a15, 0.72, 1)), gh = HO.Mb[0];
+    const linkA = win(P.a15, 0.55, 0.68) * (1 - win(P.a17, 0, 0.2));
+    const link = {x:gh.x, y:gh.y, top:Z.N2, head:lerp(Z.N2, Z.Mb, ez(win(P.a15, 0.55, 0.72))), on:linkA > 0.01,
+      style:'fill:none;stroke:' + C.plate + ';stroke-width:1.6;stroke-dasharray:4 3;stroke-opacity:' + linkA.toFixed(2)};
+    const segBetween = (za, zb) => {
+      lines.concat([link]).forEach(L => { if(!L.on) return; const a = Math.max(za, L.head), c = Math.min(zb, L.top); if(c - a > 0.02) put(seg(ps(L.x, L.y, a), ps(L.x, L.y, c)), L.style); });
+      lines.forEach(L => { if(L.maybe > 0.01 && L.stopped){ const a = Math.max(za, L.zh), c = Math.min(zb, L.stopZ); if(c - a > 0.02) put(seg(ps(L.x, L.y, a), ps(L.x, L.y, c)), 'fill:none;stroke:' + C.acc + ';stroke-width:1.6;stroke-dasharray:1.5 5;stroke-linecap:round;stroke-opacity:' + (0.9 * L.maybe * L.a).toFixed(2)); } });
+    };
+
+    /* ---- slices ---- */
+    const hv = ez(win(P.a2, 0.35, 0.9)), unk = ez(win(P.a5, 0.05, 0.9)), sharpMb = ez(win(P.a15, 0.5, 0.7));
+    const mDash = ez(win(P.a9, 0.45, 0.95)), mFog = ez(win(P.a11, 0.05, 0.6));
+    const named = {rlhf:1, refusal:1, guard:1, cot:1, red:1, jail:1};
+    const look = {Ma:'fog', Aa:'fog', Ib:'dash', Ab:'dash'};
+    const zz = z => { const d = z - Z.Mb; return tau <= 0 || Math.abs(d) < 0.5 ? z : z + Math.sign(d) * (50 + 0.9 * Math.abs(d)) * tau; };
+    const pz = (x, y, z) => ps(x, y, zz(z));
+    const face = (z, dx) => [pz(-HW + dx, -HD, z), pz(HW + dx, -HD, z), pz(HW + dx, HD, z), pz(-HW + dx, HD, z)];
+    const frontFace = (z, th, dx) => { const q = zz(z); return [ps(-HW + dx, HD, q), ps(HW + dx, HD, q), ps(HW + dx, HD, q - th), ps(-HW + dx, HD, q - th)]; };
+    const rightFace = (z, th, dx) => { const q = zz(z); return [ps(HW + dx, HD, q), ps(HW + dx, -HD, q), ps(HW + dx, -HD, q - th), ps(HW + dx, HD, q - th)]; };
+    /* a hole is a circle on the slice: drawn with the same turn and lean as the slice */
+    const holeD = (h, z, dx, dropPx) => {
+      const r = h.grow ? h.r + (h.rMax - h.r) * grow : h.r, n = 22; let d = '';
+      for(let k = 0; k < n; k++){ const a = k / n * Math.PI * 2, p = pz(h.x + dx + r * Math.cos(a), h.y + r * Math.sin(a), z); d += (k ? 'L' : 'M') + f(p[0] - dropPx * sr) + ' ' + f(p[1] + dropPx * cr); }
+      return d + 'Z';
+    };
+    const holePath = (hs, z, dx) => hs.map(h => holeD(h, z, dx, 0)).join('');
+    const drawSlice = (p) => {
+      const exempt = look[p.id] === 'dash' ? 1 : (look[p.id] === 'fog' ? fogFree : 0);
+      const A = p.a * (1 - 0.7 * dimD * (1 - exempt)); if(A <= 0.005) return;
+      const hs = HO[p.id] || [], fc = face(p.z, p.dx), outline = poly(fc), hp = holePath(hs, p.z, p.dx);
+      const so = v => (v * A).toFixed(3);
+      if(p.look === 'solid'){
+        const th = 3.2;
+        put(poly(frontFace(p.z, th, p.dx)), 'fill:' + tint(0.9) + ';fill-opacity:' + so(0.97));
+        put(poly(rightFace(p.z, th, p.dx)), 'fill:' + tint(0.82) + ';fill-opacity:' + so(0.97));
+        put(outline + hp, 'fill:' + C.plate + ';fill-rule:evenodd;fill-opacity:' + so(0.97) + ';stroke:#7ec7d8;stroke-width:1.2;stroke-opacity:' + so(0.9));
+        const drop = th * cosP * zoom;
+        put(hs.map(h => holeD(h, p.z, p.dx, 0) + holeD(h, p.z, p.dx, drop)).join(''), 'fill:#07202b;fill-rule:evenodd;fill-opacity:' + so(0.55));
+        put(seg(fc[3], fc[2]), 'stroke:#9fd6e2;stroke-width:1;stroke-opacity:' + so(0.95));
+        return;
+      }
+      if(p.look === 'heavy'){
+        put(outline, 'fill:none;stroke:' + C.plate + ';stroke-width:2.8;stroke-linejoin:round;stroke-opacity:' + so(1));
+        put(hp, 'fill:none;stroke:' + C.plate + ';stroke-width:1.5;stroke-opacity:' + so(1));
+        return;
+      }
+      const fog = p.look === 'fog' ? mFog : 0, dash = p.look === 'dash' ? mDash : 0;
+      if(fog > 0){
+        /* ghost matter: a see-through, blurred fill with no edge */
+        const blur = ';filter:blur(' + (Math.max(1, 2.4 * zoom) * fog).toFixed(1) + 'px)';
+        put(poly(frontFace(p.z, 5, p.dx)), 'fill:' + C.plate + ';fill-opacity:' + so(0.34 * fog) + blur);
+        put(poly(rightFace(p.z, 5, p.dx)), 'fill:' + C.plate + ';fill-opacity:' + so(0.3 * fog) + blur);
+        put(outline, 'fill:' + C.plate + ';fill-opacity:' + so(0.42 * fog) + blur);
+      }
+      if(dash > 0){
+        /* dark matter: dashed and lightly filled */
+        put(outline + hp, 'fill:' + C.plate + ';fill-rule:evenodd;fill-opacity:' + so(0.2 * dash) + ';stroke:' + C.plate + ';stroke-width:1.1;stroke-dasharray:4 3;stroke-opacity:' + so(0.9 * dash));
+      }
+      /* a slice without a name is not known: from step a5 its edge and its holes are out of focus */
+      const edge = 1 - Math.max(fog, dash);
+      const soft = named[p.id] ? 0 : unk * edge * (p.id === 'Mb' ? 1 - sharpMb : 1);
+      const blurS = soft > 0.03 ? ';filter:blur(' + (2.6 * sw * soft).toFixed(1) + 'px)' : '';
+      if(edge > 0.01) put(outline, 'fill:none;stroke:' + C.plate + ';stroke-width:' + lerp(1, 3.2, soft).toFixed(1) + ';stroke-opacity:' + so(lerp(0.85, 0.62, soft) * edge) + blurS);
+      if(hv * (1 - fog) > 0.01) put(hp, 'fill:none;stroke:' + C.plate + ';stroke-width:' + lerp(0.9, 2.4, soft).toFixed(1) + ';stroke-opacity:' + so(lerp(0.85, 0.5, soft) * hv * (1 - fog)) + blurS);
+      /* step a15: the slice whose hole widens is outlined, and the hole gets a ring */
+      if(p.id === 'Mb' && linkA > 0.01){
+        const h = hs[0], r = h.r + (h.rMax - h.r) * grow + 4 / zoom;
+        put(outline, 'fill:none;stroke:' + C.acc + ';stroke-width:1.8;stroke-opacity:' + linkA.toFixed(2));
+        put(holeD({x:h.x, y:h.y, r}, p.z, 0, 0), 'fill:none;stroke:' + C.acc + ';stroke-width:2;stroke-opacity:' + linkA.toFixed(2));
+      }
+    };
+
+    /* everything in the stack, painted from the bottom up, with the pieces of the lines between */
+    if(stackA > 0.005){
+      const items = [];
+      layers.forEach(l => {
+        const wire = v => 'fill:none;stroke:' + C.plate + ';stroke-width:.8;stroke-opacity:' + (v * (1 - 0.55 * dimD)).toFixed(3);
+        items.push({z:l.bot - 0.02, draw:() => { put(poly(face(l.bot, 0)), wire(0.5)); put(seg(pz(-HW, -HD, l.bot), pz(-HW, -HD, l.top)), wire(0.35)); }});
+        items.push({z:l.top + 0.02, draw:() => {
+          put(seg(pz(-HW, HD, l.bot), pz(-HW, HD, l.top)) + seg(pz(HW, HD, l.bot), pz(HW, HD, l.top)) + seg(pz(HW, -HD, l.bot), pz(HW, -HD, l.top)), wire(0.5));
+          put(poly(face(l.top, 0)), wire(0.75)); }});
+        l.slots.forEach(x => {
+          const id = x[0];
+          if(id === 'N3') items.push({z:Z.N3, draw:() => drawSlice({id, z:Z.N3, look:'heavy', a:win(P.a17, 0, 0.12), dx:-(1 - ez(win(P.a17, 0.02, 0.45))) * 400})});
+          else if(id === 'N2') items.push({z:Z.N2, draw:() => drawSlice({id, z:Z.N2, look:'solid', a:win(P.a15, 0.28, 0.36), dx:-(1 - ez(win(P.a15, 0.28, 0.54))) * 400})});
+          else if(!(id === 'Mb' && tau > 0.001)) items.push({z:Z[id], draw:() => drawSlice({id, z:Z[id], look:look[id] || 'wire', a:1, dx:0})});
+        });
+      });
+      items.push({z:Z.N1, draw:() => drawSlice({id:'N1', z:Z.N1, look:'solid', a:win(P.a14, 0, 0.2), dx:-(1 - ez(win(P.a14, 0.04, 0.8))) * 400})});
+      /* where a line is stopped: a dot on the slice */
+      lines.forEach(L => { if(L.stopped) items.push({z:L.stopZ + 0.01, draw:() => { const c = ps(L.x, L.y, L.stopZ); put(ell(c, 4.8 * dk, Math.max(1.8, 4.8 * sinP) * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.a * (1 - 0.8 * L.maybe)).toFixed(2)); }}); });
+      items.sort((a, c) => a.z - c.z);
+      /* under the stack: where the lines that get through end */
+      const arrived = lines.filter(L => L.atHarm);
+      if(arrived.length){
+        const ends = arrived.map(L => ps(L.x, L.y, L.zh)).sort((a, c) => a[0] - c[0]);
+        const a0 = ends[0], a1 = ends[ends.length - 1], aa = Math.max.apply(null, arrived.map(L => L.a));
+        put(seg([a0[0] - 9 * cr, a0[1] - 9 * sr], [a1[0] + 9 * cr, a1[1] + 9 * sr]), 'stroke:' + C.acc + ';stroke-width:1.8;stroke-linecap:round;stroke-opacity:' + aa.toFixed(2));
+      }
+      let prev = -1e9;
+      items.forEach(it => { segBetween(prev, it.z); it.draw(); prev = it.z; });
+      segBetween(prev, 1e9);
+    }
+
+    /* ---- labels beside the stack ---- */
+    const lab = {};
+    const solve = (list, lo, hi) => {
+      const o = list.slice().sort((a, c) => a.y - c.y); let p0 = lo;
+      o.forEach(it => { it.t = Math.max(it.y - it.h / 2, p0); p0 = it.t + it.h + (it.h > 0.5 ? 4 : 0); });
+      for(let i = o.length - 1, lim = hi; i >= 0; i--){ const it = o[i]; if(it.t + it.h > lim) it.t = lim - it.h; lim = it.t - (it.h > 0.5 ? 4 : 0); }
+      o.forEach(it => { it.c = it.t + it.h / 2; });
+    };
+    const aLayer = ez(win(P.a1, 0.1, 0.8)) * labA * labDim, aSlice = ez(win(P.a4, 0.1, 0.8)) * (1 - ez(win(P.a12, 0, 0.5))) * labA * labDim;
+    const aDark = win(P.a10, 0.1, 0.5) * labA, aGhost = win(P.a11, 0.5, 0.9) * labA;
+    /* left: the names of the layers, each with a bracket along the edge of its layer */
+    const noteIn = ez(win(P.a9, 0.5, 1));
+    const nrm = [-cr, -sr];
+    const left = layers.map((l, i) => {
+      const pT = ps(-HW, HD, l.top), pB = ps(-HW, HD, l.bot), bo = phone ? 7 : 12, bT = [pT[0] + nrm[0] * bo, pT[1] + nrm[1] * bo], bB = [pB[0] + nrm[0] * bo, pB[1] + nrm[1] * bo];
+      const h = fsLayer * 1.2, kTop = Math.min(0.5, (h / 2 + 2) / Math.max(1, bB[1] - bT[1])), k = lerp(0.5, kTop, noteIn);
+      return {k:l.id, i, bT, bB, h, y:lerp(bT[1], bB[1], k), xr:lerp(bT[0], bB[0], k) - (phone ? 7 : 20)};
+    });
+    const noteAt = (id) => { const an = ps(-HW, HD, Z[id]); return {an, y:an[1], h:(phone ? 12 : 14) * noteIn, xr:an[0] - (phone ? 16 : 36)}; };
+    const dark = Object.assign(noteAt('Ib'), {k:'dark', a:aDark}), ghost = Object.assign(noteAt('Ma'), {k:'ghost', a:aGhost});
+    solve(left.concat([dark, ghost]), 50, V - 6);
+    left.forEach(it => {
+      const tintL = 'oklch(' + (0.56 - it.i * 0.03).toFixed(2) + ' 0.075 ' + (198 + it.i * 5) + ')';
+      lab[it.k] = show({left:px(it.xr - 260), top:px(it.t), width:'260px', 'font-size':fsLayer + 'px'}, aLayer);
+      if(aLayer > 0.01){
+        const oa = ez(win(P.a1, 0.1, 0.8)) * labDim;
+        over('M' + f(it.bT[0] + 6 * cr) + ' ' + f(it.bT[1] + 6 * sr) + 'L' + pt(it.bT) + 'L' + pt(it.bB) + 'L' + f(it.bB[0] + 6 * cr) + ' ' + f(it.bB[1] + 6 * sr),
+          'fill:none;stroke:' + tintL + ';stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:' + oa.toFixed(2));
+        const k = cl((it.c - it.bT[1]) / Math.max(1, it.bB[1] - it.bT[1]));
+        if(!phone) over(seg([lerp(it.bT[0], it.bB[0], k), lerp(it.bT[1], it.bB[1], k)], [it.xr + 6, it.c]), 'fill:none;stroke:' + tintL + ';stroke-width:.9;stroke-opacity:' + (0.8 * oa).toFixed(2));
+      }
+    });
+    [dark, ghost].forEach(it => {
+      lab[it.k] = show({left:px(it.xr - 160), top:px(it.t - 1), width:'160px', 'font-size':fsNote + 'px'}, it.a);
+      if(it.a > 0.01){
+        const oa = it.a / Math.max(0.01, labA);
+        over('M' + pt(it.an) + 'L' + f(it.xr + (phone ? 8 : 14)) + ' ' + f(it.c) + 'L' + f(it.xr + (phone ? 3 : 5)) + ' ' + f(it.c), 'fill:none;stroke:' + C.plate + ';stroke-width:.8;stroke-opacity:' + (0.75 * oa).toFixed(2));
+        over(ell(it.an, 2.2 * dk, 2.2 * dk), 'fill:' + C.plate + ';fill-opacity:' + oa.toFixed(2));
+      }
+    });
+    /* right: two slices of each layer have a name, with a line to the slice */
+    const sliceW = 72, twoLine = {refusal:1, guard:1, cot:1, jail:1};
+    const right = ['rlhf', 'refusal', 'guard', 'cot', 'red', 'jail'].map(k => { const an = ps(HW, -HD, Z[k]); return {k, an, y:an[1], h:phone ? (twoLine[k] ? 25 : 13) : 17.6}; });
+    solve(right, 50, V - 6);
+    right.forEach(it => {
+      const lx = it.an[0] + (phone ? 13 : 34), oa = aSlice / Math.max(0.01, labA);
+      lab[it.k] = show(phone ? {left:px(lx), top:px(it.t), width:sliceW + 'px', 'white-space':'normal', 'font-size':fsSlice + 'px'} : {left:px(lx), top:px(it.t + 1), 'font-size':fsSlice + 'px'}, aSlice);
+      if(aSlice > 0.01){
+        over('M' + pt(it.an) + 'L' + f(it.an[0] + (phone ? 3 : 12)) + ' ' + f(it.an[1]) + 'L' + f(lx - (phone ? 6 : 14)) + ' ' + f(it.c) + 'L' + f(lx - (phone ? 3 : 5)) + ' ' + f(it.c), 'fill:none;stroke:' + C.teal + ';stroke-width:.8;stroke-opacity:' + (0.65 * oa).toFixed(2));
+        over(ell(it.an, 2.4 * dk, 2.4 * dk), 'fill:' + C.teal + ';fill-opacity:' + oa.toFixed(2));
+      }
+    });
+    /* the names of the four named lines sit beside their upper ends */
+    for(let i = 0; i < 4; i++){
+      const L = lines[i], p = ps(L.x, L.y, L.top), leftSide = i < 2, w = 170;
+      lab['t' + i] = show({left:px(leftSide ? p[0] - 8 - w : p[0] + 8), top:px(p[1] - (i === 1 || i === 2 ? 15 : 3)), width:w + 'px', 'font-size':fsLine + 'px'}, L.la * labA);
+    }
+    let harmPos = null, harmA = 0;
+    { const arr = lines.filter(L => L.atHarm);
+      if(arr.length){ const e = arr.map(L => ps(L.x, L.y, L.zh)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length - 14 * sr, e.reduce((a, c) => a + c[1], 0) / e.length]; harmA = Math.max.apply(null, arr.map(L => L.a)) * labA; } }
+
+    /* ---- steps a7 to a9: one slice alone, then two ---- */
+    if(tau > 0.001){
+      const I = this.ISO, LI = this.LI, v = win(P.a7, 0.45, 1), w = win(P.a8, 0.2, 1), bIn = ez(win(P.a8, 0, 0.2));
+      /* the lines and the second slice are there only while the first slice is at its full size */
+      const xa = tau >= 0.999 ? 1 - win(P.a9, 0, 0.1) : 0;
+      const hA = I.A.map(h => { const r = h.r0 * (1 + h.ar * Math.sin(6.283 * h.fr * v + h.pr)); return {x:Math.max(-144 + r, Math.min(144 - r, h.x0 + h.ax * Math.sin(6.283 * h.fx * v + h.px))), y:Math.max(-55 + r, Math.min(55 - r, h.y0 + h.ay * Math.sin(6.283 * h.fy * v + h.py))), r}; });
+      const hB = I.B, dxA = 44 * Math.sin(3 * Math.PI * w), dxB = -38 * Math.sin(3 * Math.PI * w + 0.9) + 38 * Math.sin(0.9);
+      const margin = (hs, L, dx) => cl(Math.max.apply(null, hs.map(h => (h.r - Math.hypot(h.x + dx - L.x, h.y - L.y) - 1) / 5)));
+      const yI = 40 * Math.PI / 180, ci = Math.cos(yI), si = Math.sin(yI), sI = 0.6, cI = 0.8;
+      const zA = 0, zB = -92, zTop = 150, zH = lerp(-118, -200, bIn), zMid = lerp(16, -26, bIn);
+      const zI = Math.min((rx1 - rx0 - (phone ? 20 : 70)) / (2 * (HW * ci + HD * si) + 96), (ry1 - ry0 - 60) / ((zTop - zH) * cI + (HW * si + HD * ci) * sI * 2), 2.1);
+      const pi = (x, y, z) => [(phone ? W / 2 : pivX + 40) + (x * ci - y * si) * zI, pivY + ((x * si + y * ci) * sI - (z - zMid) * cI) * zI];
+      /* the first slice: each of its points moves from its place in the stack to its place alone */
+      const pm = (x, y) => { const a = ps(x, y, Z.Mb), c = pi(x, y, zA); return [lerp(a[0], c[0], tau), lerp(a[1], c[1], tau)]; };
+      const ip = (d, style) => { isoShapes.push({d, style:fine(style)}); };
+      const ring = (fn, h, dx) => { let d = ''; for(let k = 0; k < 26; k++){ const a = k / 26 * Math.PI * 2; d += (k ? 'L' : 'M') + pt(fn(h.x + dx + h.r * Math.cos(a), h.y + h.r * Math.sin(a))); } return d + 'Z'; };
+      const L4 = LI.map((L, i) => {
+        const zHi = zH + (L.x * si + L.y * ci) * sI / cI;
+        const eA = ez(margin(hA, L, dxA)), eB = ez(margin(hB, L, dxB)), stopB = lerp(zHi, zB, bIn);
+        const end = eA < 1 ? lerp(zA, stopB, eA) : lerp(zB, zHi, Math.max(eB, 1 - bIn));
+        const dn = ez(win(P.a7, 0.34 + i * 0.03, 0.5 + i * 0.03));
+        return {x:L.x, y:L.y, head:lerp(zTop, end, dn), on:dn > 0, dotA:dn >= 1 ? 1 - cl(eA * 8) : 0, dotB:dn >= 1 && eA >= 1 ? (1 - cl(eB * 8)) * bIn : 0, zHi, harm:dn >= 1 ? cl(1 - (end - zHi) / 36) : 0};
+      });
+      const ls = 'fill:none;stroke:' + C.acc + ';stroke-width:2;stroke-linecap:round;stroke-opacity:' + xa.toFixed(2);
+      const segI = (za, zb) => { if(xa > 0.01) L4.forEach(L => { if(!L.on) return; const a = Math.max(za, L.head), c = Math.min(zb, zTop); if(c - a > 0.02) ip(seg(pi(L.x, L.y, a), pi(L.x, L.y, c)), ls); }); };
+      const got = L4.filter(L => L.harm > 0.9);
+      if(got.length && xa > 0.01){ const e = got.map(L => pi(L.x, L.y, L.zHi)).sort((a, c) => a[0] - c[0]); ip(seg([e[0][0] - 10, e[0][1]], [e[e.length - 1][0] + 10, e[e.length - 1][1]]), ls); }
+      segI(-1e9, zB);
+      if(bIn * xa > 0.01){
+        const zb = zB - (1 - bIn) * 24, pb = (x, y) => pi(x, y, zb), a = bIn * xa;
+        ip(poly([pb(-HW + dxB, -HD), pb(HW + dxB, -HD), pb(HW + dxB, HD), pb(-HW + dxB, HD)]) + hB.map(h => ring(pb, h, dxB)).join(''),
+          'fill:' + C.cream + ';fill-opacity:' + (0.78 * a).toFixed(2) + ';fill-rule:evenodd;stroke:' + C.plate + ';stroke-width:1.4;stroke-linejoin:round;stroke-opacity:' + (0.95 * a).toFixed(2));
+        L4.forEach(L => { if(L.dotB > 0.02) ip(ell(pi(L.x, L.y, zB), 6 * dk, 3.6 * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.dotB * xa).toFixed(2)); });
+      }
+      segI(zB, zA);
+      { /* the first slice. In the stack it is out of focus and has the stack's holes; alone it is sharp and has holes that move. */
+        const outline = poly([pm(-HW + dxA, -HD), pm(HW + dxA, -HD), pm(HW + dxA, HD), pm(-HW + dxA, HD)]);
+        const soft = unk * (1 - tau), blurS = soft > 0.03 ? ';filter:blur(' + (2.6 * sw * soft).toFixed(1) + 'px)' : '';
+        ip(outline + hA.map(h => ring(pm, h, dxA)).join(''), 'fill:' + C.cream + ';fill-rule:evenodd;fill-opacity:' + (0.78 * tau).toFixed(2));
+        ip(outline, 'fill:none;stroke:' + C.plate + ';stroke-linejoin:round;stroke-width:' + lerp(lerp(1, 3.2, soft), 1.4, tau).toFixed(1) + ';stroke-opacity:' + lerp(lerp(0.85, 0.62, soft), 0.95, tau).toFixed(2) + blurS);
+        if(tau < 0.98) ip(HO.Mb.map(h => ring(pm, h, 0)).join(''), 'fill:none;stroke:' + C.plate + ';stroke-width:' + lerp(0.9, 2.4, soft).toFixed(1) + ';stroke-opacity:' + (lerp(0.85, 0.5, soft) * hv * (1 - tau)).toFixed(2) + blurS);
+        ip(hA.map(h => ring(pm, h, dxA)).join(''), 'fill:none;stroke:' + C.plate + ';stroke-width:1.4;stroke-opacity:' + (0.95 * tau).toFixed(2));
+      }
+      L4.forEach(L => { if(L.dotA * xa > 0.02) ip(ell(pi(L.x, L.y, zA), 6 * dk, 3.6 * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.dotA * xa).toFixed(2)); });
+      segI(zA, 1e9);
+      if(tau > 0.5){ const e = (got.length ? got : L4).map(L => pi(L.x, L.y, L.zHi)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length, e[0][1]]; harmA = Math.max.apply(null, L4.map(L => L.harm)) * xa; }
+    }
+    lab.harm = show({left:px((harmPos ? harmPos[0] : 0) - 60), top:px((harmPos ? harmPos[1] : 0) + 7), width:'120px', 'font-size':'13px'}, harmPos ? harmA : 0);
+
+    /* ---- the text of scene 1: one sentence to a line. The line being read sits at the middle of the window, level with
+       the drawing; the lines before it move up and dim. At four points the text before is cleared altogether. ---- */
+    const R3 = ez(win(P.t3, 0, 0.7)), rv = [ez(win(P.t1, 0, 0.7)), ez(win(P.t2, 0, 0.7)), R3, R3];
+    for(let i = 4; i <= 14; i++) rv.push(ez(win(P['t' + i], 0, 0.7)));
+    const grp = [0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4], nextOf = [1, -1, 4, 4, -1, 6, -1, 8, 9, -1, 11, 12, 13, 14, -1];
+    const gOut = [R3, rv[5], rv[7], ez(win(P.a12, 0, 0.6)), 0], ln = {}, L = st.ln;
+    const ctr = k => { const e = L[k === 2 ? 3 : k]; return e ? (e[0] + e[1]) / 2 : 0; };
+    let off = ctr(0);
+    for(let k = 0; k < 15; k++){
+      const a = rv[k] * lerp(1, 0.4, nextOf[k] < 0 ? 0 : rv[nextOf[k]]) * (1 - gOut[grp[k]]) * (phone && k < 13 ? 1 - rv[k + 2] : 1);
+      ln['l' + k] = a > 0.005 ? 'opacity:' + a.toFixed(2) : 'opacity:0;visibility:hidden';
+      off = lerp(off, ctr(k), rv[k]);
+    }
+    const p1Out = ez(win(P.a2, 0, 0.3));
+
+    /* ================= scene 2: the four boxes ================= */
+    const q = st.q, Q = {};
+    Object.keys(this.T2).forEach(k => { Q[k] = cl((q - this.T2[k][0]) / this.T2[k][1]); });
+    const sv = {};
+    const reveal = a => a > 0.005 ? 'opacity:' + a.toFixed(2) : 'opacity:0;visibility:hidden';
+    ['c1', 'c2', 'c3', 'c4'].forEach(k => { sv[k] = reveal(ez(win(Q[k], 0, 0.3))); });
+    /* step x: the text above the boxes leaves and the boxes move up into its place */
+    const mx = ez(Q.x), short = V < 780;
+    const aW = Math.min(860, W - 80), aTop = short ? 58 : 68, nameH = phone ? 34 : 40, listRoom = short ? 128 : 146;
+    const yBoxTop = phone ? 58 + nameH : aTop + nameH + 6 + (st.aH + 18) * (1 - mx);
+    const helpW = phone ? W - 40 : Math.max(300, Math.min(760, W - 160)), helpH = short ? 170 : 190;
+    const BH = 64, c45 = Math.SQRT1_2;
+    /* desktop: four boxes in a row. phone: two rows of two, the second row nearer and so lower. */
+    const zoomB = phone ? Math.min(0.72, (W - 70) / 418) : Math.max(0.5, Math.min((W - 160) / 934, 1.15, (V - (aTop + nameH + 6) - listRoom - 40 - helpH - 24) / 127, (V - (aTop + nameH + 6 + st.aH + 18) - 30) / 150));
+    const rowE = 150 / (0.5657 * zoomB), centres = phone ? [[-92 - rowE / 2, 92 - rowE / 2], [92 - rowE / 2, -92 - rowE / 2], [-92 + rowE / 2, 92 + rowE / 2], [92 + rowE / 2, -92 + rowE / 2]]
+      : [[-270, 300], [-90, 120], [90, -60], [270, -240]];
+    const cxB = phone ? W / 2 : W / 2 + 21.2 * zoomB;
+    const cyB = phone ? yBoxTop - ((centres[0][0] + centres[0][1] - 120) * c45 * 0.4 - BH * 0.9165) * zoomB : yBoxTop + 84.1 * zoomB;
+    const pj0 = (x, y, z) => [cxB + (x - y) * c45 * zoomB, cyB + ((x + y) * c45 * 0.4 - z * 0.9165) * zoomB];
+    let pj = pj0;
+    /* The last step: every box shows its links, so that all the places to go are in view without a click.
+       desktop: the four lists open under their boxes. phone: the boxes get smaller and move into a column at the left,
+       one row each, with the name and the links of each box beside it. */
+    const allIn = ez(win(Q.f, phone ? 0.5 : 0.1, phone ? 0.85 : 0.45)), mv = phone ? ez(win(Q.f, 0.12, 0.62)) : 0;
+    const finZ = 0.4, finTop = V >= 620 ? 60 : 54, finY = (st.finKey || '').split(',').map(Number);
+    const endOut = ez(win(Q.f, 0, 0.3)), stay0 = ez(win(Q.h1, 0.1, 0.35)), stay3 = ez(win(Q.h3, 0.2, 0.45));
+    const hi1 = ez(win(Q.h1, 0.1, 0.35)) * (1 - ez(win(Q.h2, 0, 0.15)));
+    const hi2 = ez(win(Q.h2, 0.2, 0.45)) * (1 - ez(win(Q.h3, 0, 0.15)));
+    const hi3 = ez(win(Q.h3, 0.2, 0.45)) * (1 - endOut);
+    const hiAll = ez(win(Q.h1, 0.1, 0.35)) * (1 - endOut), anyHi = Math.max(hi1, hi2, hi3, hiAll);
+    const boxes = [['explore', 0, hiAll, ez(win(Q.c1, 0.2, 0.9))], ['wargame', 1, hi2, ez(win(Q.c2, 0.2, 0.9))],
+      ['data', 2, hi1, ez(win(Q.c3, 0.2, 0.9))], ['blog', 3, hi3, ez(win(Q.c4, 0.2, 0.9))]];
+    const ids = {explore:1, wargame:1, data:1, blog:1}, openAny = phone && ids[st.open] ? 1 : 0;
+    const bx = {}, boxG = [];
+    let vertexY = yBoxTop + 150 * zoomB;
+    boxes.forEach((bb, i) => {
+      const id = bb[0], ce = centres[bb[1]], rise = bb[3], fill = win(rise, 0.45, 1), ready = rise >= 0.98;
+      const x0 = ce[0] - 60, x1 = ce[0] + 60, y0 = ce[1] - 60, y1 = ce[1] + 60, h = BH * rise;
+      if(phone && mv > 0){
+        const g0 = pj0(ce[0], ce[1], 0), zb = zoomB + (finZ - zoomB) * mv;
+        const gx = g0[0] + (20 + 84.85 * finZ - g0[0]) * mv, gy = g0[1] + (finTop + (finY[i] || 0) + 2 + 92.6 * finZ - g0[1]) * mv;
+        pj = (x, y, z) => [gx + ((x - ce[0]) - (y - ce[1])) * c45 * zb, gy + (((x - ce[0]) + (y - ce[1])) * c45 * 0.4 - z * 0.9165) * zb];
+      }
+      const hover = st.open === id && ready && mv < 0.5 ? 1 : 0, hl = Math.max(bb[2], hover), dim = anyHi * (1 - bb[2]) * (1 - hover);
+      const fo = (fill * (1 - 0.5 * dim)).toFixed(3), oa = (win(rise, 0, 0.12) * (1 - 0.35 * dim)).toFixed(3), paths = [];
+      if(rise > 0){
+        const top = [pj(x0, y0, h), pj(x1, y0, h), pj(x1, y1, h), pj(x0, y1, h)];
+        const front = [pj(x0, y1, h), pj(x1, y1, h), pj(x1, y1, 0), pj(x0, y1, 0)], side = [pj(x1, y1, h), pj(x1, y0, h), pj(x1, y0, 0), pj(x1, y1, 0)];
+        paths.push({d:poly([pj(x0, y0, 0), pj(x1, y0, 0), pj(x1, y1, 0), pj(x0, y1, 0)]), style:'fill:none;stroke:' + C.edge + ';stroke-width:.8;stroke-opacity:' + (0.5 * (1 - fill)).toFixed(2)});
+        paths.push({d:poly(front), style:'fill:' + tint(0.9) + ';fill-opacity:' + fo + ';stroke:' + C.edge + ';stroke-width:.8;stroke-opacity:' + oa});
+        paths.push({d:poly(side), style:'fill:' + tint(0.82) + ';fill-opacity:' + fo + ';stroke:' + C.edge + ';stroke-width:.8;stroke-opacity:' + oa});
+        paths.push({d:poly(top), style:'fill:' + C.plate + ';fill-opacity:' + fo + ';stroke:#7ec7d8;stroke-width:1.2;stroke-opacity:' + oa});
+        paths.push({d:seg(top[3], top[2]) + seg(top[2], top[1]), style:'fill:none;stroke:#9fd6e2;stroke-width:1;stroke-opacity:' + fo});
+        /* a box with nothing behind it yet: a faint diagonal hatch while the pointer is on it */
+        const hatchA = Math.max(hover, phone ? win(mv, 0.5, 1) : allIn);
+        if(hatchA > 0.02 && (id === 'wargame' || id === 'blog')) paths.push({d:poly(top) + poly(front) + poly(side), style:'fill:url(#fpHatch);fill-opacity:' + hatchA.toFixed(2)});
+      }
+      /* a lit box has a glow around it, in the blue-green of the page */
+      const glow = hl * fill;
+      boxG.push({paths, style:glow > 0.02 ? 'filter:drop-shadow(0 0 ' + (7 * glow).toFixed(1) + 'px rgba(2,128,144,' + (0.95 * glow).toFixed(2) + ')) drop-shadow(0 0 ' + (22 * glow).toFixed(1) + 'px rgba(2,160,180,' + (0.75 * glow).toFixed(2) + '))' : ''});
+      /* the part of the page that takes the pointer: the name and the box. The links hang from the lowest corner of the box. */
+      const xa = pj(x0, y1, 0)[0], xb = pj(x1, y0, 0)[0], yTop = pj(x0, y0, BH)[1], v = pj(x1, y1, 0);
+      { const v0 = pj0(x1, y1, 0)[1]; if(i === 0 || phone) vertexY = i === 0 ? v0 : Math.max(vertexY, v0); }
+      /* phone: a lit box shows the start of its line; its links come on a tap, in the place of the text under the boxes */
+      if(phone && hl * fill > 0.02) paths.push({d:seg(v, [v[0], v[1] + 16]), style:'fill:none;stroke:' + C.plate + ';stroke-width:1.2;stroke-opacity:' + (hl * fill).toFixed(2)});
+      const flip = v[0] + (id === 'blog' ? 120 : 290) > SW, lw = Math.max(120, Math.min(276, 254.6 * zoomB - 16, flip ? v[0] - 10 : SW - v[0] - 10));
+      const listA = ready ? (phone ? hover : Math.max(bb[2], hover, allIn, i === 0 ? stay0 : 0, i === 3 ? stay3 : 0)) : 0;
+      bx[id] = Object.assign(this.boxHandlers(id, id === 'explore'), {
+        wrap:S({visibility:ready && mv < 0.5 ? 'visible' : 'hidden'}),
+        hit:S(Object.assign({left:px(xa), top:px(yTop - nameH - 6), width:px(xb - xa), height:px(v[1] - yTop + nameH + 6), opacity:(win(rise, 0.7, 1) * (1 - win(mv, 0, 0.4))).toFixed(2)}, phone ? {'font-size':'11.5px'} : {})),
+        name:S({height:nameH + 'px', width:px(phone ? 172 : Math.max(xb - xa, 150))}),
+        list:phone ? S({left:'20px', top:'@@LISTTOP@@', width:(W - 40) + 'px', 'font-size':'14px', 'border-left':'1px solid ' + C.plate, padding:'0 0 0 14px', opacity:listA.toFixed(2), visibility:listA > 0.02 ? 'visible' : 'hidden'})
+          : S(Object.assign({top:px(v[1]), width:px(lw), opacity:listA.toFixed(2), visibility:listA > 0.02 ? 'visible' : 'hidden'},
+          flip ? {left:px(v[0] - lw), 'border-right':'1px solid ' + C.plate, padding:'10px 12px 2px 0', 'text-align':'right'} : {left:px(v[0]), 'border-left':'1px solid ' + C.plate, padding:'10px 0 2px 12px'})),
+        tick:phone ? 'display:none' : (flip ? 'right:-12px' : 'left:-12px')
+      });
+    });
+    /* the three "This could help" paragraphs share one place: each comes in from the right and leaves to the left */
+    const lowerTop = phone ? vertexY + 30 : vertexY + listRoom, helpX = (W - helpW) / 2;
+    Object.keys(bx).forEach(k => { bx[k].list = bx[k].list.replace('@@LISTTOP@@', px(lowerTop)); });
+    const in1 = ez(win(Q.h1, 0, 0.25)), out1 = ez(win(Q.h2, 0, 0.2)), in2 = ez(win(Q.h2, 0.15, 0.4)), out2 = ez(win(Q.h3, 0, 0.2)), in3 = ez(win(Q.h3, 0.15, 0.4)), out3 = ez(win(Q.f, 0, 0.25)), inF = ez(win(Q.f, 0.22, 0.5));
+    const help = (i, o, top) => { const a = i * (1 - o) * (1 - openAny);
+      return S({left:px(helpX), top:px(top === undefined ? lowerTop + (phone ? 34 : 40) : top), width:px(helpW), 'font-size':phone ? '14px' : (short ? '14.5px' : '15px'), 'line-height':'1.6', opacity:a.toFixed(2), visibility:a > 0.01 ? 'visible' : 'hidden',
+        transform:still ? 'none' : 'translateX(' + ((1 - i) * 60 - o * 80).toFixed(1) + 'px)'}); };
+
+    /* phone: the four sentences that fill the boxes sit under the boxes, one at a time */
+    const ci = k => ez(win(Q[k], 0.12, 0.4)), co = k => ez(win(Q[k], 0, 0.2));
+    const cp = phone ? {c1:help(ez(win(Q.c1, 0, 0.3)), co('c2'), lowerTop), c2:help(ci('c2'), co('c3'), lowerTop), c3:help(ci('c3'), co('c4'), lowerTop), c4:help(ci('c4'), ez(win(Q.x, 0, 0.6)), lowerTop)} : {};
+
+    /* ---- the ribbon ---- */
+    const rb = {};
+    ['explore', 'wargame', 'data', 'blog', 'team'].forEach(k => {
+      const open = st.done && st.open === 'r-' + k;
+      rb[k] = Object.assign(this.boxHandlers('r-' + k, k === 'explore'), {list:S({opacity:open ? 1 : 0, visibility:open ? 'visible' : 'hidden'})});
+    });
+    { const open = st.done && st.open === 'r-menu';
+      rb.menu = {toggle:() => this.setState({open:this.state.open === 'r-menu' ? null : 'r-menu'}), list:S({width:W + 'px', 'max-height':(V - 44) + 'px', visibility:open ? 'visible' : 'hidden'})}; }
+
+    return {
+      scRef:this.scRef, rootRef:this.rootRef, t1Ref:this.t1Ref, t2Ref:this.t2Ref, p1Ref:this.p1Ref, reelRef:this.reelRef, aRef:this.aRef,
+      scStyle:'height:' + V + 'px' + (phone ? ';touch-action:none' : ''), sceneStyle:'height:' + V + 'px', SW, SH, shapes, overs, isoShapes, lab, ln, sv, bx, boxG, rb,
+      stackG:'opacity:' + stackA.toFixed(3), oversG:'opacity:' + labA.toFixed(3),
+      t1Style:'height:' + Math.round(V + this.TOT1 * U) + 'px', t2Style:this.props.embedded === true ? 'display:none' : 'height:' + Math.round(V + this.TOT2 * U) + 'px',
+      p1Style:show(Object.assign({left:px((W - p1W) / 2), top:px(p1Top - (still ? 0 : 30 * p1Out)), width:px(p1W)}, phone ? {'font-size':'15px', 'line-height':'1.55'} : {}), 1 - p1Out),
+      colStyle:S(phone ? {left:'20px', top:textTop + 'px', width:(W - 40) + 'px', height:textH + 'px', 'font-size':'14px', 'line-height':'1.6', visibility:P.t1 > 0 ? 'visible' : 'hidden'}
+        : {left:colX + 'px', width:colW + 'px', height:V + 'px', visibility:P.t1 > 0 ? 'visible' : 'hidden'}),
+      reelStyle:'transform:translateY(' + ((phone ? textH * 0.4 : pivY) - off).toFixed(1) + 'px)',
+      cueStyle:S(Object.assign({top:(V - 28) + 'px', opacity:(p1Out * (1 - inF)).toFixed(2)}, phone ? {left:px(W / 2 - 40), width:'80px', 'text-align':'center'} : {right:'20px'})),
+      liP:phone ? 'padding:11px 0;margin:0' : '', cp,
+      aStyle:S({left:px((W - aW) / 2), top:px(aTop - (still ? 0 : 30 * mx)), width:px(aW), opacity:(1 - mx).toFixed(2), visibility:mx < 0.99 ? 'visible' : 'hidden'}),
+      helpLead:S(Object.assign({left:px(helpX), top:px(lowerTop), opacity:(in1 * (1 - out3) * (1 - openAny)).toFixed(2), visibility:in1 * (1 - out3) * (1 - openAny) > 0.01 ? 'visible' : 'hidden'}, phone ? {'font-size':'17px'} : {})),
+      help1:help(in1, out1), help2:help(in2, out2), help3:help(in3, out3),
+      finRef:this.finRef,
+      fin:{wrap:S({left:'20px', top:finTop + 'px', width:(W - 40) + 'px', opacity:allIn.toFixed(2), visibility:allIn > 0.01 ? 'visible' : 'hidden'}),
+        spacer:S({width:px(169.7 * finZ + 14), height:px(126.5 * finZ + 4)}), gap:'margin-bottom:' + (V >= 680 ? 16 : (V >= 620 ? 10 : 5)) + 'px', ul:'font-size:' + (V >= 620 ? 13.5 : 12.5) + 'px',
+        li:'padding:' + (V >= 680 ? 8 : (V >= 620 ? 5 : 2)) + 'px 0'},
+      ribBar:S({opacity:st.done ? 1 : 0}), ribNav:S({opacity:st.done ? 1 : 0, visibility:st.done ? 'visible' : 'hidden'})
+    };
+  }
+}
+</script>
+</body>
+</html>
