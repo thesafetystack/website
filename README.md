@@ -11,8 +11,12 @@ This repository holds the website of The Safety Stack as plain files. Nothing is
 | `team.html` | The Team page. |
 | `Main.dc.html`, `Mobile.dc.html` | The scroll story for wide and for narrow windows. The front page loads one of them by name when its play button is pressed, so the names must stay as they are, including the capital letters. |
 | `stack.html` | The stack visualisation. |
+| `nav.js` | Shared navigation ribbon, light/dark theme tokens and toggle, and instant client-side page switching across the four pages. Pass `?style=classic` to preview the earlier cream/monospace palette. |
 | `summary.json`, `summary.js` | The data of the stack visualisation. Both hold the same content. The page reads `summary.json` when it is served from a web address and `summary.js` when it is opened from disk. |
-| `support.js` | The script every page loads to draw itself. It fetches React and Babel from unpkg.com. |
+| `support.js` | The Design Components runtime used by the interactive pages. |
+| `vendor/` | Local copies of React 18.3.1 UMD (`react.production.min.js`, `react-dom.production.min.js`) so pages render with zero third-party runtime requests. |
+| `favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, `og-image.png` | Site icons (transparent adaptive SVG + PNG/ICO fallbacks) and 1200×630 Open Graph preview image. |
+| `404.html`, `robots.txt`, `sitemap.xml` | Custom error page and crawler metadata. |
 | `.nojekyll` | An empty file that tells GitHub Pages to serve the files unchanged. |
 | `tools/build_summary.py` | The script that builds `summary.json` and `summary.js` from one dataset release. |
 | `tools/SUMMARY-FORMAT.md` | The description of the summary file. |

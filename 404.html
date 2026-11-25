@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="darkreader-lock">
+<title>Page not found — The Safety Stack</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c1317" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+<link rel="icon" href="/favicon.ico?v=2" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+<style>
+  :root{color-scheme:light dark;--bg:#f6f4ef;--heading:#0f4356;--ink:#1f292e;--muted:#4b6872;--link:#006c7a;--link-hover:#0b3b4c;--border:#0f435621;--grid-stroke:#114b5f;--grid-opacity:0.11}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1317;--heading:#eff3f5;--ink:#dce4e8;--muted:#99b2bc;--link:#5fd4e6;--link-hover:#9eeaf6;--border:#8ce2ef1f;--grid-stroke:#6abcd0;--grid-opacity:0.08}}
+  :root[data-theme="dark"]{color-scheme:dark;--bg:#0c1317;--heading:#eff3f5;--ink:#dce4e8;--muted:#99b2bc;--link:#5fd4e6;--link-hover:#9eeaf6;--border:#8ce2ef1f;--grid-stroke:#6abcd0;--grid-opacity:0.08}
+  :root[data-theme="light"]{color-scheme:light}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:var(--link);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+  a:hover{color:var(--link-hover)}
+  .wrap{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:48px 24px}
+  .bg-grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  main{position:relative;max-width:520px;width:100%}
+  .code{margin:0 0 10px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
+  h1{margin:0 0 14px;font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-0.02em;color:var(--heading)}
+  p{margin:0 0 22px;font-size:16px;line-height:1.65}
+  nav{display:flex;flex-wrap:wrap;gap:10px 22px;padding-top:18px;border-top:1px solid var(--border);font-size:14.5px;font-weight:600}
+</style>
+<script>try{var t=localStorage.getItem('tss-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body>
+<div class="wrap">
+  <svg aria-hidden="true" class="bg-grid">
+    <defs>
+      <pattern id="gA" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(21.8)">
+        <line x1="0" y1="0" x2="44" y2="0" style="stroke:var(--grid-stroke);stroke-width:0.7;stroke-opacity:var(--grid-opacity)"></line>
+      </pattern>
+      <pattern id="gB" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(-21.8)">
+        <line x1="0" y1="0" x2="44" y2="0" style="stroke:var(--grid-stroke);stroke-width:0.7;stroke-opacity:var(--grid-opacity)"></line>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#gA)"></rect>
+    <rect width="100%" height="100%" fill="url(#gB)"></rect>
+  </svg>
+  <main>
+    <p class="code">404 · Page not found</p>
+    <h1>Nothing at this layer.</h1>
+    <p>The page you requested doesn’t exist on The Safety Stack.</p>
+    <nav aria-label="Site">
+      <a href="/">Home</a>
+      <a href="/why.html">Why Stack?</a>
+      <a href="/stack.html">Explore the stack</a>
+      <a href="/team.html">Team</a>
+    </nav>
+  </main>
+</div>
+</body>
+</html>

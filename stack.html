@@ -1,80 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="darkreader-lock">
+<title>Explore the Stack — The Safety Stack</title>
+<meta name="description" content="Interactive map of frontier AI safety techniques across Interventions, Monitoring, and Assessments, by lab and public evidence level.">
+<link rel="canonical" href="https://thesafetystack.ai/stack.html">
+<meta property="og:site_name" content="The Safety Stack">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Explore the Stack — The Safety Stack">
+<meta property="og:description" content="Interactive map of frontier AI safety techniques across Interventions, Monitoring, and Assessments, by lab and public evidence level.">
+<meta property="og:url" content="https://thesafetystack.ai/stack.html">
+<meta property="og:image" content="https://thesafetystack.ai/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Safety Stack — stacked isometric layers representing AI safety techniques">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Explore the Stack — The Safety Stack">
+<meta name="twitter:description" content="Interactive map of frontier AI safety techniques across Interventions, Monitoring, and Assessments, by lab and public evidence level.">
+<meta name="twitter:image" content="https://thesafetystack.ai/og-image.png">
+<meta name="twitter:image:alt" content="The Safety Stack — stacked isometric layers representing AI safety techniques">
+<meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c1317" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg?v=2">
+<link rel="icon" href="./favicon.ico?v=2" sizes="32x32">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png?v=2">
+<style>:root{color-scheme:light dark}html,body{margin:0;background:#f6f4ef;color:#1f292e;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}@media (prefers-color-scheme:dark){html:not([data-theme="light"]),html:not([data-theme="light"]) body{background:#0c1317;color:#dce4e8}}html[data-theme="dark"],html[data-theme="dark"] body{background:#0c1317;color:#dce4e8}x-dc{display:none}</style>
+<script>try{var t=localStorage.getItem('tss-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<script src="./vendor/react.production.min.js"></script>
+<script src="./vendor/react-dom.production.min.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
+<script src="./nav.js"></script>
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   *{box-sizing:border-box}
-  body{margin:0;background:#feecd3;color:#333;font-family:'Merriweather Sans',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-  a{color:#028090;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
-  a:hover{color:#114b5f}
+  body{margin:0;background:var(--bg,#feecd3);color:var(--ink,#333);font-family:var(--font-ui,'Merriweather Sans',Helvetica,Arial,sans-serif);-webkit-font-smoothing:antialiased}
+  a{color:var(--link,#028090);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+  a:hover{color:var(--link-hover,#114b5f)}
   summary{cursor:pointer;list-style:none}
   summary::-webkit-details-marker{display:none}
-  select,button,input{font-family:inherit;color:#333}
-  ::selection{background:#02809033}
+  select,button,input{font-family:inherit;color:var(--ink,#333)}
+  ::selection{background:var(--selection,#02809033)}
 </style>
 </helmet>
 <template id="__bundler_thumbnail">
   <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="120" fill="#feecd3"></rect><polygon points="24,52 60,34 96,52 60,70" fill="#114b5f"></polygon><polygon points="24,68 60,50 96,68 60,86" fill="#114b5f" opacity="0.55"></polygon><line x1="60" y1="20" x2="60" y2="96" stroke="#da532c" stroke-width="3"></line></svg>
 </template>
-<div style="background:#feecd3;min-height:100vh;font-family:'Merriweather Sans',Helvetica,Arial,sans-serif;color:#333">
+<div style="background:var(--bg,#feecd3);min-height:100vh;padding-top:44px;font-family:var(--font-ui,'Merriweather Sans',Helvetica,Arial,sans-serif);color:var(--ink,#333)">
 
-  <header style="max-width:1080px;margin:0 auto;padding:56px 28px 26px">
-    <p style="margin:0 0 22px"><a href="index.html" style="font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:13px;line-height:1.3;font-weight:500;color:#114b5f;text-decoration:none">thesafetystack.ai</a></p>
-    <h1 style="margin:0 0 14px;font-size:36px;line-height:1.15;font-weight:800;letter-spacing:-0.01em;color:#114b5f;text-wrap:pretty">The safety stack, as far as anyone outside can see it.</h1>
-    <p style="margin:0;font-size:19px;line-height:1.5;max-width:860px;text-wrap:pretty">{{ intro }}</p>
+  <header style="max-width:1440px;margin:0 auto;padding:28px 20px 18px">
+    <h1 style="margin:0 0 10px;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-0.01em;color:var(--heading,#114b5f);text-wrap:pretty">The safety stack</h1>
+    <p style="margin:0;font-size:17px;line-height:1.5;max-width:820px;text-wrap:pretty">{{ intro }}</p>
   </header>
 
   <div ref="{{ wrapRef }}" style="position:relative">
-    <div style="height:100vh;display:flex;flex-direction:column;overflow:hidden;background:#feecd3">
+    <div style="height:max(640px,calc(100vh - 44px));display:flex;flex-direction:column;overflow:hidden;background:var(--bg,#feecd3)">
 
-      <div ref="{{ barRef }}" style="flex:none;position:relative;z-index:6;padding:8px 18px 7px;border-top:1px solid #114b5f33;border-bottom:1px solid #114b5f33;background:#fff8ec">
-        <div style="display:flex;flex-wrap:wrap;gap:6px 26px;align-items:flex-start">
+      <div ref="{{ barRef }}" style="flex:none;position:relative;z-index:6;width:min(1440px,calc(100% - 36px));margin:0 auto;padding:9px 18px 8px;border:1px solid var(--border,#114b5f33);border-radius:var(--radius-md,2px);background:var(--surface,#fff8ec)">
+        <div style="display:flex;flex-wrap:wrap;gap:6px 20px;align-items:flex-start">
           <div style="flex:0 1 auto;min-width:0">
-            <label style="display:block;font-size:11px;font-weight:700;color:#114b5f;margin-bottom:3px">Labs <span style="font-weight:400;color:#5c7f88;font-family:'IBM Plex Mono',monospace;font-size:10px">{{ labsNote }}</span></label>
+            <label style="display:block;font-size:11px;font-weight:700;color:var(--heading,#114b5f);margin-bottom:3px">Labs <span style="font-weight:400;color:var(--muted,#5c7f88);font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:10px">{{ labsNote }}</span></label>
             <div style="display:flex;flex-wrap:wrap;gap:0 9px;min-height:29px;align-items:center">
               <sc-for list="{{ labToggles }}" as="l" hint-placeholder-count="8">
                 <label style="{{ l.style }}">
-                  <input type="checkbox" checked="{{ l.checked }}" onChange="{{ l.onChange }}" style="margin:0;accent-color:#028090">
+                  <input type="checkbox" checked="{{ l.checked }}" onChange="{{ l.onChange }}" style="margin:0;accent-color:var(--link,#028090)">
                   <span>{{ l.name }}</span>
                 </label>
               </sc-for>
             </div>
           </div>
-          <div style="flex:0 1 300px;min-width:230px">
-            <label style="display:block;font-size:11px;font-weight:700;color:#114b5f;margin-bottom:3px">Evidence of use <span style="font-weight:400;color:#5c7f88;font-family:'IBM Plex Mono',monospace;font-size:10px">{{ stopHint }}</span></label>
+          <div style="flex:0 1 250px;min-width:205px">
+            <label style="display:block;font-size:11px;font-weight:700;color:var(--heading,#114b5f);margin-bottom:3px">Evidence of use <span style="font-weight:400;color:var(--muted,#5c7f88);font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:10px">{{ stopHint }}</span></label>
             <input type="range" min="0" max="2" step="1" value="{{ stop }}" disabled="{{ stopDisabled }}" onChange="{{ onStop }}" onInput="{{ onStop }}" aria-label="Evidence of use" style="{{ stopSliderStyle }}">
-            <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10px;line-height:1.2">
+            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:10px;line-height:1.2">
               <sc-for list="{{ stopLabels }}" as="s" hint-placeholder-count="3"><span style="{{ s.style }}">{{ s.t }}</span></sc-for>
             </div>
           </div>
-          <div ref="{{ searchRef }}" style="flex:0 1 240px;min-width:180px;position:relative">
-            <label style="display:block;font-size:11px;font-weight:700;color:#114b5f;margin-bottom:3px">Find a technique</label>
-            <input type="search" value="{{ search }}" onChange="{{ onSearch }}" onKeyDown="{{ onSearchKey }}" placeholder="type part of a name" aria-label="Find a technique" style="width:100%;font-size:12.5px;padding:5px 8px;border:1px solid #114b5f66;background:#fff;border-radius:2px">
+          <div ref="{{ searchRef }}" style="flex:0 1 210px;min-width:165px;position:relative">
+            <label style="display:block;font-size:11px;font-weight:700;color:var(--heading,#114b5f);margin-bottom:3px">Find a technique</label>
+            <input type="search" value="{{ search }}" onChange="{{ onSearch }}" onKeyDown="{{ onSearchKey }}" placeholder="Search by name…" aria-label="Find a technique" style="width:100%;font-size:12.5px;padding:5px 8px;border:1px solid var(--border-strong,#114b5f66);background:var(--surface-input,#fff);color:var(--ink,#333);border-radius:var(--radius-sm,2px)">
             <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
-              <div style="position:absolute;left:0;top:100%;width:min(430px,88vw);margin-top:3px;background:#fff8ec;border:1px solid #114b5f;box-shadow:0 10px 24px #114b5f33;max-height:310px;overflow:auto;z-index:9">
+              <div style="position:absolute;left:0;top:100%;width:min(430px,88vw);margin-top:3px;background:var(--surface,#fff8ec);border:1px solid var(--border-strong,#114b5f);border-radius:var(--radius-md,2px);box-shadow:var(--shadow,0 10px 24px #114b5f33);max-height:310px;overflow:auto;z-index:9">
                 <sc-for list="{{ searchResults }}" as="r" hint-placeholder-count="0">
-                  <div style="{{ r.style }}" onClick="{{ r.onClick }}" onKeyDown="{{ r.onKey }}" tabindex="0" role="button">{{ r.name }} <span style="font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:10.5px;color:#5c7f88">{{ r.layer }}</span></div>
+                  <div style="{{ r.style }}" onClick="{{ r.onClick }}" onKeyDown="{{ r.onKey }}" tabindex="0" role="button">{{ r.name }} <span style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-weight:400;font-size:10.5px;color:var(--muted,#5c7f88)">{{ r.layer }}</span></div>
                 </sc-for>
-                <div style="font-size:11px;color:#5c7f88;padding:6px 9px">{{ searchNote }}</div>
+                <div style="font-size:11px;color:var(--muted,#5c7f88);padding:6px 9px">{{ searchNote }}</div>
+              </div>
+            </sc-if>
+          </div>
+          <div ref="{{ helpRef }}" style="margin-left:auto;align-self:flex-end;position:relative">
+            <button type="button" onClick="{{ onHelpToggle }}" aria-expanded="{{ helpOpen }}" style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;color:var(--heading,#114b5f);background:var(--surface-2,#feecd3);border:1px solid var(--border-strong,#114b5f55);border-radius:var(--radius-sm,2px);padding:5px 9px;cursor:pointer;white-space:nowrap">
+              <span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;border:1px solid var(--heading,#114b5f);font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:10px;line-height:1">?</span>
+              <span>How to use</span>
+            </button>
+            <sc-if value="{{ helpOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;right:0;top:calc(100% + 5px);width:min(360px,90vw);background:var(--surface,#fff8ec);border:1px solid var(--border-strong,#114b5f);border-radius:var(--radius-md,2px);box-shadow:var(--shadow,0 10px 24px #114b5f33);padding:12px 14px;z-index:11;font-size:12px;line-height:1.5;color:var(--ink,#333)">
+                <div style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted,#5c7f88);margin-bottom:8px">How to use</div>
+                <ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px">
+                  <li><strong style="color:var(--heading,#114b5f)">Spread slices</strong> — Move your cursor up and down a stack to fan out nearby techniques.</li>
+                  <li><strong style="color:var(--heading,#114b5f)">Inspect a technique</strong> — Hover any slice to preview; click to open its evidence dossier.</li>
+                  <li><strong style="color:var(--heading,#114b5f)">Open a layer</strong> — Click a layer name on the left to list all its techniques.</li>
+                  <li><strong style="color:var(--heading,#114b5f)">Compare labs</strong> — Tick up to 4 labs (or Full catalogue) side by side. <span style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11px;color:var(--muted,#5c7f88)">Esc</span> or clicking outside closes open views.</li>
+                </ul>
               </div>
             </sc-if>
           </div>
         </div>
-        <div style="font-size:11.5px;line-height:1.45;color:#5c7f88;margin-top:6px">Tick a lab to draw its stack. Move the cursor up and down a stack to spread the slices under it. Hover a slice for one technique and click it for its dossier. Click the name of a layer to open the layer. Esc, or a click outside, closes.</div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px 16px;align-items:center;margin-top:7px;padding-top:6px;border-top:1px solid #114b5f1f">
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:#5c7f88">Key</span>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 16px;align-items:center;margin-top:7px;padding-top:6px;border-top:1px solid var(--border,#114b5f1f)">
+          <span style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted,#5c7f88)">Key</span>
           <sc-for list="{{ keyItems }}" as="m" hint-placeholder-count="7">
             <div style="display:flex;align-items:center;gap:6px">
               <svg width="34" height="16" style="flex:none;overflow:visible"><polygon points="2,13 11,2 32,2 23,13" style="{{ m.style }}"></polygon><ellipse cx="17" cy="7.5" rx="5" ry="2.2" style="{{ m.hole }}"></ellipse></svg>
-              <div style="font-size:11.5px;line-height:1.3;color:#333">{{ m.text }}</div>
+              <div style="font-size:11.5px;line-height:1.3;color:var(--ink,#333)">{{ m.text }}</div>
             </div>
           </sc-for>
         </div>
@@ -84,10 +126,10 @@
         <svg viewBox="{{ viewBox }}" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;display:block" onMouseMove="{{ onLens }}" onMouseLeave="{{ onLensOut }}">
           <defs>
             <pattern id="isoA" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(21.8)">
-              <line x1="0" y1="0" x2="44" y2="0" style="stroke:#114b5f;stroke-width:0.7;stroke-opacity:0.09"></line>
+              <line x1="0" y1="0" x2="44" y2="0" style="{{ isoGridStyle }}"></line>
             </pattern>
             <pattern id="isoB" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(-21.8)">
-              <line x1="0" y1="0" x2="44" y2="0" style="stroke:#114b5f;stroke-width:0.7;stroke-opacity:0.09"></line>
+              <line x1="0" y1="0" x2="44" y2="0" style="{{ isoGridStyle }}"></line>
             </pattern>
             <sc-for list="{{ stripeDefs }}" as="p" hint-placeholder-count="0">
               <pattern id="{{ p.id }}" width="{{ p.w }}" height="{{ p.w }}" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
@@ -110,7 +152,7 @@
                 <polyline points="{{ k.pts }}" style="{{ k.style }}"></polyline>
                 <line x1="{{ k.x }}" y1="{{ k.my }}" x2="{{ k.lx }}" y2="{{ k.my }}" style="{{ k.leadStyle }}"></line>
                 <circle cx="{{ k.dx }}" cy="{{ k.my }}" r="9" style="{{ k.discStyle }}"></circle>
-                <foreignObject x="{{ k.nx }}" y="{{ k.ny }}" width="18" height="18" style="overflow:visible"><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:18px;text-align:center;color:#feecd3;font-weight:500">{{ k.n }}</div></foreignObject>
+                <foreignObject x="{{ k.nx }}" y="{{ k.ny }}" width="18" height="18" style="overflow:visible"><div style="{{ k.digitStyle }}">{{ k.n }}</div></foreignObject>
                 <sc-if value="{{ k.showLabel }}" hint-placeholder-val="{{ true }}">
                   <foreignObject x="16" y="{{ k.foY }}" width="{{ k.w }}" height="70" style="overflow:visible">
                     <div style="text-align:right"><span style="{{ k.labelStyle }}" onClick="{{ k.onClick }}" onKeyDown="{{ k.onKey }}" onMouseEnter="{{ k.onEnter }}" onMouseLeave="{{ k.onLeave }}" onFocus="{{ k.onEnter }}" onBlur="{{ k.onLeave }}" tabindex="0" role="button" aria-label="{{ k.aria }}"><span style="{{ k.infoStyle }}">i</span>{{ k.label }}</span></div>
@@ -145,22 +187,22 @@
 
         <sc-if value="{{ hoverShow }}" hint-placeholder-val="{{ false }}">
           <div style="{{ hoverBoxStyle }}">
-            <div style="font-size:15px;font-weight:800;color:#114b5f;line-height:1.25">{{ hoverTitle }}</div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5c7f88;margin-top:3px">{{ hoverSub }}</div>
+            <div style="font-size:15px;font-weight:800;color:var(--heading,#114b5f);line-height:1.25">{{ hoverTitle }}</div>
+            <div style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:10.5px;color:var(--muted,#5c7f88);margin-top:3px">{{ hoverSub }}</div>
             <sc-for list="{{ hoverSections }}" as="sec" hint-placeholder-count="2">
               <div>
-                <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:#5c7f88;margin-top:11px">{{ sec.title }}</div>
-                <div style="height:1px;background:#114b5f33;margin:4px 0 7px"></div>
+                <div style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted,#5c7f88);margin-top:11px">{{ sec.title }}</div>
+                <div style="height:1px;background:var(--border,#114b5f33);margin:4px 0 7px"></div>
                 <sc-for list="{{ sec.lines }}" as="l" hint-placeholder-count="1"><div style="{{ l.style }}">{{ l.t }}</div></sc-for>
                 <sc-for list="{{ sec.rows }}" as="r" hint-placeholder-count="0">
                   <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-                    <div style="flex:0 0 104px;font-size:12px;font-weight:700;color:#114b5f;line-height:1.2">{{ r.name }}</div>
+                    <div style="flex:0 0 104px;font-size:12px;font-weight:700;color:var(--heading,#114b5f);line-height:1.2">{{ r.name }}</div>
                     <svg width="32" height="15" style="flex:none;overflow:visible"><polygon points="2,13 10,2 30,2 22,13" style="{{ r.swatch }}"></polygon></svg>
-                    <div style="font-size:12px;line-height:1.3;color:#333">{{ r.text }}</div>
+                    <div style="font-size:12px;line-height:1.3;color:var(--ink,#333)">{{ r.text }}</div>
                   </div>
                 </sc-for>
                 <div style="display:flex;flex-wrap:wrap;gap:4px">
-                  <sc-for list="{{ sec.chips }}" as="c" hint-placeholder-count="0"><span style="font-size:11px;line-height:1.3;padding:2px 6px;border:1px solid #114b5f66;border-radius:2px;background:#fffdf7;color:#114b5f">{{ c.t }}</span></sc-for>
+                  <sc-for list="{{ sec.chips }}" as="c" hint-placeholder-count="0"><span style="font-size:11px;line-height:1.3;padding:2px 6px;border:1px solid var(--border-strong,#114b5f66);border-radius:var(--radius-sm,2px);background:var(--surface-2,#fffdf7);color:var(--heading,#114b5f)">{{ c.t }}</span></sc-for>
                 </div>
               </div>
             </sc-for>
@@ -171,32 +213,33 @@
     </div>
   </div>
 
-  <div style="max-width:1120px;margin:16px auto 34px;padding:0 22px">
-    <sc-for list="{{ keyNotes }}" as="n" hint-placeholder-count="1"><div style="font-size:11.5px;line-height:1.5;color:#5c7f88">{{ n.t }}</div></sc-for>
+  <div style="max-width:1440px;margin:16px auto 34px;padding:0 20px">
+    <sc-for list="{{ keyNotes }}" as="n" hint-placeholder-count="1"><div style="font-size:11.5px;line-height:1.5;color:var(--muted,#5c7f88)">{{ n.t }}</div></sc-for>
   </div>
+  <div style="max-width:1440px;margin:0 auto 40px;padding:0 20px"><footer class="site-footer" aria-label="Site footer"><div>The Safety Stack · Data &amp; taxonomies: <a href="https://github.com/thesafetystack/the-safety-stack/blob/main/LICENSE" target="_blank" rel="noopener">CC0 1.0</a> · Pipeline code: <a href="https://github.com/thesafetystack/the-safety-stack-pipeline/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a></div><div class="site-footer-links"><a href="https://github.com/thesafetystack" target="_blank" rel="noopener">GitHub</a><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Hugging Face</a><a href="https://github.com/thesafetystack/the-safety-stack/issues" target="_blank" rel="noopener">Corrections</a><a href="mailto:info@thesafetystack.ai">info@thesafetystack.ai</a><a href="team.html">Team</a></div></footer></div>
 
       <sc-if value="{{ dossierOpen }}" hint-placeholder-val="{{ false }}">
         <div ref="{{ drawerRef }}" style="{{ drawerStyle }}">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;border-bottom:1px solid #114b5f;padding-bottom:12px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;border-bottom:1px solid var(--border-strong,#114b5f);padding-bottom:12px">
             <div>
-              <h2 style="margin:0;font-size:21px;line-height:1.2;font-weight:800;color:#114b5f">{{ dName }}</h2>
-              <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5c7f88;margin-top:4px">{{ dKind }}</div>
-              <div style="font-size:11px;color:#5c7f88;margin-top:2px">{{ dAliases }}</div>
+              <h2 style="margin:0;font-size:21px;line-height:1.2;font-weight:800;color:var(--heading,#114b5f)">{{ dName }}</h2>
+              <div style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11px;color:var(--muted,#5c7f88);margin-top:4px">{{ dKind }}</div>
+              <div style="font-size:11px;color:var(--muted,#5c7f88);margin-top:2px">{{ dAliases }}</div>
             </div>
-            <button ref="{{ closeRef }}" onClick="{{ onClose }}" aria-label="Close dossier" style="flex:none;background:none;border:1px solid #028090;color:#028090;font-size:12px;padding:5px 9px;cursor:pointer;border-radius:2px">Close</button>
+            <button ref="{{ closeRef }}" onClick="{{ onClose }}" aria-label="Close dossier" style="flex:none;background:none;border:1px solid var(--link,#028090);color:var(--link,#028090);font-size:12px;padding:5px 9px;cursor:pointer;border-radius:var(--radius-sm,2px)">Close</button>
           </div>
 
           <div style="{{ hStyle }}">Definition</div>
           <p style="font-size:14px;line-height:1.55;margin:0 0 6px">{{ dDescription }}</p>
-          <div style="font-size:12px;color:#114b5f;font-style:italic">{{ dParent }}</div>
+          <div style="font-size:12px;color:var(--heading,#114b5f);font-style:italic">{{ dParent }}</div>
 
           <div style="{{ hStyle }}">Use by lab</div>
-          <div style="display:grid;grid-template-columns:112px repeat(4,1fr);gap:6px;align-items:end;font-family:'IBM Plex Mono',monospace;font-size:9.5px;line-height:1.25;color:#5c7f88;padding-bottom:5px">
-            <div></div><div>stated in the lab's cards</div><div>used in the lab's papers</div><div>suspected by others</div><div>disputed</div>
+          <div style="display:grid;grid-template-columns:minmax(74px,112px) repeat(4,minmax(0,1fr));gap:6px;align-items:end;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:9.5px;line-height:1.25;color:var(--muted,#5c7f88);padding-bottom:5px">
+            <div></div><div>stated in lab's cards</div><div>used in lab's papers</div><div>suspected</div><div>disputed</div>
           </div>
           <sc-for list="{{ dEvidence }}" as="e" hint-placeholder-count="7">
-            <div style="border-top:1px solid #114b5f22;padding:5px 0">
-              <div style="display:grid;grid-template-columns:112px repeat(4,1fr);gap:6px;align-items:center">
+            <div style="border-top:1px solid var(--border,#114b5f22);padding:5px 0">
+              <div style="display:grid;grid-template-columns:minmax(74px,112px) repeat(4,minmax(0,1fr));gap:6px;align-items:center">
                 <div style="{{ e.labStyle }}">{{ e.lab }}</div>
                 <sc-for list="{{ e.cells }}" as="c" hint-placeholder-count="4">
                   <div style="{{ c.style }}" onClick="{{ c.onClick }}" onKeyDown="{{ c.onKey }}" tabindex="{{ c.tab }}" role="{{ c.role }}" title="{{ c.title }}">
@@ -206,38 +249,38 @@
                 </sc-for>
               </div>
               <sc-if value="{{ e.open }}" hint-placeholder-val="{{ false }}">
-                <div style="margin:7px 0 4px;padding:9px 11px;background:#fff8ec;border:1px solid #114b5f44">
-                  <div style="font-size:12px;font-weight:700;color:#114b5f;line-height:1.35">{{ e.openTitle }}</div>
+                <div style="margin:7px 0 4px;padding:9px 11px;background:var(--surface,#fff8ec);border:1px solid var(--border-strong,#114b5f44);border-radius:var(--radius-sm,2px)">
+                  <div style="font-size:12px;font-weight:700;color:var(--heading,#114b5f);line-height:1.35">{{ e.openTitle }}</div>
                   <sc-for list="{{ e.docs }}" as="q" hint-placeholder-count="1">
-                    <div style="margin:8px 0 0;padding-left:9px;border-left:2px solid #02809066">
+                    <div style="margin:8px 0 0;padding-left:9px;border-left:2px solid var(--link,#028090)">
                       <div style="font-size:12px;line-height:1.4"><a href="{{ q.href }}" target="_blank" rel="noopener">{{ q.title }}</a></div>
-                      <div style="font-size:10.5px;font-family:'IBM Plex Mono',monospace;color:#5c7f88;line-height:1.4;margin-top:2px">{{ q.meta }}</div>
-                      <sc-for list="{{ q.sentences }}" as="s" hint-placeholder-count="1"><div style="font-size:12px;line-height:1.45;font-style:italic;margin-top:3px">{{ s.t }}</div></sc-for>
+                      <div style="font-size:10.5px;font-family:var(--font-mono,'IBM Plex Mono',monospace);color:var(--muted,#5c7f88);line-height:1.4;margin-top:2px">{{ q.meta }}</div>
+                      <sc-for list="{{ q.sentences }}" as="s" hint-placeholder-count="1"><div style="font-size:12.5px;line-height:1.48;font-style:italic;margin-top:3px;color:var(--ink,#333)">{{ s.t }}</div></sc-for>
                     </div>
                   </sc-for>
-                  <div style="font-size:11px;color:#5c7f88;margin-top:7px">{{ e.more }}</div>
+                  <div style="font-size:11px;color:var(--muted,#5c7f88);margin-top:7px">{{ e.more }}</div>
                 </div>
               </sc-if>
             </div>
           </sc-for>
-          <div style="font-size:11px;line-height:1.45;color:#5c7f88;margin-top:8px">{{ dEvidenceNote }}</div>
+          <div style="font-size:11px;line-height:1.45;color:var(--muted,#5c7f88);margin-top:8px">{{ dEvidenceNote }}</div>
 
           <div style="{{ hStyle }}">In the dataset</div>
           <div style="font-size:12.5px;line-height:1.45">{{ dDocsLine }}</div>
           <div style="{{ dYearsStyle }}">
-            <div style="display:flex;align-items:flex-end;gap:3px;height:58px;margin:10px 0 3px;border-bottom:1px solid #114b5f55">
+            <div style="display:flex;align-items:flex-end;gap:3px;height:58px;margin:10px 0 3px;border-bottom:1px solid var(--border-strong,#114b5f55)">
               <sc-for list="{{ dYears }}" as="y" hint-placeholder-count="0"><div title="{{ y.title }}" style="{{ y.style }}"></div></sc-for>
             </div>
-            <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5c7f88"><span>{{ dYearFirst }}</span><span>{{ dYearLast }}</span></div>
+            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:10.5px;color:var(--muted,#5c7f88)"><span>{{ dYearFirst }}</span><span>{{ dYearLast }}</span></div>
           </div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5c7f88;margin-top:3px">{{ dYearsNote }}</div>
+          <div style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:10.5px;color:var(--muted,#5c7f88);margin-top:3px">{{ dYearsNote }}</div>
 
           <div style="font-size:12.5px;line-height:1.45;margin-top:14px">{{ dModelsLine }}</div>
           <sc-for list="{{ dModelBars }}" as="m" hint-placeholder-count="0">
             <div style="display:grid;grid-template-columns:150px 1fr 48px;gap:8px;align-items:center;margin-top:4px">
               <div style="font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</div>
-              <div style="height:9px;background:#114b5f18"><div style="{{ m.bar }}"></div></div>
-              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5c7f88;text-align:right">{{ m.n }}</div>
+              <div style="height:9px;background:var(--bar-track,#114b5f18)"><div style="{{ m.bar }}"></div></div>
+              <div style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:10.5px;color:var(--muted,#5c7f88);text-align:right">{{ m.n }}</div>
             </div>
           </sc-for>
 
@@ -263,14 +306,31 @@ class Component extends DCLogic {
   K = {COS:0.9, PW:300, PD:120, OY:700, AVAIL:560, H:940, LEFT:330};
   C = {plate:'#114b5f', teal:'#028090', acc:'#da532c', cream:'#feecd3', ink:'#333'};
   boxRef = React.createRef(); wrapRef = React.createRef(); barRef = React.createRef();
-  closeRef = React.createRef(); drawerRef = React.createRef(); searchRef = React.createRef();
+  closeRef = React.createRef(); drawerRef = React.createRef(); searchRef = React.createRef(); helpRef = React.createRef();
   state = {ready:false, failed:false, stop:0, lens:null, side:'right', selected:null, expandT:0, hover:null, open:null, ev:null,
-           cat:false, search:'', narrow:false, stacks:[], boxW:1200, boxH:700};
+           cat:false, search:'', narrow:false, stacks:[], boxW:1200, boxH:700, helpOpen:false, theme:typeof window !== 'undefined' && window.__siteTheme ? window.__siteTheme.mode() : 'light'};
+
+  svgTheme(){
+    if(typeof window !== 'undefined' && window.__siteTheme) return window.__siteTheme.svg();
+    return {bg:'#feecd3', svgHeading:'#114b5f', svgMuted:'#5c7f88', link:'#028090',
+      plate:{top:'#114b5f', front:'#285c6b', right:'#3c6c77', stroke:'#7ec7d8', solidStroke:'#2f7f94', edge:'#9fd6e2'},
+      own:{top:'#91a29e', front:'#a4b0a8', right:'#b5bcb1', stroke:'#2f7f94', edge:'#4d747c'},
+      ghost:{fill:'#114b5f', topOpacity:0.42, frontOpacity:0.34, rightOpacity:0.30},
+      none:{stroke:'#114b5f', maxOpacity:0.90},
+      disputed:{stripeMixTarget:'#feecd3', stripeMixWeight:0.80, noneStripe:'#114b5f', noneStripeOpacity:0.60},
+      hole:{rimWall:'#07202b', rimMix:0.50, interior:'#feecd3'},
+      grid:{stroke:'#114b5f', opacityStack:0.09, opacityPage:0.13},
+      threat:{line:'#da532c', label:'#a83a1b'},
+      brackets:{roleTint:['#3a7f8c', '#337685', '#2d6d7e'], flatBracket:'#5c7f88', discDigitInk:'#feecd3', darkMatterLabel:'#7d6a3a'},
+      wire:{boxStroke:'#114b5f', trayFill:'#114b5f', dmFill:'#114b5f', dmStroke:'#114b5f'}};
+  }
+  onThemeChange = () => { this.setState({theme:window.__siteTheme ? window.__siteTheme.mode() : 'light'}); };
 
   /* The one place the page gets its data. It asks for summary.json beside the page. When the page is opened
      from disk, where a browser refuses that request, it loads summary.js, which holds the same content.
      To take the summary from somewhere else, change this function and nothing else. */
   loadSummary(){
+    if(window.STACK_SUMMARY) return Promise.resolve(window.STACK_SUMMARY);
     const fromScript = () => new Promise((resolve, reject) => {
       if(window.STACK_SUMMARY){ resolve(window.STACK_SUMMARY); return; }
       const s = document.createElement('script'); s.src = './summary.js';
@@ -279,13 +339,14 @@ class Component extends DCLogic {
       document.head.appendChild(s);
     });
     if(location.protocol === 'file:') return fromScript();
-    return fetch('./summary.json').then(r => { if(!r.ok) throw new Error('summary.json: ' + r.status); return r.json(); }).catch(fromScript);
+    if(window.__stackSummaryPromise) return window.__stackSummaryPromise.then(d => d || fromScript()).catch(fromScript);
+    return fetch('./summary.json').then(r => { if(!r.ok) throw new Error('summary.json: ' + r.status); return r.json(); }).then(d => { window.STACK_SUMMARY = d; return d; }).catch(fromScript);
   }
 
   componentDidMount(){
     this.reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     this.onResize();
-    this.loadSummary().then(d => {
+    const onData = (d) => {
       this.prepare(d);
       /* default view: Anthropic, OpenAI and Google DeepMind, unless the address says otherwise */
       const patch = Object.assign({ready:true}, this.hashPatch());
@@ -293,10 +354,13 @@ class Component extends DCLogic {
         patch.stacks = ['anthropic', 'openai', 'google'].filter(id => this.labOf[id]).slice(0, this.maxLabs()).map(id => ({lab:id, slide:1, mat:1, dir:1}));
       }
       this.setState(patch, () => { this.writeHash(); this.onResize(); });
-    }).catch(err => { console.error(err); this.setState({failed:true}); });
+    };
+    if(window.STACK_SUMMARY) onData(window.STACK_SUMMARY);
+    else this.loadSummary().then(onData).catch(err => { console.error(err); this.setState({failed:true}); });
     window.addEventListener('resize', this.onResize);
     window.addEventListener('keydown', this.onKeyDown);
     window.addEventListener('hashchange', this.readHash);
+    window.addEventListener('site-theme-change', this.onThemeChange);
     document.addEventListener('mousedown', this.onDocDown);
     setTimeout(this.onResize, 50);
   }
@@ -313,6 +377,7 @@ class Component extends DCLogic {
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('hashchange', this.readHash);
+    window.removeEventListener('site-theme-change', this.onThemeChange);
     document.removeEventListener('mousedown', this.onDocDown);
   }
 
@@ -321,10 +386,20 @@ class Component extends DCLogic {
     this.D = d; this.tech = {}; this.labOf = {}; this.keyText = {};
     d.techniques.forEach(t => { this.tech[t.id] = t; });
     d.labs.forEach(l => { this.labOf[l.id] = l; });
-    d.key.forEach(k => { this.keyText[k.id] = k.text; });
+    const legacyKey = {
+      cards: ["stated in the lab's cards"], own: ["used in the lab's papers"],
+      ghost: ['ghost matter: suspected by others'], argues_not: ['disputed: another document argues it is not used'],
+      dark: ["dark matter: in the lab's cards, not in the taxonomy", 'dark matter: in cards, outside taxonomy'], hole: ['holes are cosmetic']
+    };
+    const crispKey = {
+      cards: "stated in lab's cards", own: "used in lab's papers",
+      ghost: 'ghost matter: suspected', argues_not: 'disputed: argued not in use',
+      dark: 'dark matter: alluded to in cards, not in our catalogue', hole: 'illustrative holes: no layer is known to be flawless'
+    };
+    d.key.forEach(k => { this.keyText[k.id] = (legacyKey[k.id] && legacyKey[k.id].indexOf(k.text) >= 0) ? crispKey[k.id] : k.text; });
     this.blocks = d.layers.map((l, i) => ({role:l.id, idx:i, label:l.name, definition:l.definition || '', flat:false,
       slices:d.techniques.filter(t => t.kind === l.id).map((t, j) => ({slug:t.id, name:t.name, tech:t, holes:this.holesFor(t.id, j)}))}));
-    this.blocks.push({role:'off-taxonomy', idx:d.layers.length, label:'Not in the taxonomy', definition:'', flat:true, slices:[]});
+    this.blocks.push({role:'off-taxonomy', idx:d.layers.length, label:'Not in our catalogue', definition:'Techniques alluded to in a lab’s cards that are not yet in our catalogue.', flat:true, slices:[]});
     this.blocks.forEach(b => {
       b.n = b.slices.length; b.w = b.n + 6;
       /* the examples in a layer's info box: the techniques of the layer that most documents name */
@@ -371,15 +446,18 @@ class Component extends DCLogic {
     if(this.state.selected) this.lensTimer = setTimeout(apply, 90); else apply();
   };
   onLensOut = () => { clearTimeout(this.lensTimer); this.lensWant = null; if(this.state.lens !== null) this.setState({lens:null}); };
+  onHelpToggle = () => { this.setState({helpOpen:!this.state.helpOpen}); };
   onKeyDown = (e) => {
     if(e.key !== 'Escape') return;
-    if(this.state.search) this.setState({search:''});
+    if(this.state.helpOpen) this.setState({helpOpen:false});
+    else if(this.state.search) this.setState({search:''});
     else if(this.state.open) this.set({open:null, ev:null});
     else if(this.state.selected) this.selectBlock(null);
   };
   /* a press of the mouse outside the dossier closes it; outside the search box it closes the list of results */
   onDocDown = (e) => {
     const st = this.state;
+    if(st.helpOpen && this.helpRef.current && !this.helpRef.current.contains(e.target)) this.setState({helpOpen:false});
     if(st.search && this.searchRef.current && !this.searchRef.current.contains(e.target)) this.setState({search:''});
     if(st.open && this.drawerRef.current && !this.drawerRef.current.contains(e.target)){ this.closedAt = performance.now(); this.set({open:null, ev:null}); }
   };
@@ -571,20 +649,20 @@ class Component extends DCLogic {
      run of lighter slices still reads lighter than a run of solid ones. Fog is see-through and blurred. 'solid' is
      the catalogue's slice. */
   material(g){
-    const P = this.C.plate, tint = k => this.mixHex(this.C.cream, P, k);
+    const TH = this.svgTheme();
     return {
-      solid:{top:P, front:tint(0.9), right:tint(0.82), stroke:'#2f7f94', sw:0.8, edge:'#9fd6e2', filled:true},
-      cards:{top:P, front:tint(0.9), right:tint(0.82), stroke:'#7ec7d8', sw:1.4, edge:'#9fd6e2', filled:true},
-      own:{top:tint(0.46), front:tint(0.38), right:tint(0.31), stroke:'#2f7f94', sw:0.8, edge:tint(0.75), filled:true},
-      ghost:{top:P, front:P, right:P, stroke:'none', sw:0, edge:P, filled:true, fog:true},
-      none:{top:'none', front:'none', right:'none', stroke:P, sw:1, edge:P, filled:false}
+      solid:{top:TH.plate.top, front:TH.plate.front, right:TH.plate.right, stroke:TH.plate.solidStroke, sw:0.8, edge:TH.plate.edge, filled:true},
+      cards:{top:TH.plate.top, front:TH.plate.front, right:TH.plate.right, stroke:TH.plate.stroke, sw:1.4, edge:TH.plate.edge, filled:true},
+      own:{top:TH.own.top, front:TH.own.front, right:TH.own.right, stroke:TH.own.stroke, sw:0.8, edge:TH.own.edge, filled:true},
+      ghost:{top:TH.ghost.fill, front:TH.ghost.fill, right:TH.ghost.fill, stroke:'none', sw:0, edge:TH.ghost.fill, filled:true, fog:true},
+      none:{top:'none', front:'none', right:'none', stroke:TH.none.stroke, sw:1, edge:TH.none.stroke, filled:false}
     }[g];
   }
   /* the small slice drawn in the key and in the hover box */
   swatchStyle(g, disputed){
-    const m = this.material(g), f = hex => disputed ? this.stripe(hex, true) : (hex || 'none');
-    if(g === 'ghost') return 'fill:' + f(this.C.plate) + ';fill-opacity:.42;filter:blur(1.3px)';
-    if(g === 'none') return 'fill:' + f(null) + ';stroke:' + this.C.plate + ';stroke-width:1;stroke-opacity:.7';
+    const TH = this.svgTheme(), m = this.material(g), f = hex => disputed ? this.stripe(hex, true) : (hex || 'none');
+    if(g === 'ghost') return 'fill:' + f(TH.ghost.fill) + ';fill-opacity:' + Math.max(0.30, TH.ghost.topOpacity).toFixed(2) + ';filter:blur(1.3px)';
+    if(g === 'none') return 'fill:' + f(null) + ';stroke:' + TH.none.stroke + ';stroke-width:1;stroke-opacity:' + Math.min(0.85, Math.max(0.65, TH.none.maxOpacity)).toFixed(2);
     return 'fill:' + f(m.top) + ';stroke:' + m.stroke + ';stroke-width:' + Math.min(1, m.sw);
   }
   /* A disputed slice is filled with slanted stripes: its own colour and a much lighter one. An unknown slice that
@@ -592,19 +670,21 @@ class Component extends DCLogic {
      `small` is the finer pattern of the swatches in the key and the hover box. */
   stripes = {};
   stripe(hex, small){
-    const id = 'st' + (small ? 'k' : '') + (hex ? hex.slice(1) : 'line');
+    const TH = this.svgTheme();
+    const id = 'st' + (small ? 'k' : '') + (hex ? hex.slice(1) : 'line') + TH.bg.slice(1);
     if(!this.stripes[id]){
       const w = small ? 5 : 10;
       this.stripes[id] = hex
-        ? {k:id, id, w, sw:w / 2, base:'fill:' + hex, stripe:'fill:' + this.mixHex(hex, this.C.cream, 0.8)}
-        : {k:id, id, w, sw:small ? 1 : 1.4, base:'fill:none', stripe:'fill:' + this.C.plate + ';fill-opacity:.6'};
+        ? {k:id, id, w, sw:w / 2, base:'fill:' + hex, stripe:'fill:' + this.mixHex(hex, TH.disputed.stripeMixTarget, TH.disputed.stripeMixWeight)}
+        : {k:id, id, w, sw:small ? 1 : 1.4, base:'fill:none', stripe:'fill:' + TH.disputed.noneStripe + ';fill-opacity:' + TH.disputed.noneStripeOpacity};
     }
     return 'url(#' + id + ')';
   }
   /* the same stripes for a small square drawn by the page's style sheet */
   stripeCss(hex){
-    return hex ? 'repeating-linear-gradient(125deg,' + hex + ' 0 1.6px,' + this.mixHex(hex.slice(0, 7), this.C.cream, 0.8) + ' 1.6px 3.3px)'
-      : 'repeating-linear-gradient(125deg,#114b5f99 0 1px,transparent 1px 3.3px)';
+    const TH = this.svgTheme();
+    return hex ? 'repeating-linear-gradient(125deg,' + hex + ' 0 1.6px,' + this.mixHex(hex.slice(0, 7), TH.disputed.stripeMixTarget, TH.disputed.stripeMixWeight) + ' 1.6px 3.3px)'
+      : 'repeating-linear-gradient(125deg,' + TH.disputed.noneStripe + ' 0 1px,transparent 1px 3.3px)';
   }
   mixHex(a, b, t){
     const pa = [1, 3, 5].map(i => parseInt(a.slice(i, i + 2), 16)), pb = [1, 3, 5].map(i => parseInt(b.slice(i, i + 2), 16));
@@ -614,13 +694,16 @@ class Component extends DCLogic {
   num(n){ return (n || 0).toLocaleString('en-US'); }
 
   renderVals(){
-    const st = this.state, K = this.K, C = this.C;
+    const st = this.state, K = this.K, TH = this.svgTheme();
+    const C = {plate:TH.plate.top, teal:TH.link, acc:TH.threat.line, cream:TH.bg, ink:TH.svgHeading};
     const sceneW = Math.max(900, Math.round(st.boxW * K.H / Math.max(200, st.boxH)));
     const common = {
-      boxRef:this.boxRef, wrapRef:this.wrapRef, barRef:this.barRef, closeRef:this.closeRef, drawerRef:this.drawerRef, searchRef:this.searchRef,
+      boxRef:this.boxRef, wrapRef:this.wrapRef, barRef:this.barRef, closeRef:this.closeRef, drawerRef:this.drawerRef, searchRef:this.searchRef, helpRef:this.helpRef,
       drawerStyle:this.drawerStyle(), hStyle:this.hStyle(), viewBox:'0 0 ' + sceneW + ' ' + K.H, sceneW:sceneW + 800,
+      isoGridStyle:'stroke:' + TH.grid.stroke + ';stroke-width:0.7;stroke-opacity:' + TH.grid.opacityStack,
       onSceneClick:this.onSceneClick, onStop:this.onStop, onClose:this.onClose, onLens:this.onLens, onLensOut:this.onLensOut,
-      onSearch:this.onSearch, onSearchKey:this.onSearchKey, hoverBoxStyle:this.hoverBoxStyle()
+      onSearch:this.onSearch, onSearchKey:this.onSearchKey, hoverBoxStyle:this.hoverBoxStyle(),
+      onHelpToggle:this.onHelpToggle, helpOpen:st.helpOpen
     };
     const emptyScene = {oHits:[], qHits:[], brackets:[], leaders:[], sliceLabels:[], wPolys:[], wEdges:[], wRings:[], wTags:[]};
     if(!st.ready || !this.D){
@@ -709,11 +792,11 @@ class Component extends DCLogic {
         const kb = pre + b.role;
         if(b.flat){
           /* the tray under the stack: what the lab's cards name that the taxonomy does not hold */
-          P.polys.push({k:kb, pts:topFace(zTop), style:'fill:' + C.plate + ';fill-opacity:' + (0.06 * alpha).toFixed(2) + ';stroke:' + C.plate + ';stroke-width:.8;stroke-dasharray:3 4;stroke-opacity:' + (0.6 * alpha).toFixed(2)});
+          P.polys.push({k:kb, pts:topFace(zTop), style:'fill:' + TH.wire.trayFill + ';fill-opacity:' + (0.07 * alpha).toFixed(2) + ';stroke:' + TH.wire.boxStroke + ';stroke-width:.8;stroke-dasharray:3 4;stroke-opacity:' + (0.58 * alpha).toFixed(2)});
           const dms = labRec ? labRec.dark_matter : [];
           for(let i = dms.length - 1; i >= 0; i--){
             const dm = dms[i], z = zTop - lay.dmOffs[i], pts = face(z, 16, K.PW - 16, 0, K.PD), key = 'dm-' + lab + '-' + i;
-            P.polys.push({k:pre + 'dm' + i, pts, style:'fill:' + C.plate + ';fill-opacity:' + (0.2 * alpha).toFixed(2) + ';stroke:' + C.plate + ';stroke-width:1.1;stroke-dasharray:3 3;stroke-opacity:' + (0.9 * alpha * mt).toFixed(2)});
+            P.polys.push({k:pre + 'dm' + i, pts, style:'fill:' + TH.wire.dmFill + ';fill-opacity:' + (0.22 * alpha).toFixed(2) + ';stroke:' + TH.wire.dmStroke + ';stroke-width:1.1;stroke-dasharray:3 3;stroke-opacity:' + (0.9 * alpha * mt).toFixed(2)});
             P.hits.push({k:pre + 'hdm' + i, pts, aria:'Dark matter: ' + dm.name, style:'fill:transparent;stroke:none;cursor:pointer;outline:none', onEnter:setHover('dm', {key, lab, i}), onLeave:clearHover,
               onClick:(e) => { e.stopPropagation(); const u = (d.documents[dm.d] || {}).u; if(u) window.open(u, '_blank', 'noopener'); }, onKey:() => {}});
             if(hov && hov.key === key) P.rings.push({k:pre + 'rdm' + i, pts, style:'fill:none;stroke:' + C.acc + ';stroke-width:1.8'});
@@ -723,10 +806,10 @@ class Component extends DCLogic {
         const sd = sides(zTop, th, 0, K.PW);
         /* the box of a layer: in a lab's stack its walls are almost clear, so a run of unknown slices stays as light as the page */
         const wall = lab ? 1 - 0.85 * mt : 1;
-        P.polys.push({k:kb + 'a', pts:sd[0], style:'fill:' + C.plate + ';fill-opacity:' + (0.18 * wall * dimBlock).toFixed(3)});
-        P.polys.push({k:kb + 'b', pts:sd[1], style:'fill:' + C.plate + ';fill-opacity:' + (0.28 * wall * dimBlock).toFixed(3)});
-        P.polys.push({k:kb, pts:topFace(zTop), style:'fill:' + C.plate + ';fill-opacity:' + ((isSel ? 0.06 : 0.12) * wall * alpha).toFixed(3) + ';stroke:' + C.plate + ';stroke-width:1;stroke-opacity:' + (0.75 * alpha).toFixed(2)});
-        P.polys.push({k:kb + 'c', pts:topFace(zTop - th), style:'fill:none;stroke:' + C.plate + ';stroke-width:.8;stroke-opacity:' + (0.5 * alpha).toFixed(2)});
+        P.polys.push({k:kb + 'a', pts:sd[0], style:'fill:' + TH.wire.boxStroke + ';fill-opacity:' + (0.16 * wall * dimBlock).toFixed(3)});
+        P.polys.push({k:kb + 'b', pts:sd[1], style:'fill:' + TH.wire.boxStroke + ';fill-opacity:' + (0.24 * wall * dimBlock).toFixed(3)});
+        P.polys.push({k:kb, pts:topFace(zTop), style:'fill:' + TH.wire.boxStroke + ';fill-opacity:' + ((isSel ? 0.05 : 0.10) * wall * alpha).toFixed(3) + ';stroke:' + TH.wire.boxStroke + ';stroke-width:1;stroke-opacity:' + (0.72 * alpha).toFixed(2)});
+        P.polys.push({k:kb + 'c', pts:topFace(zTop - th), style:'fill:none;stroke:' + TH.wire.boxStroke + ';stroke-width:.8;stroke-opacity:' + (0.48 * alpha).toFixed(2)});
 
         /* each slice's look in this stack, worked out before drawing so a slice knows whether the one above covers it */
         const mats = b.slices.map(s => {
@@ -735,7 +818,7 @@ class Component extends DCLogic {
           if(lab) counts[look]++;
           /* a lab stack starts as a copy of the catalogue and then takes its own look: mt runs from 0 to 1 */
           const mixc = f => m.filled ? this.mixHex(solid[f], m[f], mt) : solid[f];
-          const op = m.filled ? (m.fog ? 1 - 0.58 * mt : 1) : 1 - mt;
+          const op = m.filled ? (m.fog ? 1 - (1 - TH.ghost.topOpacity) * mt : 1) : 1 - mt;
           return {ev, look, m, op, filled:op > 0.05, crisp:op > 0.05 && !(m.fog && mt > 0.5), top:mixc('top'), front:mixc('front'), right:mixc('right')};
         });
         const gapUp = []; let lastFilled = -1;
@@ -753,24 +836,26 @@ class Component extends DCLogic {
             /* ghost matter: the slice is see-through and blurred, with no edge */
             const blur = ';filter:blur(' + (Math.max(0.8, Math.min(2.8, localPitch * 0.3)) * mt).toFixed(1) + 'px)';
             const ss = sides(z, slTh, 0, K.PW);
-            P.polys.push({k:pre + 'a-' + s.slug, pts:ss[0], style:'fill:' + C.plate + ';fill-opacity:' + (op * 0.8 * dim).toFixed(2) + blur});
-            P.polys.push({k:pre + 'b-' + s.slug, pts:ss[1], style:'fill:' + C.plate + ';fill-opacity:' + (op * 0.7 * dim).toFixed(2) + blur});
-            P.polys.push({k:pre + 't-' + s.slug, pts:tf, style:'fill:' + fl(C.plate) + ';fill-opacity:' + (op * dim).toFixed(2) + blur});
+            const gF = TH.ghost.frontOpacity / Math.max(0.01, TH.ghost.topOpacity);
+            const gR = TH.ghost.rightOpacity / Math.max(0.01, TH.ghost.topOpacity);
+            P.polys.push({k:pre + 'a-' + s.slug, pts:ss[0], style:'fill:' + TH.ghost.fill + ';fill-opacity:' + (op * gF * dim).toFixed(2) + blur});
+            P.polys.push({k:pre + 'b-' + s.slug, pts:ss[1], style:'fill:' + TH.ghost.fill + ';fill-opacity:' + (op * gR * dim).toFixed(2) + blur});
+            P.polys.push({k:pre + 't-' + s.slug, pts:tf, style:'fill:' + fl(TH.ghost.fill) + ';fill-opacity:' + (op * dim).toFixed(2) + blur});
           } else {
             /* an outline-only slice in a compact layer is a hairline, so a run of them reads as pale, not solid */
-            const strokeOp = mi.filled ? Math.min(0.9, 0.3 + localPitch / 8) : Math.min(0.9, 0.06 + localPitch / 14);
+            const strokeOp = mi.filled ? Math.min(0.92, 0.3 + localPitch / 8) : Math.min(TH.none.maxOpacity, 0.06 + localPitch / 14);
             const strokeW = mi.filled ? Math.min(m.sw, 0.3 + localPitch / 6) : Math.min(m.sw, 0.25 + localPitch / 10);
             if(mi.filled){
               const ss = sides(z, slTh, 0, K.PW);
               P.polys.push({k:pre + 'a-' + s.slug, pts:ss[0], style:'fill:' + fl(mi.front) + ';fill-opacity:' + (op * 0.97 * dim).toFixed(2)});
               P.polys.push({k:pre + 'b-' + s.slug, pts:ss[1], style:'fill:' + fl(mi.right) + ';fill-opacity:' + (op * 0.97 * dim).toFixed(2)});
             }
-            P.polys.push({k:pre + 't-' + s.slug, pts:tf, style:'fill:' + (mi.filled ? fl(mi.top) : (disp ? this.stripe(null) : 'none')) + ';fill-opacity:' + ((mi.filled ? op * 0.97 : 1) * dim).toFixed(2) + ';stroke:' + (mt > 0.5 ? m.stroke : '#2f7f94') + ';stroke-width:' + strokeW.toFixed(2) + ';stroke-opacity:' + (strokeOp * dim).toFixed(2) + ';transition:fill-opacity 400ms ease,stroke-opacity 400ms ease'});
+            P.polys.push({k:pre + 't-' + s.slug, pts:tf, style:'fill:' + (mi.filled ? fl(mi.top) : (disp ? this.stripe(null) : 'none')) + ';fill-opacity:' + ((mi.filled ? op * 0.97 : 1) * dim).toFixed(2) + ';stroke:' + (mt > 0.5 ? m.stroke : solid.stroke) + ';stroke-width:' + strokeW.toFixed(2) + ';stroke-opacity:' + (strokeOp * dim).toFixed(2) + ';transition:fill-opacity 400ms ease,stroke-opacity 400ms ease'});
             if(mi.filled && localPitch > 2.4){
               const e1 = proj(0, K.PD, z), e2 = proj(K.PW, K.PD, z);
               P.edges.push({k:pre + 'e-' + s.slug, x1:e1[0].toFixed(1), y1:e1[1].toFixed(1), x2:e2[0].toFixed(1), y2:e2[1].toFixed(1), style:'stroke:' + (mt > 0.5 ? m.edge : solid.edge) + ';stroke-width:1;stroke-opacity:' + (0.95 * dim).toFixed(2)});
             }
-            /* holes: cosmetic; drawn where the top of the slice shows, inside this layer's pass so slices above still cover them */
+            /* holes: illustrative; drawn where the top of the slice shows, inside this layer's pass so slices above still cover them */
             if(mi.filled){
               /* how much of this slice shows past the nearest filled slice above it: a strip this deep along its two front edges */
               const strip = gapUp[i] / (2 * sinA);
@@ -780,8 +865,8 @@ class Component extends DCLogic {
                 const c = proj(cx, cy, z + 0.3), rx = h.r * K.COS * 1.12, ry = Math.max(1.4, h.r * sinA * 1.12);
                 /* the far wall of the hole stays a thin crescent, so the hole always reads as a hole */
                 const hs = this.holeShape(c[0], c[1], rx, ry, Math.min(slTh, ry * 0.7));
-                P.polys.push({k:pre + 'hw-' + s.slug + j, pts:hs.rim, style:'fill:' + this.mixHex(mi.top, '#07202b', 0.5) + ';fill-opacity:' + (alpha * dim).toFixed(2) + ';stroke:#07202b;stroke-width:.8;stroke-opacity:' + (0.9 * alpha * dim).toFixed(2)});
-                if(hs.open) P.polys.push({k:pre + 'ho-' + s.slug + j, pts:hs.open, style:'fill:' + C.cream + ';fill-opacity:' + (alpha * dim).toFixed(2)});
+                P.polys.push({k:pre + 'hw-' + s.slug + j, pts:hs.rim, style:'fill:' + this.mixHex(mi.top, TH.hole.rimWall, TH.hole.rimMix) + ';fill-opacity:' + (alpha * dim).toFixed(2) + ';stroke:' + TH.hole.rimWall + ';stroke-width:.8;stroke-opacity:' + (0.9 * alpha * dim).toFixed(2)});
+                if(hs.open) P.polys.push({k:pre + 'ho-' + s.slug + j, pts:hs.open, style:'fill:' + TH.hole.interior + ';fill-opacity:' + (alpha * dim).toFixed(2)});
               });
             }
           }
@@ -806,7 +891,7 @@ class Component extends DCLogic {
       const nameY = Math.max(nameY0, vbY0 + 12);
       const name2 = lab ? counts.cards + ' cards · ' + counts.own + ' papers · ' + counts.ghost + ' suspected · ' + counts.none + ' unknown' : 'all ' + d.techniques.length + ' techniques in the taxonomy';
       P.tags.push({k:pre + 'name', x:(ox - K.PD * K.COS + (lab ? 68 : 0)).toFixed(1), y:nameY.toFixed(1), w:340 * ts, h:34 * ts, text:ctx.name, text2:name2,
-        style:'font-size:' + (15 * ts).toFixed(1) + 'px;font-weight:800;color:' + C.plate + ';white-space:nowrap;line-height:1.2;opacity:' + alpha.toFixed(2), style2:'font-family:\'IBM Plex Mono\',monospace;font-size:' + (10 * ts).toFixed(1) + 'px;color:#5c7f88;white-space:nowrap;line-height:1.25;opacity:' + alpha.toFixed(2)});
+        style:'font-size:' + (15 * ts).toFixed(1) + 'px;font-weight:800;color:' + TH.svgHeading + ';white-space:nowrap;line-height:1.2;opacity:' + alpha.toFixed(2), style2:'font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:' + (10 * ts).toFixed(1) + 'px;color:' + TH.svgMuted + ';white-space:nowrap;line-height:1.25;opacity:' + alpha.toFixed(2)});
       P.meta = meta;
       return P;
     };
@@ -836,24 +921,25 @@ class Component extends DCLogic {
     if(cols.length) blocks.forEach(b => {
       const lay = L[b.role], zTop = lay.topZ, th = lay.th;
       const pTop = projRef(0, K.PD, zTop), pBot = projRef(0, K.PD, zTop - th), pMid = projRef(0, K.PD, zTop - th / 2);
-      const bx = pTop[0] - 16, tint = b.flat ? '#5c7f88' : this.roleTint(b.idx);
+      const bx = pTop[0] - 16, tint = b.flat ? TH.brackets.flatBracket : this.roleTint(b.idx);
       const fsz = (b.flat ? 17 : 24) * ts, hovered = hov && hov.key === 'lay-' + b.role;
       const toggle = (e) => { e.stopPropagation(); if(!b.flat) this.selectBlock(sel === b.role ? null : b.role); };
       brackets.push({k:'br-' + b.role, n:b.flat ? '' : String(b.idx + 1), showLabel:!sel,
         pts:(bx + 6).toFixed(1) + ',' + pTop[1].toFixed(1) + ' ' + bx.toFixed(1) + ',' + pTop[1].toFixed(1) + ' ' + bx.toFixed(1) + ',' + pBot[1].toFixed(1) + ' ' + (bx + 6).toFixed(1) + ',' + pBot[1].toFixed(1),
         style:'fill:none;stroke:' + tint + ';stroke-width:2;stroke-linecap:round;stroke-linejoin:round',
         w:Math.max(150, bx - 56), x:bx, my:pMid[1], lx:sel ? bx - 24 : bx - 34, leadStyle:'stroke:' + tint + ';stroke-width:.9;stroke-opacity:.8', dx:bx - 14, discStyle:'fill:' + tint, nx:bx - 23, ny:pMid[1] - 9,
+        digitStyle:'font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:11px;line-height:18px;text-align:center;color:' + TH.brackets.discDigitInk + ';font-weight:600',
         foY:pMid[1] - (b.flat ? 11 : 15) * ts, label:b.label, sub:b.flat ? 'dark matter' : b.n + ' techniques',
         aria:b.label + (b.flat ? '' : ', click to open the layer'),
         onClick:toggle, onKey:(e) => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(e); } },
         onEnter:setHover('layer', {key:'lay-' + b.role, role:b.role}), onLeave:clearHover,
-        labelStyle:'display:inline-block;line-height:1.2;font-weight:700;outline:none;cursor:' + (b.flat ? 'help' : 'pointer') + ';font-size:' + fsz.toFixed(1) + 'px;color:' + (b.flat ? '#7d6a3a' : C.plate) + (hovered && !b.flat ? ';text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px' : ''),
+        labelStyle:'display:inline-block;line-height:1.2;font-weight:700;outline:none;cursor:' + (b.flat ? 'help' : 'pointer') + ';font-size:' + fsz.toFixed(1) + 'px;color:' + (b.flat ? TH.brackets.darkMatterLabel : TH.svgHeading) + (hovered && !b.flat ? ';text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px' : ''),
         /* the letter i in a circle, before the name: hovering the name gives the layer's definition and examples */
-        infoStyle:'display:inline-block;box-sizing:border-box;width:' + (fsz * 0.66).toFixed(1) + 'px;height:' + (fsz * 0.66).toFixed(1) + 'px;line-height:' + (fsz * 0.6).toFixed(1) + 'px;margin-right:' + (fsz * 0.3).toFixed(1) + 'px;vertical-align:' + (fsz * 0.1).toFixed(1) + 'px;border:1.5px solid #5c7f88;border-radius:50%;text-align:center;font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:' + (fsz * 0.5).toFixed(1) + 'px;color:#5c7f88',
-        subStyle:'text-align:right;line-height:1.3;font-size:' + (12 * ts).toFixed(1) + 'px;color:#5c7f88;font-family:\'IBM Plex Mono\',monospace'});
+        infoStyle:'display:inline-block;box-sizing:border-box;width:' + (fsz * 0.66).toFixed(1) + 'px;height:' + (fsz * 0.66).toFixed(1) + 'px;line-height:' + (fsz * 0.6).toFixed(1) + 'px;margin-right:' + (fsz * 0.3).toFixed(1) + 'px;vertical-align:' + (fsz * 0.1).toFixed(1) + 'px;border:1.5px solid ' + TH.svgMuted + ';border-radius:50%;text-align:center;font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:' + (fsz * 0.5).toFixed(1) + 'px;color:' + TH.svgMuted,
+        subStyle:'text-align:right;line-height:1.3;font-size:' + (12 * ts).toFixed(1) + 'px;color:' + TH.svgMuted + ';font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace'});
     });
     else tags.push({k:'none', x:leftCol, y:K.H / 2 - 20, w:availW, h:40, text:'Tick a lab, or the full catalogue, to draw a stack.', text2:'',
-      style:'font-size:17px;color:#5c7f88;text-align:center', style2:''});
+      style:'font-size:17px;color:' + TH.svgMuted + ';text-align:center', style2:''});
 
     /* an open layer: names beside the rightmost stack, with a line to each slice */
     this.labelX0 = undefined;
@@ -875,21 +961,21 @@ class Component extends DCLogic {
       tags.push({k:'hdr', x:colX0, y:vbY0 + 14, w:colW2, h:44 * ts, text:'Layer ' + (b.idx + 1) + ' · ' + b.label,
         text2:b.n + ' techniques · ' + (fitsAll ? '' : 'move the cursor over the layer to name its slices · ') + 'click a name for its dossier · Esc closes'
           + (stackInfo.length ? ' · the squares before a name show ' + stackInfo.map(x => x.name).join(', ') : ''),
-        style:'font-size:' + (14 * ts).toFixed(1) + 'px;font-weight:800;color:' + C.plate + ';line-height:1.2;opacity:' + op.toFixed(2), style2:'font-family:\'IBM Plex Mono\',monospace;font-size:' + (10 * ts).toFixed(1) + 'px;line-height:1.35;color:#5c7f88;opacity:' + op.toFixed(2)});
+        style:'font-size:' + (14 * ts).toFixed(1) + 'px;font-weight:800;color:' + TH.svgHeading + ';line-height:1.2;opacity:' + op.toFixed(2), style2:'font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:' + (10 * ts).toFixed(1) + 'px;line-height:1.35;color:' + TH.svgMuted + ';opacity:' + op.toFixed(2)});
       items.forEach(it => {
         const ly = it.ly, p = it.p;
         const hovered = hov && hov.key === it.key;
         /* one small square per visible lab, painted like that lab's slice */
         const sq = (fs * 0.62).toFixed(1) + 'px';
         const chips = stackInfo.map(si2 => { const mm = si2.meta[it.key] || {look:'none'}, g = mm.look, m = this.material(g);
-          const base = g === 'none' ? 'transparent' : (g === 'ghost' ? '#114b5f55' : m.top);
+          const base = g === 'none' ? 'transparent' : (g === 'ghost' ? TH.ghost.fill + '66' : m.top);
           return React.createElement('span', {key:si2.lab, title:si2.name + ': ' + this.lookWord(g) + (mm.disp ? ', disputed' : ''), style:{display:'inline-block', width:sq, height:sq, marginRight:(fs * 0.22).toFixed(1) + 'px', boxSizing:'border-box',
-            border:'1px solid ' + (g === 'none' ? '#114b5f66' : (g === 'ghost' ? '#114b5f55' : '#114b5f')), background:mm.disp ? this.stripeCss(g === 'none' ? null : base) : base}}); });
+            border:'1px solid ' + (g === 'none' ? TH.none.stroke : (g === 'ghost' ? TH.ghost.fill + '88' : m.stroke)), background:mm.disp ? this.stripeCss(g === 'none' ? null : base) : base}}); });
         const open = (e) => { e.stopPropagation(); this.set({open:it.key, ev:null}); };
         sliceLabels.push({k:'sl-' + it.key, x:colX0, w:colW2, h:lp, foY:ly - lp / 2, name:it.name, chips,
           onClick:open, onKey:(e) => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(e); } },
           onEnter:setHover('slice', {key:it.key, slug:it.key}), onLeave:clearHover,
-          style:'height:' + lp.toFixed(1) + 'px;line-height:' + lp.toFixed(1) + 'px;font-size:' + fs.toFixed(1) + 'px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left;cursor:pointer;max-width:' + colW2 + 'px;' + (hovered ? 'text-decoration:underline;text-decoration-color:#028090;' : '') + 'font-weight:600;color:' + C.plate + ';opacity:' + op.toFixed(2)});
+          style:'height:' + lp.toFixed(1) + 'px;line-height:' + lp.toFixed(1) + 'px;font-size:' + fs.toFixed(1) + 'px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left;cursor:pointer;max-width:' + colW2 + 'px;' + (hovered ? 'text-decoration:underline;text-decoration-color:' + C.teal + ';' : '') + 'font-weight:600;color:' + TH.svgHeading + ';opacity:' + op.toFixed(2)});
         leaders.push({k:'sld-' + it.key, pts:p[0].toFixed(1) + ',' + p[1].toFixed(1) + ' ' + (p[0] + 40).toFixed(1) + ',' + p[1].toFixed(1) + ' ' + (colX0 - 22).toFixed(1) + ',' + ly.toFixed(1) + ' ' + (colX0 - 6).toFixed(1) + ',' + ly.toFixed(1),
           style:'fill:none;stroke:' + C.teal + ';stroke-width:' + (hovered ? 1.4 : 0.7) + ';stroke-opacity:' + ((hovered ? 1 : 0.6) * op).toFixed(2), dx:p[0], dy:p[1], dotStyle:'fill:' + C.teal + ';fill-opacity:' + op.toFixed(2)});
       });
@@ -910,7 +996,7 @@ class Component extends DCLogic {
       const b = blocks.find(x => x.role === hov.role); hoverShow = true; hoverTitle = b.label;
       if(b.flat){
         hoverSub = 'dark matter';
-        hoverSections.push(sec('Definition', {lines:[line(this.keyText.dark || '')]}));
+        hoverSections.push(sec('Definition', {lines:[line(b.definition)]}));
       } else {
         hoverSub = 'layer ' + (b.idx + 1) + ' of ' + d.layers.length + ' · ' + b.n + ' techniques';
         hoverSections.push(sec('Definition', {lines:[line(b.definition)]}));
@@ -931,29 +1017,29 @@ class Component extends DCLogic {
     const dz = this.dossier(st.open);
     const anyLab = vis.some(s => s.dir > 0);
     const max = this.maxLabs();
-    const tick = 'display:flex;align-items:center;gap:5px;font-size:12.5px;color:#114b5f;cursor:pointer;white-space:nowrap';
+    const tick = 'display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--heading,#114b5f);cursor:pointer;white-space:nowrap';
     return Object.assign(common, dz || this.emptyDossier(), {
       wPolys:all('polys'), wEdges:all('edges'), wRings:all('rings'), wTags:tags,
       /* hit areas from the bottom up: the fillers, then the slices; the slices of the leftmost stack come last and take the keyboard */
       qHits:all('fills').concat(cols.filter(c => c !== firstCol).reduce((a, c) => a.concat(c.P.hits), [])),
       oHits:firstCol ? firstCol.P.hits : [],
       brackets, sliceLabels, leaders,
-      intro:'Each slice is one of the ' + d.techniques.length + ' safety techniques in the taxonomy, stacked in ' + d.layers.length + ' layers. Tick a lab to draw its stack. A solid slice is a technique the lab’s cards say it uses, a lighter slice is one the lab’s own papers use, fog is a technique that other documents suspect the lab of using, and an outline is unknown.',
+      intro:'How frontier labs layer safeguards for defence in depth: ' + d.techniques.length + ' techniques across ' + d.layers.length + ' layers, mapped from public evidence.',
       labToggles:d.labs.map(l => ({k:l.id, name:l.name, style:tick, checked:vis.some(s => s.lab === l.id && s.dir > 0), onChange:() => this.toggleLab(l.id)}))
-        .concat([{k:'cat', name:'Full catalogue', style:tick + ';margin-left:10px;padding-left:12px;border-left:1px solid #114b5f44', checked:st.cat, onChange:this.onCat}]),
-      labsNote:max === 1 ? 'one lab at a time' : 'up to four labs; ticking another removes the one ticked first',
-      stop:st.stop, stopDisabled:!anyLab, stopHint:anyLab ? 'a slice is filled when a lab has at least this' : 'tick a lab first',
-      stopSliderStyle:'width:100%;margin:6px 0 2px;accent-color:#028090;' + (anyLab ? '' : 'opacity:.4'),
-      stopLabels:['suspected', 'lab’s papers', 'lab’s cards'].map((x, i) => ({k:'s' + i, t:x, style:'color:' + (i === st.stop && anyLab ? '#114b5f;font-weight:500' : '#5c7f88') + ';text-align:' + ['left', 'center', 'right'][i]})),
+        .concat([{k:'cat', name:'Full catalogue', style:tick + ';margin-left:10px;padding-left:12px;border-left:1px solid var(--border-strong,#114b5f44)', checked:st.cat, onChange:this.onCat}]),
+      labsNote:max === 1 ? '1 at a time' : 'up to 4',
+      stop:st.stop, stopDisabled:!anyLab, stopHint:anyLab ? 'minimum shown' : 'tick a lab',
+      stopSliderStyle:'width:100%;margin:6px 0 2px;accent-color:var(--link,#028090);' + (anyLab ? '' : 'opacity:.4'),
+      stopLabels:['suspected', 'lab’s papers', 'lab’s cards'].map((x, i) => ({k:'s' + i, t:x, style:'color:' + (i === st.stop && anyLab ? 'var(--heading,#114b5f);font-weight:500' : 'var(--muted,#5c7f88)') + ';text-align:' + ['left', 'center', 'right'][i]})),
       search:st.search, searchOpen,
       searchResults:found.slice(0, 10).map(x => ({k:x.id, name:x.name, layer:layerName[x.kind] || '', onClick:(e) => { e.stopPropagation(); this.pick(x.id); },
         onKey:(e) => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); this.pick(x.id); } },
-        style:'font-size:12.5px;font-weight:600;color:#114b5f;line-height:1.3;padding:6px 9px;cursor:pointer;border-bottom:1px solid #114b5f1f'})),
-      searchNote:!found.length ? 'no technique has that in its name' : (found.length > 10 ? 'the first 10 of ' + found.length + '; type more to narrow the list' : ''),
+        style:'font-size:12.5px;font-weight:600;color:var(--heading,#114b5f);line-height:1.3;padding:6px 9px;cursor:pointer;border-bottom:1px solid var(--border,#114b5f1f)'})),
+      searchNote:!found.length ? 'no matches' : (found.length > 10 ? 'first 10 of ' + found.length + ' — keep typing to narrow' : ''),
       keyItems:['cards', 'own', 'ghost', 'none'].map(g => ({k:g, text:this.keyText[g] || '', style:this.swatchStyle(g), hole:'display:none'})).concat([
         {k:'disp', text:this.keyText.argues_not || '', style:this.swatchStyle('cards', true), hole:'display:none'},
-        {k:'dark', text:this.keyText.dark || '', style:'fill:' + C.plate + ';fill-opacity:.2;stroke:' + C.plate + ';stroke-width:1;stroke-dasharray:2 2.5', hole:'display:none'},
-        {k:'hole', text:this.keyText.hole || '', style:'fill:' + C.plate, hole:'fill:' + C.cream + ';stroke:#07202b;stroke-width:1'}]),
+        {k:'dark', text:this.keyText.dark || '', style:'fill:' + TH.wire.dmFill + ';fill-opacity:.22;stroke:' + TH.wire.dmStroke + ';stroke-width:1;stroke-dasharray:2 2.5', hole:'display:none'},
+        {k:'hole', text:this.keyText.hole || '', style:'fill:' + TH.plate.top + ';stroke:' + TH.plate.stroke + ';stroke-width:.8', hole:'fill:' + TH.hole.interior + ';stroke:' + TH.hole.rimWall + ';stroke-width:1'}]),
       keyNotes:d.notes.map((n, i) => ({k:'n' + i, t:n})),
       hoverShow, hoverTitle, hoverSub, hoverSections, dossierOpen:!!dz,
       /* last, so that it holds every stripe pattern asked for above */
@@ -968,9 +1054,9 @@ class Component extends DCLogic {
   hoverBoxStyle(){
     /* the box sits in the part of the scene the cursor is not in */
     const side = this.state.side === 'right' ? 'left:14px' : 'right:14px';
-    return 'position:absolute;' + side + ';top:12px;width:340px;max-height:calc(100% - 24px);overflow:auto;background:#fff8ecf5;border:1px solid #114b5f55;padding:13px 15px 12px;z-index:5;pointer-events:none';
+    return 'position:absolute;' + side + ';top:12px;width:min(340px,calc(100% - 28px));max-height:calc(100% - 24px);overflow:auto;background:var(--surface-glass,#fff8ecf5);border:1px solid var(--border-strong,#114b5f55);border-radius:var(--radius-md,2px);box-shadow:var(--shadow,0 10px 24px #114b5f22);padding:13px 15px 12px;z-index:5;pointer-events:none';
   }
-  drawerStyle(){ return 'position:fixed;top:0;right:0;bottom:0;width:min(600px,94vw);border-left:1px solid #114b5f;background:#feecd3;box-shadow:-18px 0 40px #114b5f33;overflow:auto;padding:20px 24px 0;z-index:12'; }
+  drawerStyle(){ return 'position:fixed;top:0;right:0;bottom:0;width:min(600px,94vw);border-left:1px solid var(--border-strong,#114b5f);background:var(--bg,#feecd3);color:var(--ink,#333);box-shadow:var(--shadow,-18px 0 40px #114b5f33);overflow:auto;padding:20px clamp(14px,4vw,24px) 0;z-index:20'; }
 
   /* a hole in a slice with thickness: the rim, and inside it the part one sees through, which is the rim
      cut by the same rim one slice-thickness lower; what is left of the rim above that is the far wall of the hole */
@@ -985,16 +1071,19 @@ class Component extends DCLogic {
     }
     return {rim:rim.join(' '), open:open.join(' ')};
   }
-  roleTint(i){ return 'oklch(' + (0.56 - i * 0.03).toFixed(2) + ' 0.075 ' + (198 + i * 5) + ')'; }
+  roleTint(i){
+    const rt = this.svgTheme().brackets.roleTint;
+    return (rt && rt[i]) || ('oklch(' + (0.56 - i * 0.03).toFixed(2) + ' 0.075 ' + (198 + i * 5) + ')');
+  }
   hash01(str){ let h = 2166136261; for(let i = 0; i < str.length; i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return ((h >>> 0) % 10000) / 10000; }
 
   lineStyle(kind){
     const base = 'font-size:13px;line-height:1.45;margin-bottom:6px;';
-    if(kind === 'mono') return base + 'font-family:\'IBM Plex Mono\',monospace;font-size:11.5px;color:#333';
-    if(kind === 'quote') return base + 'font-size:12px;font-style:italic;color:#333';
-    return base + 'color:#333';
+    if(kind === 'mono') return base + 'font-family:var(--font-mono,\'IBM Plex Mono\',monospace);font-size:11.5px;color:var(--ink,#333)';
+    if(kind === 'quote') return base + 'font-size:12.5px;font-style:italic;color:var(--ink,#333)';
+    return base + 'color:var(--ink,#333)';
   }
-  hStyle(){ return 'font-family:\'IBM Plex Mono\',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#5c7f88;margin:20px 0 8px;border-top:1px solid #114b5f33;padding-top:10px'; }
+  hStyle(){ return 'font-family:var(--font-mono,\'IBM Plex Mono\',monospace);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted,#5c7f88);margin:20px 0 8px;border-top:1px solid var(--border,#114b5f33);padding-top:10px'; }
 
   /* ---- dossier: everything the summary holds about one technique ---- */
   emptyDossier(){
@@ -1012,10 +1101,11 @@ class Component extends DCLogic {
         x.u ? 'the dataset did not find these sentences in the document’s text' : null].filter(Boolean).join(' · ');
       return {k:key, href:doc.u, title:doc.t || x.d, meta, sentences:(x.s || []).map((q, j) => ({k:key + 's' + j, t:'“' + q + '”'}))};
     };
+    const TH = this.svgTheme();
     const groups = ['cards', 'own', 'suspected', 'argues_not'];
     const groupWord = {cards:'stated in the lab’s cards', own:'used in the lab’s papers', suspected:'suspected by others', argues_not:'disputed'};
-    const pipColor = {cards:this.C.plate, own:this.material('own').top, suspected:'#114b5f99', argues_not:this.stripeCss(this.C.plate)};
-    const pipEdge = {cards:this.C.plate, own:this.material('own').top, suspected:'#114b5f77', argues_not:this.C.plate};
+    const pipColor = {cards:TH.plate.top, own:TH.own.top, suspected:TH.ghost.fill + '99', argues_not:this.stripeCss(TH.plate.top)};
+    const pipEdge = {cards:TH.plate.stroke, own:TH.own.stroke, suspected:TH.ghost.fill + '88', argues_not:TH.plate.stroke};
     /* one cell of the table: four squares filled up to the highest level among the documents, and the number of documents; a click opens the documents */
     const cell = (rowKey, g, grp) => {
       const key = rowKey + '|' + g;
@@ -1023,17 +1113,17 @@ class Component extends DCLogic {
       const open = this.state.ev === key, pc = pipColor[g];
       const toggle = (e) => { e.stopPropagation(); this.setState({ev:open ? null : key}); };
       return {k:key, tab:0, role:'button', title:'click for the documents and their sentences',
-        style:'cursor:pointer;padding:3px 4px;margin:-3px -4px;border:1px solid ' + (open ? '#114b5f' : 'transparent') + ';background:' + (open ? '#fff8ec' : 'transparent'),
+        style:'cursor:pointer;padding:3px 4px;margin:-3px -4px;border:1px solid ' + (open ? 'var(--border-strong,#114b5f)' : 'transparent') + ';background:' + (open ? 'var(--surface-2,#fff8ec)' : 'transparent') + ';border-radius:var(--radius-sm,2px)',
         pips:[1, 2, 3, 4].map(i => ({k:'p' + i, style:'display:inline-block;box-sizing:border-box;width:10px;height:10px;border:1px solid ' + pipEdge[g] + (i <= grp.level ? ';background:' + pc + (g === 'suspected' ? ';filter:blur(1.1px)' : '') : '')})),
-        text:this.plural(grp.n, 'document'), textStyle:'font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:#5c7f88;margin-top:2px;white-space:nowrap',
+        text:this.plural(grp.n, 'document'), textStyle:'font-family:var(--font-mono,\'IBM Plex Mono\',monospace);font-size:10px;line-height:1.25;color:var(--muted,#5c7f88);margin-top:2px',
         onClick:toggle, onKey:(e) => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(e); } }};
     };
     const row = (key, name, ev, bold) => {
       const openG = groups.find(g => ev[g] && this.state.ev === key + '|' + g), grp = openG ? ev[openG] : null;
       const unknown = !groups.some(g => ev[g]);
       const cells = groups.map(g => cell(key, g, ev[g]));
-      if(unknown) cells[0] = Object.assign(cells[0], {text:'unknown', textStyle:'font-size:12px;color:#5c7f88'});
-      return {k:key, lab:name, labStyle:'font-size:12.5px;line-height:1.2;color:#114b5f;font-weight:' + (bold ? 700 : 400), cells, open:!!grp,
+      if(unknown) cells[0] = Object.assign(cells[0], {text:'unknown', textStyle:'font-size:12px;color:var(--muted,#5c7f88)'});
+      return {k:key, lab:name, labStyle:'font-size:12.5px;line-height:1.2;color:var(--heading,#114b5f);font-weight:' + (bold ? 700 : 400), cells, open:!!grp,
         openTitle:grp ? name + ' · ' + groupWord[openG] + ' · ' + this.plural(grp.n, 'document') + ' · highest level ' + grp.level + ' of 4' : '',
         docs:grp ? grp.docs.map((x, i) => docRow(x, key + openG + i)) : [],
         more:grp && grp.n > grp.docs.length ? 'and ' + this.plural(grp.n - grp.docs.length, 'more document') + ' in the dataset' : ''};
@@ -1057,12 +1147,12 @@ class Component extends DCLogic {
       dEvidenceNote:'The squares show the highest level among the documents, from 1 (one sentence in the document) to 4 (central to the document). Click a row of squares for the documents and their sentences.'
         + (un.suspected || un.argues_not ? ' The row “no lab named” holds documents that suspect the technique is in use, or argue that it is not, without making clear which lab they mean; they are not drawn on any stack.' : ''),
       dDocsLine:this.plural(tech.n_docs, 'document') + ' in the release ' + (tech.n_docs === 1 ? 'names' : 'name') + ' this technique. Documents per year:',
-      dYears:ys.map(y => ({k:'y' + y[0], title:y[0] + ': ' + y[1], style:'flex:1 1 0;min-width:2px;background:#114b5f;height:' + (y[1] ? Math.max(2, Math.round(56 * y[1] / maxY)) : 0) + 'px'})),
+      dYears:ys.map(y => ({k:'y' + y[0], title:y[0] + ': ' + y[1], style:'flex:1 1 0;min-width:2px;background:' + TH.plate.top + ';height:' + (y[1] ? Math.max(2, Math.round(56 * y[1] / maxY)) : 0) + 'px'})),
       dYearsStyle:'width:min(100%, ' + Math.max(90, ys.length * 26) + 'px)',
       dYearFirst:ys.length ? String(ys[0][0]) : '', dYearLast:ys.length > 1 ? String(ys[ys.length - 1][0]) : '',
       dYearsNote:ys.length ? 'most in one year: ' + this.num(maxY) : 'no dated document',
       dModelsLine:tech.models.length ? 'Models named most often in these documents, with the number of documents:' : '',
-      dModelBars:tech.models.map(o => ({k:o[0], name:o[0], n:this.num(o[1]), bar:'height:9px;background:#114b5f;width:' + Math.max(1, Math.round(100 * o[1] / maxM)) + '%'}))
+      dModelBars:tech.models.map(o => ({k:o[0], name:o[0], n:this.num(o[1]), bar:'height:9px;background:' + TH.plate.top + ';width:' + Math.max(1, Math.round(100 * o[1] / maxM)) + '%'}))
     };
   }
 }

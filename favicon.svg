@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    .d1 { fill: #114b5f; }
+    .d2 { fill: #114b5f; opacity: 0.55; }
+    .ln { stroke: #da532c; }
+    @media (prefers-color-scheme: dark) {
+      .d1 { fill: #28acc2; }
+      .d2 { fill: #28acc2; opacity: 0.50; }
+      .ln { stroke: #f2744d; }
+    }
+  </style>
+  <polygon class="d2" points="4,38 32,24 60,38 32,52"/>
+  <polygon class="d1" points="4,28 32,14 60,28 32,42"/>
+  <line class="ln" x1="32" y1="4" x2="32" y2="60" stroke-width="3.2" stroke-linecap="round"/>
+</svg>

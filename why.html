@@ -3,21 +3,47 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Why Stack?</title>
+<meta name="color-scheme" content="light dark">
+<meta name="darkreader-lock">
+<title>Why Stack? — The Safety Stack</title>
+<meta name="description" content="Why frontier AI safety relies on defence-in-depth, why deployed stacks remain opaque, and what a public inventory unlocks for researchers, policymakers, and funders.">
+<link rel="canonical" href="https://thesafetystack.ai/why.html">
+<meta property="og:site_name" content="The Safety Stack">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Why Stack? — The Safety Stack">
+<meta property="og:description" content="Why frontier AI safety relies on defence-in-depth, why deployed stacks remain opaque, and what a public inventory unlocks for researchers, policymakers, and funders.">
+<meta property="og:url" content="https://thesafetystack.ai/why.html">
+<meta property="og:image" content="https://thesafetystack.ai/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Safety Stack — stacked isometric layers representing AI safety techniques">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why Stack? — The Safety Stack">
+<meta name="twitter:description" content="Why frontier AI safety relies on defence-in-depth, why deployed stacks remain opaque, and what a public inventory unlocks for researchers, policymakers, and funders.">
+<meta name="twitter:image" content="https://thesafetystack.ai/og-image.png">
+<meta name="twitter:image:alt" content="The Safety Stack — stacked isometric layers representing AI safety techniques">
+<meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c1317" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg?v=2">
+<link rel="icon" href="./favicon.ico?v=2" sizes="32x32">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png?v=2">
+<style>:root{color-scheme:light dark}html,body{margin:0;background:#f6f4ef;color:#1f292e;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}@media (prefers-color-scheme:dark){html:not([data-theme="light"]),html:not([data-theme="light"]) body{background:#0c1317;color:#dce4e8}}html[data-theme="dark"],html[data-theme="dark"] body{background:#0c1317;color:#dce4e8}x-dc{display:none}</style>
+<script>try{var t=localStorage.getItem('tss-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<script src="./vendor/react.production.min.js"></script>
+<script src="./vendor/react-dom.production.min.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
+<script src="./nav.js"></script>
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
 <style>
   *{box-sizing:border-box}
-  body{margin:0;background:#feecd3;color:#333;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;-webkit-font-smoothing:antialiased}
-  a{color:#028090;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
-  a:hover{color:#114b5f}
+  body{margin:0;background:var(--bg,#feecd3);color:var(--ink,#333);font-family:var(--font-prose,'IBM Plex Mono',ui-monospace,Menlo,monospace);-webkit-font-smoothing:antialiased}
+  a{color:var(--link,#028090);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+  a:hover{color:var(--link-hover,#114b5f)}
   button{font-family:inherit}
-  ::selection{background:#02809033}
+  ::selection{background:var(--selection,#02809033)}
   @keyframes fpPulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.9);opacity:0}}
   .fp-pulse{animation:fpPulse 1.8s ease-out infinite}
   .fp-enter{cursor:pointer;text-decoration:none;color:inherit}
@@ -29,104 +55,24 @@
 </style>
 </helmet>
 <div style="position:relative;overflow:hidden;{{ scStyle }}">
-<div ref="{{ scRef }}" data-scroller="1" tabindex="0" style="position:relative;overflow-y:auto;overflow-x:hidden;background:#feecd3;color:#333;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;{{ scStyle }}">
+<div ref="{{ scRef }}" data-scroller="1" tabindex="0" style="position:relative;overflow-y:auto;overflow-x:hidden;overflow-anchor:none;background:var(--bg,#feecd3);color:var(--ink,#333);font-family:var(--font-prose,'IBM Plex Mono',ui-monospace,Menlo,monospace);{{ scStyle }}">
 <div style="position:relative;display:flow-root">
 
   <svg aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none">
     <defs>
       <pattern id="fpGridA" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(21.8)">
-        <line x1="0" y1="0" x2="44" y2="0" style="stroke:#114b5f;stroke-width:0.7;stroke-opacity:0.13"></line>
+        <line x1="0" y1="0" x2="44" y2="0" style="{{ gridLineStyle }}"></line>
       </pattern>
       <pattern id="fpGridB" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(-21.8)">
-        <line x1="0" y1="0" x2="44" y2="0" style="stroke:#114b5f;stroke-width:0.7;stroke-opacity:0.13"></line>
+        <line x1="0" y1="0" x2="44" y2="0" style="{{ gridLineStyle }}"></line>
       </pattern>
       <pattern id="fpHatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-        <line x1="0" y1="0" x2="0" y2="7" style="stroke:#feecd3;stroke-width:1.3;stroke-opacity:0.38"></line>
+        <line x1="0" y1="0" x2="0" y2="7" style="{{ hatchLineStyle }}"></line>
       </pattern>
     </defs>
     <rect x="0" y="0" width="100%" height="100%" style="fill:url(#fpGridA)"></rect>
     <rect x="0" y="0" width="100%" height="100%" style="fill:url(#fpGridB)"></rect>
   </svg>
-
-  <div style="position:sticky;top:0;height:0;z-index:6">
-    <div style="position:absolute;left:0;right:0;top:0;height:44px;background:#feecd3;border-bottom:1px solid #114b5f2b"></div>
-    <a href="index.html" style="position:absolute;left:20px;top:0;height:44px;display:flex;align-items:center;white-space:nowrap;font-size:13px;line-height:1.3;font-weight:700;color:#114b5f;text-decoration:none">thesafetystack.ai</a>
-    <nav style="position:absolute;right:20px;top:0;height:44px;display:flex;align-items:stretch;gap:28px;font-size:13px;line-height:1.3;font-weight:700;transition:opacity 300ms ease;{{ ribNavD }}">
-      <a href="why.html" style="display:flex;align-items:center;height:44px;color:#114b5f;text-decoration:none;white-space:nowrap">Why Stack?</a>
-      <div data-box="r-explore" style="position:relative;display:flex;align-items:center" onMouseEnter="{{ rb.explore.enter }}" onMouseLeave="{{ rb.explore.leave }}" onFocus="{{ rb.explore.enter }}" onBlur="{{ rb.explore.blur }}">
-        <a href="stack.html" style="display:flex;align-items:center;height:44px;color:#114b5f;text-decoration:none;white-space:nowrap">Explore the stack</a>
-        <ul style="position:absolute;right:0;top:100%;margin:0;padding:10px 14px;list-style:none;min-width:250px;background:#feecd3;border:1px solid #114b5f33;font-weight:400;line-height:1.4;{{ rb.explore.list }}">
-          <li style="margin:0 0 6px"><a href="stack.html">The safety stack by lab</a></li>
-        </ul>
-      </div>
-      <div data-box="r-wargame" style="position:relative;display:flex;align-items:center" onMouseEnter="{{ rb.wargame.enter }}" onMouseLeave="{{ rb.wargame.leave }}" onFocus="{{ rb.wargame.enter }}" onBlur="{{ rb.wargame.blur }}">
-        <button type="button" onClick="{{ rb.wargame.enter }}" style="display:flex;align-items:center;height:44px;color:#114b5f;background:none;border:0;padding:0;margin:0;font-size:13px;font-weight:700;white-space:nowrap;cursor:default">Wargame safety surfaces</button>
-        <ul style="position:absolute;right:0;top:100%;margin:0;padding:10px 14px;list-style:none;min-width:270px;background:#feecd3;border:1px solid #114b5f33;font-weight:400;line-height:1.4;{{ rb.wargame.list }}">
-          <li style="margin:0 0 8px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#114b5f">in progress</li>
-          <li style="margin:0">Continuous probabilistic inference over frontier lab safety stacks—tracking safeguard deployment, overlap, and correlated failures to monitor live risk-surface coverage.</li>
-        </ul>
-      </div>
-      <div data-box="r-data" style="position:relative;display:flex;align-items:center" onMouseEnter="{{ rb.data.enter }}" onMouseLeave="{{ rb.data.leave }}" onFocus="{{ rb.data.enter }}" onBlur="{{ rb.data.blur }}">
-        <button type="button" onClick="{{ rb.data.enter }}" style="display:flex;align-items:center;height:44px;color:#114b5f;background:none;border:0;padding:0;margin:0;font-size:13px;font-weight:700;white-space:nowrap;cursor:default">Use the data</button>
-        <ul style="position:absolute;right:0;top:100%;margin:0;padding:10px 14px;list-style:none;min-width:230px;background:#feecd3;border:1px solid #114b5f33;font-weight:400;line-height:1.4;{{ rb.data.list }}">
-          <li style="margin:0 0 6px"><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model-by-technique matrix</a></li>
-          <li style="margin:0 0 6px"><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Dataset on Hugging Face</a></li>
-          <li style="margin:0 0 6px"><a href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Taxonomies on GitHub</a></li>
-          <li style="margin:0"><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline code on GitHub</a></li>
-        </ul>
-      </div>
-      <div data-box="r-blog" style="position:relative;display:flex;align-items:center" onMouseEnter="{{ rb.blog.enter }}" onMouseLeave="{{ rb.blog.leave }}" onFocus="{{ rb.blog.enter }}" onBlur="{{ rb.blog.blur }}">
-        <button type="button" onClick="{{ rb.blog.enter }}" style="display:flex;align-items:center;height:44px;color:#114b5f;background:none;border:0;padding:0;margin:0;font-size:13px;font-weight:700;white-space:nowrap;cursor:default">Blog</button>
-        <ul style="position:absolute;right:0;top:100%;margin:0;padding:10px 14px;list-style:none;min-width:140px;background:#feecd3;border:1px solid #114b5f33;font-weight:400;line-height:1.4;{{ rb.blog.list }}">
-          <li style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#114b5f">coming soon</li>
-        </ul>
-      </div>
-      <div data-box="r-team" style="position:relative;display:flex;align-items:center" onMouseEnter="{{ rb.team.enter }}" onMouseLeave="{{ rb.team.leave }}" onFocus="{{ rb.team.enter }}" onBlur="{{ rb.team.blur }}">
-        <a href="team.html" onPointerDown="{{ rb.team.down }}" onClick="{{ rb.team.click }}" style="display:flex;align-items:center;height:44px;color:#114b5f;text-decoration:none;white-space:nowrap">Team</a>
-        <ul style="position:absolute;right:0;top:100%;margin:0;padding:10px 14px;list-style:none;min-width:220px;background:#feecd3;border:1px solid #114b5f33;font-weight:400;line-height:1.4;{{ rb.team.list }}">
-          <li style="margin:0 0 6px"><a href="team.html#jacob">Jacob Livingston Slosser</a></li>
-          <li style="margin:0 0 6px"><a href="team.html#tomas">Tomáš Gavenčiak</a></li>
-          <li style="margin:0 0 6px"><a href="team.html#finn">Finn Hambly</a></li>
-          <li style="margin:0 0 6px"><a href="team.html#dan">Dan Elton</a></li>
-          <li style="margin:0"><a href="team.html#gavin">Advisor: Gavin Leech</a></li>
-        </ul>
-      </div>
-    </nav>
-    <div data-box="r-menu" style="position:absolute;right:0;top:0;transition:opacity 300ms ease;{{ ribNavP }}">
-      <button type="button" onClick="{{ rb.menu.toggle }}" style="display:flex;align-items:center;height:44px;padding:0 20px;color:#114b5f;background:none;border:0;margin:0;font-size:13px;font-weight:700">Menu</button>
-      <div style="position:absolute;right:0;top:44px;overflow-y:auto;background:#feecd3;border-top:1px solid #114b5f33;border-bottom:1px solid #114b5f33;padding:4px 20px 18px;font-size:14px;line-height:1.4;{{ rb.menu.list }}">
-        <p style="margin:14px 0 2px;font-weight:700"><a href="why.html" style="display:block;padding:6px 0;color:#114b5f;text-decoration:none">Why Stack?</a></p>
-        <p style="margin:14px 0 2px;font-weight:700"><a href="stack.html" style="display:block;padding:6px 0;color:#114b5f;text-decoration:none">Explore the stack</a></p>
-        <ul style="list-style:none;margin:0;padding:0">
-          <li><a href="stack.html" style="display:block;padding:9px 0">The safety stack by lab</a></li>
-        </ul>
-        <p style="margin:14px 0 2px;padding:6px 0;font-weight:700;color:#114b5f">Wargame safety surfaces</p>
-        <ul style="list-style:none;margin:0;padding:0">
-          <li style="padding:4px 0;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#114b5f">in progress</li>
-          <li style="padding:4px 0">Continuous probabilistic inference over frontier lab safety stacks—tracking safeguard deployment, overlap, and correlated failures to monitor live risk-surface coverage.</li>
-        </ul>
-        <p style="margin:14px 0 2px;padding:6px 0;font-weight:700;color:#114b5f">Use the data</p>
-        <ul style="list-style:none;margin:0;padding:0">
-          <li><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener" style="display:block;padding:9px 0">Model-by-technique matrix</a></li>
-          <li><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener" style="display:block;padding:9px 0">Dataset on Hugging Face</a></li>
-          <li><a href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener" style="display:block;padding:9px 0">Taxonomies on GitHub</a></li>
-          <li><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener" style="display:block;padding:9px 0">Pipeline code on GitHub</a></li>
-        </ul>
-        <p style="margin:14px 0 2px;padding:6px 0;font-weight:700;color:#114b5f">Blog</p>
-        <ul style="list-style:none;margin:0;padding:0">
-          <li style="padding:4px 0;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#114b5f">coming soon</li>
-        </ul>
-        <p style="margin:14px 0 2px;font-weight:700"><a href="team.html" style="display:block;padding:6px 0;color:#114b5f;text-decoration:none">Team</a></p>
-        <ul style="list-style:none;margin:0;padding:0">
-          <li><a href="team.html#jacob" style="display:block;padding:9px 0">Jacob Livingston Slosser</a></li>
-          <li><a href="team.html#tomas" style="display:block;padding:9px 0">Tomáš Gavenčiak</a></li>
-          <li><a href="team.html#finn" style="display:block;padding:9px 0">Finn Hambly</a></li>
-          <li><a href="team.html#dan" style="display:block;padding:9px 0">Dan Elton</a></li>
-          <li><a href="team.html#gavin" style="display:block;padding:9px 0">Advisor: Gavin Leech</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
 
   <main style="position:relative;font-size:15px;line-height:1.7;{{ mainStyle }}">
 
@@ -135,42 +81,43 @@
     </div>
 
     <div style="min-width:0;{{ textStyle }}">
-      <h1 style="margin:0 0 20px;font-size:clamp(32px,3.4vw,46px);line-height:1.08;font-weight:700;color:#114b5f">Why Stack?</h1>
-      <p style="margin:0 0 64px;{{ argStyle }}"><span data-s="m0">The de facto plan for AI safety of frontier labs, and thus the world, is <a href="https://oscardelaney.substack.com/p/when-is-defense-in-depth-unhelpful" target="_blank" rel="noopener">defence</a>-<a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">in-depth</a>.</span> <span data-s="t1">The idea is, that if you stack together enough weak alignment and control techniques, the failures of each layer will get caught by later layers.</span> <span data-s="t2">This “stack” includes all of the alignment, interpretability, and control methods that have tamed LLMs enough to make it possible to make money off of them.</span></p>
+      <h1 style="margin:0 0 20px;font-size:clamp(32px,3.4vw,46px);line-height:1.08;font-weight:700;color:var(--heading,#114b5f)">Why Stack?</h1>
+      <p style="margin:0 0 64px;{{ argStyle }}"><span data-s="m0">The de facto plan for AI safety of frontier labs, and thus the world, is <a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">defence-in-depth</a>.</span> <span data-s="t1">The idea is, that if you stack together enough weak alignment and control techniques, the failures of each layer will get caught by later layers.</span> <span data-s="t2">This “stack” includes all of the alignment, interpretability, and control methods that have tamed LLMs enough to make it possible to make money off of them.</span></p>
 
-      <h2 data-s="h" style="margin:0 0 18px;font-size:24px;line-height:1.2;font-weight:700;color:#114b5f">How good is this plan?</h2>
+      <h2 data-s="h" style="margin:0 0 18px;font-size:24px;line-height:1.2;font-weight:700;color:var(--heading,#114b5f)">How good is this plan?</h2>
       <p style="margin:0 0 34px;{{ argStyle }}"><span data-s="t3">We don’t know.</span> <span data-s="t4">The actual safety stack of deployed technologies is not public. So we don’t know what many of the layers are and how the defenses and vulnerabilities line up to specific risks.</span> <span data-s="t5">Let alone how well they work individually.</span> <span data-s="t6">Let alone how the layers interact with each other.</span></p>
       <p style="margin:0 0 34px;{{ argStyle }}"><span data-s="t7">This is because some research <a href="https://claude.ai/artifact/RAn3qmQFhrEoj9i9bEtaHp" target="_blank" rel="noopener">went dark</a> as it commercialised (and because it became irresponsible to release “dual-use” safety techniques).</span> <span data-s="t8">We call these layers <strong>dark matter</strong>: internal mitigations that are alluded to in system cards which may or may not be reflected in the public literature. AKA trust me bro techniques.</span> <span data-s="t9">We can try and infer some of these techniques, but they still remain as what we call <strong>ghost matter.</strong></span></p>
       <p style="margin:0 0 80px;{{ argStyle }}"><span data-s="t10">As a result, it is quite possible that the strategy is giving the world a false sense of security, because the stack might be failing to cover some hazards.</span> <span data-s="t11">It is quite possible that external research into creating new layers for the stack is wasted effort - duplicating existing private techniques.</span> <span data-s="t12">It is also quite possible that layers developed in isolation from each other end up having contradictory effects on the target model’s safety.</span> <span data-s="t13">Where, for instance, a technique in one layer can weaken a technique in another.</span> <span data-s="t14">The situation makes it impossible for policy work to be calibrated to how much mandating the use of particular techniques would actually help.</span></p>
 
       <p data-s="end" style="margin:0 0 72px;{{ argStyle }}">As a first step, we built as complete an inventory of current AI safety techniques as we think can be done. We scraped safety papers and inferred use through OSINT to try and work out what people are probably using. We are building a safety surface model that breaks threats into concrete slices, so that you can bring your own threat model, switch safeguards and failure scenarios on and off, and see which threats have no cover or a single point of failure. All the data and code are held publicly and updated automatically on a weekly run. We’ll keep it maintained as new things get developed. We will write up our findings and point to the more glaring presuppositions the stack assumes.</p>
 
-      <h2 style="margin:0 0 18px;font-size:24px;line-height:1.2;font-weight:700;color:#114b5f">This could help</h2>
-      <h3 style="margin:0 0 8px;font-weight:700;color:#114b5f;{{ subStyle }}">Safety researchers.</h3>
+      <h2 style="margin:0 0 18px;font-size:24px;line-height:1.2;font-weight:700;color:var(--heading,#114b5f)">This could help</h2>
+      <h3 style="margin:0 0 8px;font-weight:700;color:var(--heading,#114b5f);{{ subStyle }}">Safety researchers.</h3>
       <p style="margin:0 0 34px;{{ argStyle }}">In general, many researchers test their techniques piecemeal, comparing them individually. We can’t test the techniques in the environment (joint implementation), have no sense of how well they’re working as a whole, and have no sense of fault correlations. One of the few exceptions is a <a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">small AISI/FAR pilot study</a> which implemented and tested a few inference-time safeguards together.</p>
-      <h3 style="margin:0 0 8px;font-weight:700;color:#114b5f;{{ subStyle }}">Policy community.</h3>
+      <h3 style="margin:0 0 8px;font-weight:700;color:var(--heading,#114b5f);{{ subStyle }}">Policy community.</h3>
       <p style="margin:0 0 34px;{{ argStyle }}">There are any number of efforts to set up "transparency", "vetting", "audits", and thereby promoting or mandating the use of existing safety technologies. But, in our experience, they usually don’t have a clear view of what these technologies are, or how much of the problem they would fix if they were mandatory and enforced.</p>
-      <h3 style="margin:0 0 8px;font-weight:700;color:#114b5f;{{ subStyle }}">Funders.</h3>
+      <h3 style="margin:0 0 8px;font-weight:700;color:var(--heading,#114b5f);{{ subStyle }}">Funders.</h3>
       <p style="margin:0 0 72px;{{ argStyle }}">Grantmakers weigh impact in any proposal. This relies on an accurate view of what the current safety landscape is. Public information alone often cannot answer that. Individual researchers and evaluators often cannot answer that. Funders should be able to see which threats appear to have no safeguards or where safeguards fail together (for one example) to make effective use of their funds.</p>
 
-      <div style="margin:0;border-bottom:1px solid #114b5f66;{{ linkStyle }}">
-        <div style="display:flex;flex-wrap:wrap;gap:6px 24px;padding:16px 0 10px;border-top:1px solid #114b5f66">
-          <h3 style="flex:0 0 250px;margin:0;line-height:1.4;font-weight:700;{{ subStyle }}"><a href="stack.html" style="color:#114b5f">Explore the stack</a></h3>
+      <div style="margin:0;border-bottom:1px solid var(--border-strong,#114b5f66);{{ linkStyle }}">
+        <div style="display:flex;flex-wrap:wrap;gap:6px 24px;padding:16px 0 10px;border-top:1px solid var(--border-strong,#114b5f66)">
+          <h3 style="flex:0 0 250px;margin:0;line-height:1.4;font-weight:700;{{ subStyle }}"><a href="stack.html" style="color:var(--heading,#114b5f)">Explore the stack</a></h3>
           <ul style="flex:1 1 240px;list-style:none;margin:0;padding:0"><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="stack.html">The safety stack by lab</a></li></ul>
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px 24px;padding:16px 0 10px;border-top:1px solid #114b5f66">
-          <h3 style="flex:0 0 250px;margin:0;line-height:1.4;font-weight:700;{{ subStyle }};color:#114b5f">Wargame safety surfaces</h3>
-          <ul style="flex:1 1 240px;list-style:none;margin:0;padding:0"><li style="margin:0 0 8px;font-size:11.5px;color:#114b5f">in progress</li><li style="margin:0 0 7px">Continuous probabilistic inference over frontier lab safety stacks—tracking safeguard deployment, overlap, and correlated failures to monitor live risk-surface coverage.</li></ul>
+        <div style="display:flex;flex-wrap:wrap;gap:6px 24px;padding:16px 0 10px;border-top:1px solid var(--border-strong,#114b5f66)">
+          <h3 style="flex:0 0 250px;margin:0;line-height:1.4;font-weight:700;{{ subStyle }};color:var(--heading,#114b5f)">Stress-test safety surfaces</h3>
+          <ul style="flex:1 1 240px;list-style:none;margin:0;padding:0"><li style="margin:0 0 8px;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11.5px;color:var(--muted,#5c7f88)">in development</li><li style="margin:0 0 7px">Continuous probabilistic inference over frontier lab safety stacks—tracking safeguard deployment, overlap, and correlated failures to monitor live risk-surface coverage.</li></ul>
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px 24px;padding:16px 0 10px;border-top:1px solid #114b5f66">
-          <h3 style="flex:0 0 250px;margin:0;line-height:1.4;font-weight:700;{{ subStyle }};color:#114b5f">Use the data</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:6px 24px;padding:16px 0 10px;border-top:1px solid var(--border-strong,#114b5f66)">
+          <h3 style="flex:0 0 250px;margin:0;line-height:1.4;font-weight:700;{{ subStyle }};color:var(--heading,#114b5f)">Use the data</h3>
           <ul style="flex:1 1 240px;list-style:none;margin:0;padding:0"><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model-by-technique matrix</a></li><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Dataset on Hugging Face</a></li><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Taxonomies on GitHub</a></li><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline code on GitHub</a></li></ul>
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px 24px;padding:16px 0 10px;border-top:1px solid #114b5f66">
-          <h3 style="flex:0 0 250px;margin:0;line-height:1.4;font-weight:700;{{ subStyle }};color:#114b5f">Blog</h3>
-          <ul style="flex:1 1 240px;list-style:none;margin:0;padding:0"><li style="margin:0 0 8px;font-size:11.5px;color:#114b5f">coming soon</li></ul>
+        <div style="display:flex;flex-wrap:wrap;gap:6px 24px;padding:16px 0 10px;border-top:1px solid var(--border-strong,#114b5f66)">
+          <h3 style="flex:0 0 250px;margin:0;line-height:1.4;font-weight:700;{{ subStyle }};color:var(--heading,#114b5f)">Blog</h3>
+          <ul style="flex:1 1 240px;list-style:none;margin:0;padding:0"><li style="margin:0 0 8px;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11.5px;color:var(--muted,#5c7f88)">coming soon</li></ul>
         </div>
       </div>
+      <footer class="site-footer" style="margin-top:48px" aria-label="Site footer"><div>The Safety Stack · Data &amp; taxonomies: <a href="https://github.com/thesafetystack/the-safety-stack/blob/main/LICENSE" target="_blank" rel="noopener">CC0 1.0</a> · Pipeline code: <a href="https://github.com/thesafetystack/the-safety-stack-pipeline/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a></div><div class="site-footer-links"><a href="https://github.com/thesafetystack" target="_blank" rel="noopener">GitHub</a><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Hugging Face</a><a href="https://github.com/thesafetystack/the-safety-stack/issues" target="_blank" rel="noopener">Corrections</a><a href="mailto:info@thesafetystack.ai">info@thesafetystack.ai</a><a href="team.html">Team</a></div></footer>
     </div>
   </main>
 </div>
@@ -198,17 +145,31 @@ class Component extends DCLogic {
     ['t10', 0.5], ['a13', 0.9], ['t11', 0.5], ['a14', 0.9], ['t12', 0.5], ['a15', 1.5], ['t13', 0.45], ['a16', 0.8], ['t14', 0.5], ['a17', 1.2]];
   T1 = (() => { const m = {}; let x = 0.15; this.TL1.forEach(e => { m[e[0]] = [x, e[1]]; x += e[1]; }); this.TOT1 = x + 0.6; return m; })();
   scRef = React.createRef(); bandRef = React.createRef();
-  state = {W:1440, V:900, t:0, sA:0, play:false, grown:false, clipT:0, clipB:0, open:null, live:false};
+  state = {W:typeof window !== 'undefined' ? window.innerWidth : 1440, V:typeof window !== 'undefined' ? (window.innerHeight > 1800 ? 900 : Math.max(480, window.innerHeight)) : 900, t:0, sA:0, play:false, grown:false, clipT:0, clipB:0, open:null, live:false, theme:typeof window !== 'undefined' && window.__siteTheme ? window.__siteTheme.mode() : 'light'};
+
+  svgTheme(){
+    if(typeof window !== 'undefined' && window.__siteTheme) return window.__siteTheme.svg();
+    return {bg:'#feecd3', svgHeading:'#114b5f', svgMuted:'#5c7f88', link:'#028090',
+      plate:{top:'#114b5f', front:'#285c6b', right:'#3c6c77', stroke:'#7ec7d8', solidStroke:'#2f7f94', edge:'#9fd6e2'},
+      ghost:{fill:'#114b5f', topOpacity:0.42, frontOpacity:0.34, rightOpacity:0.30},
+      none:{stroke:'#114b5f', maxOpacity:0.85}, hole:{rimWall:'#07202b', interior:'#feecd3'},
+      grid:{stroke:'#114b5f', opacityPage:0.13, hatchStroke:'#feecd3', hatchOpacity:0.38},
+      threat:{line:'#da532c', label:'#a83a1b'},
+      brackets:{roleTint:['#3a7f8c', '#337685', '#2d6d7e']}, wire:{boxStroke:'#114b5f', dmFill:'#114b5f', dmStroke:'#114b5f'}};
+  }
+  onThemeChange = () => { this.memo = {}; this.setState({theme:window.__siteTheme ? window.__siteTheme.mode() : 'light'}); };
 
   componentDidMount(){
     this.reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     document.addEventListener('pointerdown', this.onDocDown);
+    window.addEventListener('site-theme-change', this.onThemeChange);
     this.t0 = performance.now();
     this.tick();
   }
   componentWillUnmount(){
     cancelAnimationFrame(this.raf); clearTimeout(this.closeTimer); clearTimeout(this.playTimer);
     document.removeEventListener('pointerdown', this.onDocDown);
+    window.removeEventListener('site-theme-change', this.onThemeChange);
   }
   /* Once a frame: the size of the window, and the time for the one moving picture (about 30 times a second). The page
      scrolls inside its own area, which is as tall as the window, so it works whether or not the document around it scrolls. */
@@ -342,7 +303,8 @@ class Component extends DCLogic {
      they are painted, and the labels as pieces of text with their place. */
   fig(s, BW, BH, o){
     o = o || {};
-    const C = this.C;
+    const TH = this.svgTheme();
+    const C = {plate:TH.plate.top, teal:TH.link, acc:TH.threat.line, cream:TH.bg, edge:TH.plate.solidStroke, wire:TH.wire.boxStroke, heading:TH.svgHeading, labelAcc:TH.threat.label};
     const cl = x => Math.max(0, Math.min(1, x));
     const ez = k => k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
     const win = (t, a, b) => cl((t - a) / (b - a));
@@ -472,37 +434,37 @@ class Component extends DCLogic {
       const so = v => (v * A).toFixed(3);
       if(p.look === 'solid'){
         const th = 3.2;
-        put(poly(frontFace(p.z, th, p.dx)), 'fill:' + tint(0.9) + ';fill-opacity:' + so(0.97));
-        put(poly(rightFace(p.z, th, p.dx)), 'fill:' + tint(0.82) + ';fill-opacity:' + so(0.97));
-        put(outline + hp, 'fill:' + C.plate + ';fill-rule:evenodd;fill-opacity:' + so(0.97) + ';stroke:#7ec7d8;stroke-width:1.2;stroke-opacity:' + so(0.9));
+        put(poly(frontFace(p.z, th, p.dx)), 'fill:' + TH.plate.front + ';fill-opacity:' + so(0.97));
+        put(poly(rightFace(p.z, th, p.dx)), 'fill:' + TH.plate.right + ';fill-opacity:' + so(0.97));
+        put(outline + hp, 'fill:' + TH.plate.top + ';fill-rule:evenodd;fill-opacity:' + so(0.97) + ';stroke:' + TH.plate.stroke + ';stroke-width:1.2;stroke-opacity:' + so(0.9));
         const drop = th * cosP * zoom;
-        put(hs.map(h => holeD(h, p.z, p.dx, 0) + holeD(h, p.z, p.dx, drop)).join(''), 'fill:#07202b;fill-rule:evenodd;fill-opacity:' + so(0.55));
-        put(seg(fc[3], fc[2]), 'stroke:#9fd6e2;stroke-width:1;stroke-opacity:' + so(0.95));
+        put(hs.map(h => holeD(h, p.z, p.dx, 0) + holeD(h, p.z, p.dx, drop)).join(''), 'fill:' + TH.hole.rimWall + ';fill-rule:evenodd;fill-opacity:' + so(0.65));
+        put(seg(fc[3], fc[2]), 'stroke:' + TH.plate.edge + ';stroke-width:1;stroke-opacity:' + so(0.95));
         return;
       }
       if(p.look === 'heavy'){
-        put(outline, 'fill:none;stroke:' + C.plate + ';stroke-width:2.8;stroke-linejoin:round;stroke-opacity:' + so(1));
-        put(hp, 'fill:none;stroke:' + C.plate + ';stroke-width:1.5;stroke-opacity:' + so(1));
+        put(outline, 'fill:none;stroke:' + C.wire + ';stroke-width:2.8;stroke-linejoin:round;stroke-opacity:' + so(1));
+        put(hp, 'fill:none;stroke:' + C.wire + ';stroke-width:1.5;stroke-opacity:' + so(1));
         return;
       }
       const fog = p.look === 'fog' ? mFog : 0, dash = p.look === 'dash' ? mDash : 0;
       if(fog > 0){
         /* ghost matter: a see-through, blurred fill with no edge */
         const blur = ';filter:blur(' + (Math.max(1, 2.4 * zoom) * fog).toFixed(1) + 'px)';
-        put(poly(frontFace(p.z, 5, p.dx)), 'fill:' + C.plate + ';fill-opacity:' + so(0.34 * fog) + blur);
-        put(poly(rightFace(p.z, 5, p.dx)), 'fill:' + C.plate + ';fill-opacity:' + so(0.3 * fog) + blur);
-        put(outline, 'fill:' + C.plate + ';fill-opacity:' + so(0.42 * fog) + blur);
+        put(poly(frontFace(p.z, 5, p.dx)), 'fill:' + TH.ghost.fill + ';fill-opacity:' + so(TH.ghost.frontOpacity * fog) + blur);
+        put(poly(rightFace(p.z, 5, p.dx)), 'fill:' + TH.ghost.fill + ';fill-opacity:' + so(TH.ghost.rightOpacity * fog) + blur);
+        put(outline, 'fill:' + TH.ghost.fill + ';fill-opacity:' + so(TH.ghost.topOpacity * fog) + blur);
       }
       if(dash > 0){
         /* dark matter: dashed and lightly filled */
-        put(outline + hp, 'fill:' + C.plate + ';fill-rule:evenodd;fill-opacity:' + so(0.2 * dash) + ';stroke:' + C.plate + ';stroke-width:1.1;stroke-dasharray:4 3;stroke-opacity:' + so(0.9 * dash));
+        put(outline + hp, 'fill:' + TH.wire.dmFill + ';fill-rule:evenodd;fill-opacity:' + so(0.22 * dash) + ';stroke:' + TH.wire.dmStroke + ';stroke-width:1.1;stroke-dasharray:4 3;stroke-opacity:' + so(0.9 * dash));
       }
       /* a slice without a name is not known: from step a5 its edge and its holes are out of focus */
       const edge = 1 - Math.max(fog, dash);
       const soft = named[p.id] ? 0 : unk * edge * (p.id === 'Mb' ? 1 - sharpMb : 1);
       const blurS = soft > 0.03 ? ';filter:blur(' + (2.6 * sw * soft).toFixed(1) + 'px)' : '';
-      if(edge > 0.01) put(outline, 'fill:none;stroke:' + C.plate + ';stroke-width:' + lerp(1, 3.2, soft).toFixed(1) + ';stroke-opacity:' + so(lerp(0.85, 0.62, soft) * edge) + blurS);
-      if(hv * (1 - fog) > 0.01) put(hp, 'fill:none;stroke:' + C.plate + ';stroke-width:' + lerp(0.9, 2.4, soft).toFixed(1) + ';stroke-opacity:' + so(lerp(0.85, 0.5, soft) * hv * (1 - fog)) + blurS);
+      if(edge > 0.01) put(outline, 'fill:none;stroke:' + C.wire + ';stroke-width:' + lerp(1, 3.2, soft).toFixed(1) + ';stroke-opacity:' + so(lerp(0.85, 0.62, soft) * edge) + blurS);
+      if(hv * (1 - fog) > 0.01) put(hp, 'fill:none;stroke:' + C.wire + ';stroke-width:' + lerp(0.9, 2.4, soft).toFixed(1) + ';stroke-opacity:' + so(lerp(0.85, 0.5, soft) * hv * (1 - fog)) + blurS);
       /* step a15: the slice whose hole widens is outlined, and the hole gets a ring */
       if(p.id === 'Mb' && linkA > 0.01){
         const h = hs[0], r = h.r + (h.rMax - h.r) * grow + 4 / zoom;
@@ -515,7 +477,7 @@ class Component extends DCLogic {
     if(stackA > 0.005){
       const items = [];
       layers.forEach(l => {
-        const wire = v => 'fill:none;stroke:' + C.plate + ';stroke-width:.8;stroke-opacity:' + (v * (1 - 0.55 * dimD)).toFixed(3);
+        const wire = v => 'fill:none;stroke:' + C.wire + ';stroke-width:.8;stroke-opacity:' + (v * (1 - 0.55 * dimD)).toFixed(3);
         items.push({z:l.bot - 0.02, draw:() => { put(poly(face(l.bot, 0)), wire(0.5)); put(seg(pz(-HW, -HD, l.bot), pz(-HW, -HD, l.top)), wire(0.35)); }});
         items.push({z:l.top + 0.02, draw:() => {
           put(seg(pz(-HW, HD, l.bot), pz(-HW, HD, l.top)) + seg(pz(HW, HD, l.bot), pz(HW, HD, l.top)) + seg(pz(HW, -HD, l.bot), pz(HW, -HD, l.top)), wire(0.5));
@@ -565,7 +527,7 @@ class Component extends DCLogic {
     const dark = Object.assign(noteAt('Ib'), {k:'dark', a:aDark}), ghost = Object.assign(noteAt('Ma'), {k:'ghost', a:aGhost});
     solve(left.concat([dark, ghost]), 4, V - 4);
     left.forEach(it => {
-      const tintL = 'oklch(' + (0.56 - it.i * 0.03).toFixed(2) + ' 0.075 ' + (198 + it.i * 5) + ')';
+      const tintL = (TH.brackets && TH.brackets.roleTint && TH.brackets.roleTint[it.i]) || ('oklch(' + (0.56 - it.i * 0.03).toFixed(2) + ' 0.075 ' + (198 + it.i * 5) + ')');
       lab[it.k] = show({left:px(it.xr - 260), top:px(it.t), width:'260px', 'font-size':fsLayer + 'px'}, aLayer);
       if(aLayer > 0.01){
         const oa = ez(win(P.a1, 0.1, 0.8)) * labDim;
@@ -579,8 +541,8 @@ class Component extends DCLogic {
       lab[it.k] = show({left:px(it.xr - 160), top:px(it.t - 1), width:'160px', 'font-size':fsNote + 'px'}, it.a);
       if(it.a > 0.01){
         const oa = it.a / Math.max(0.01, labA);
-        over('M' + pt(it.an) + 'L' + f(it.xr + (phone ? 8 : 14)) + ' ' + f(it.c) + 'L' + f(it.xr + (phone ? 3 : 5)) + ' ' + f(it.c), 'fill:none;stroke:' + C.plate + ';stroke-width:.8;stroke-opacity:' + (0.75 * oa).toFixed(2));
-        over(ell(it.an, 2.2 * dk, 2.2 * dk), 'fill:' + C.plate + ';fill-opacity:' + oa.toFixed(2));
+        over('M' + pt(it.an) + 'L' + f(it.xr + (phone ? 8 : 14)) + ' ' + f(it.c) + 'L' + f(it.xr + (phone ? 3 : 5)) + ' ' + f(it.c), 'fill:none;stroke:' + C.wire + ';stroke-width:.8;stroke-opacity:' + (0.75 * oa).toFixed(2));
+        over(ell(it.an, 2.2 * dk, 2.2 * dk), 'fill:' + C.wire + ';fill-opacity:' + oa.toFixed(2));
       }
     });
     /* right: two slices of each layer have a name, with a line to the slice */
@@ -602,7 +564,7 @@ class Component extends DCLogic {
     }
     let harmPos = null, harmA = 0;
     { const arr = lines.filter(L => L.atHarm);
-      if(arr.length){ const e = arr.map(L => ps(L.x, L.y, L.zh)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length - 14 * sr, e.reduce((a, c) => a + c[1], 0) / e.length]; harmA = Math.max.apply(null, arr.map(L => L.a)) * labA; } }
+      if(arr.length){ const e0 = ps(0, 0, zAtHarm({x:0, y:0})); harmPos = [e0[0] - 14 * sr, e0[1]]; harmA = Math.max.apply(null, arr.map(L => L.a)) * labA; } }
 
     /* ---- steps a7 to a9: one slice alone, then two ---- */
     if(tau > 0.001){
@@ -635,7 +597,7 @@ class Component extends DCLogic {
       if(bIn * xa > 0.01){
         const zb = zB - (1 - bIn) * 24, pb = (x, y) => pi(x, y, zb), a = bIn * xa;
         ip(poly([pb(-HW + dxB, -HD), pb(HW + dxB, -HD), pb(HW + dxB, HD), pb(-HW + dxB, HD)]) + hB.map(h => ring(pb, h, dxB)).join(''),
-          'fill:' + C.cream + ';fill-opacity:' + (0.78 * a).toFixed(2) + ';fill-rule:evenodd;stroke:' + C.plate + ';stroke-width:1.4;stroke-linejoin:round;stroke-opacity:' + (0.95 * a).toFixed(2));
+          'fill:' + C.cream + ';fill-opacity:' + (0.78 * a).toFixed(2) + ';fill-rule:evenodd;stroke:' + C.wire + ';stroke-width:1.4;stroke-linejoin:round;stroke-opacity:' + (0.95 * a).toFixed(2));
         L4.forEach(L => { if(L.dotB > 0.02) ip(ell(pi(L.x, L.y, zB), 6 * dk, 3.6 * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.dotB * xa).toFixed(2)); });
       }
       segI(zB, zA);
@@ -643,13 +605,13 @@ class Component extends DCLogic {
         const outline = poly([pm(-HW + dxA, -HD), pm(HW + dxA, -HD), pm(HW + dxA, HD), pm(-HW + dxA, HD)]);
         const soft = unk * (1 - tau), blurS = soft > 0.03 ? ';filter:blur(' + (2.6 * sw * soft).toFixed(1) + 'px)' : '';
         ip(outline + hA.map(h => ring(pm, h, dxA)).join(''), 'fill:' + C.cream + ';fill-rule:evenodd;fill-opacity:' + (0.78 * tau).toFixed(2));
-        ip(outline, 'fill:none;stroke:' + C.plate + ';stroke-linejoin:round;stroke-width:' + lerp(lerp(1, 3.2, soft), 1.4, tau).toFixed(1) + ';stroke-opacity:' + lerp(lerp(0.85, 0.62, soft), 0.95, tau).toFixed(2) + blurS);
-        if(tau < 0.98) ip(HO.Mb.map(h => ring(pm, h, 0)).join(''), 'fill:none;stroke:' + C.plate + ';stroke-width:' + lerp(0.9, 2.4, soft).toFixed(1) + ';stroke-opacity:' + (lerp(0.85, 0.5, soft) * hv * (1 - tau)).toFixed(2) + blurS);
-        ip(hA.map(h => ring(pm, h, dxA)).join(''), 'fill:none;stroke:' + C.plate + ';stroke-width:1.4;stroke-opacity:' + (0.95 * tau).toFixed(2));
+        ip(outline, 'fill:none;stroke:' + C.wire + ';stroke-linejoin:round;stroke-width:' + lerp(lerp(1, 3.2, soft), 1.4, tau).toFixed(1) + ';stroke-opacity:' + lerp(lerp(0.85, 0.62, soft), 0.95, tau).toFixed(2) + blurS);
+        if(tau < 0.98) ip(HO.Mb.map(h => ring(pm, h, 0)).join(''), 'fill:none;stroke:' + C.wire + ';stroke-width:' + lerp(0.9, 2.4, soft).toFixed(1) + ';stroke-opacity:' + (lerp(0.85, 0.5, soft) * hv * (1 - tau)).toFixed(2) + blurS);
+        ip(hA.map(h => ring(pm, h, dxA)).join(''), 'fill:none;stroke:' + C.wire + ';stroke-width:1.4;stroke-opacity:' + (0.95 * tau).toFixed(2));
       }
       L4.forEach(L => { if(L.dotA * xa > 0.02) ip(ell(pi(L.x, L.y, zA), 6 * dk, 3.6 * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.dotA * xa).toFixed(2)); });
       segI(zA, 1e9);
-      if(tau > 0.5){ const e = (got.length ? got : L4).map(L => pi(L.x, L.y, L.zHi)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length, e[0][1]]; harmA = Math.max.apply(null, L4.map(L => L.harm)) * xa; }
+      if(tau > 0.5){ const e = L4.map(L => pi(L.x, L.y, L.zHi)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length, e[0][1]]; harmA = Math.max.apply(null, L4.map(L => L.harm)) * xa; }
     }
     lab.harm = show({left:px((harmPos ? harmPos[0] : 0) - 60), top:px((harmPos ? harmPos[1] : 0) + 7), width:'120px', 'font-size':'13px'}, harmPos ? harmA : 0);
 
@@ -663,7 +625,7 @@ class Component extends DCLogic {
       const q = e.q, x0 = parseFloat(q.left), y0 = parseFloat(q.top), wd = q.width ? parseFloat(q.width) : 0, fs = parseFloat(q['font-size']);
       const right = {int:1, mon:1, ass:1, dark:1, ghost:1, t0:1, t1:1}[k], red = {t0:1, t1:1, t2:1, t3:1, harm:1}[k];
       const anchor = k === 'harm' ? 'middle' : (right ? 'end' : 'start'), x = k === 'harm' ? x0 + wd / 2 : (right ? x0 + wd : x0);
-      texts.push({t:NAMES[k], style:'position:absolute;left:' + f(x) + 'px;top:' + f(y0) + 'px;white-space:nowrap;line-height:1.2;pointer-events:none;font-size:' + fs + 'px;color:' + (red ? '#a83a1b' : C.plate)
+      texts.push({t:NAMES[k], style:'position:absolute;left:' + f(x) + 'px;top:' + f(y0) + 'px;white-space:nowrap;line-height:1.2;pointer-events:none;font-size:' + fs + 'px;color:' + (red ? C.labelAcc : C.heading)
         + ';transform:translateX(' + (anchor === 'end' ? '-100%' : (anchor === 'middle' ? '-50%' : '0')) + ');font-weight:' + ({int:700, mon:700, ass:700, harm:700}[k] || (red || k === 'dark' || k === 'ghost' ? 400 : 600)) + ';opacity:' + Math.min(1, e.a).toFixed(2)});
     });
     const paths = (stackA > 0.02 ? shapes : []).concat(o.labels === false || labA < 0.02 ? [] : overs, isoShapes);
@@ -738,25 +700,28 @@ class Component extends DCLogic {
       F.big = this.fig(st.sA, pw, ph, stacked ? {left:92, right:132, fsLayer:10.5, fsSlice:9, fsLine:8.5, fsNote:8.5, sw:0.7, dk:0.75, lean:8, top:6, bottom:6}
         : {left:176, right:188, fsLayer:16, fsSlice:12, fsLine:11, top:24, bottom:24});
       out.mainStyle = stacked ? 'display:block;padding-top:44px;--lp:7px' : 'display:flex;align-items:flex-start';
-      out.paneStyle = S(stacked ? {position:'sticky', top:'44px', height:ph + 'px', 'z-index':2, overflow:'hidden', background:'#feecd3', 'border-bottom':'1px solid #114b5f33'}
+      out.paneStyle = S(stacked ? {position:'sticky', top:'44px', height:ph + 'px', 'z-index':2, overflow:'hidden', background:'var(--bg,#feecd3)', 'border-bottom':'1px solid var(--border,#114b5f33)'}
         : {position:'sticky', top:'44px', flex:'0 0 ' + pw + 'px', height:ph + 'px'});
       out.textStyle = stacked ? 'padding:36px 22px 90px' : 'flex:1 1 0;max-width:720px;padding:104px 48px 110px 28px';
       /* all the text of this page has one size. It is set large and open, so that the story has more of the scroll to play in. */
-      out.argStyle = stacked ? 'font-size:17px;line-height:1.8;text-wrap:pretty' : 'font-size:19px;line-height:1.85;text-wrap:pretty';
+      const ed = typeof window !== 'undefined' && window.__siteTheme && window.__siteTheme.style === 'editorial';
+      out.argStyle = stacked ? (ed ? 'font-size:16.5px;line-height:1.75;max-width:64ch;text-wrap:pretty' : 'font-size:17px;line-height:1.8;text-wrap:pretty')
+        : (ed ? 'font-size:18px;line-height:1.76;max-width:64ch;text-wrap:pretty' : 'font-size:19px;line-height:1.85;text-wrap:pretty');
       out.subStyle = stacked ? 'font-size:17px' : 'font-size:19px';
       out.linkStyle = stacked ? 'font-size:15px;line-height:1.5' : 'font-size:16px;line-height:1.55';
     }
 
     /* the ribbon is there from the start: the entries in a row on a wide window, behind one word on a narrow one */
-    const rb = {}, wide = W >= 940;
-    ['explore', 'wargame', 'data', 'blog', 'team'].forEach(k => {
-      const open = st.open === 'r-' + k;
-      rb[k] = Object.assign(this.boxHandlers('r-' + k, k === 'explore' || k === 'team'), {list:S({opacity:open ? 1 : 0, visibility:open ? 'visible' : 'hidden'})});
-    });
+    const rb = {}, wide = W >= 760;
+    { const open = st.open === 'r-data';
+      rb.data = Object.assign(this.boxHandlers('r-data', false), {list:S({opacity:open ? 1 : 0, visibility:open ? 'visible' : 'hidden'})}); }
     { const open = st.open === 'r-menu';
       rb.menu = {toggle:() => this.setState({open:this.state.open === 'r-menu' ? null : 'r-menu'}), list:S({width:W + 'px', 'max-height':(V - 44) + 'px', visibility:open ? 'visible' : 'hidden'})}; }
     if(!out.story) out.story = {on:false};
-    return Object.assign(out, {scRef:this.scRef, scStyle:'height:' + V + 'px', F, B, rb,
+    const TH = this.svgTheme();
+    const gridLineStyle = 'stroke:' + TH.grid.stroke + ';stroke-width:0.7;stroke-opacity:' + TH.grid.opacityPage;
+    const hatchLineStyle = 'stroke:' + TH.grid.hatchStroke + ';stroke-width:1.3;stroke-opacity:' + TH.grid.hatchOpacity;
+    return Object.assign(out, {scRef:this.scRef, scStyle:'height:' + V + 'px', F, B, rb, gridLineStyle, hatchLineStyle,
       ribNavD:wide ? '' : 'display:none', ribNavP:wide ? 'display:none' : ''});
   }
 }

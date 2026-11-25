@@ -3,75 +3,64 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>thesafetystack.ai</title>
+<meta name="color-scheme" content="light dark">
+<meta name="darkreader-lock">
+<title>The Safety Stack — Frontier AI Safety Inventory</title>
+<meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c1317" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg?v=2">
+<link rel="icon" href="./favicon.ico?v=2" sizes="32x32">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png?v=2">
+<style>:root{color-scheme:light dark}html,body{margin:0;background:var(--bg,#feecd3);color:var(--ink,#333);font-family:var(--font-prose,'IBM Plex Mono',ui-monospace,Menlo,monospace)}x-dc{display:none}</style>
+<script src="./vendor/react.production.min.js"></script>
+<script src="./vendor/react-dom.production.min.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
 <style>
   *{box-sizing:border-box}
-  body{margin:0;background:#feecd3;color:#333;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;-webkit-font-smoothing:antialiased}
-  a{color:#028090;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
-  a:hover{color:#114b5f}
+  body{margin:0;background:var(--bg,#feecd3);color:var(--ink,#333);font-family:var(--font-prose,'IBM Plex Mono',ui-monospace,Menlo,monospace);-webkit-font-smoothing:antialiased}
+  a{color:var(--link,#028090);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+  a:hover{color:var(--link-hover,#114b5f)}
   button{font-family:inherit}
-  ::selection{background:#02809033}
+  ::selection{background:var(--selection,#02809033)}
 </style>
 </helmet>
-<div ref="{{ scRef }}" data-scroller="1" tabindex="0" style="position:relative;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;background:#feecd3;color:#333;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;{{ scStyle }}">
+<div ref="{{ scRef }}" data-scroller="1" tabindex="0" style="position:relative;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;overflow-anchor:none;background:var(--bg,#feecd3);color:var(--ink,#333);font-family:var(--font-prose,'IBM Plex Mono',ui-monospace,Menlo,monospace);{{ scStyle }}">
 <div ref="{{ rootRef }}" style="position:relative">
 
   <svg aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none">
     <defs>
-      <pattern id="fpGridA" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(21.8)">
-        <line x1="0" y1="0" x2="44" y2="0" style="stroke:#114b5f;stroke-width:0.7;stroke-opacity:0.13"></line>
+      <pattern id="fpStoryGridA" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(21.8)">
+        <line x1="0" y1="0" x2="44" y2="0" style="stroke:var(--grid-stroke,#114b5f);stroke-width:0.7;stroke-opacity:var(--grid-opacity,0.13)"></line>
       </pattern>
-      <pattern id="fpGridB" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(-21.8)">
-        <line x1="0" y1="0" x2="44" y2="0" style="stroke:#114b5f;stroke-width:0.7;stroke-opacity:0.13"></line>
+      <pattern id="fpStoryGridB" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(-21.8)">
+        <line x1="0" y1="0" x2="44" y2="0" style="stroke:var(--grid-stroke,#114b5f);stroke-width:0.7;stroke-opacity:var(--grid-opacity,0.13)"></line>
       </pattern>
     </defs>
-    <rect x="0" y="0" width="100%" height="100%" style="fill:url(#fpGridA)"></rect>
-    <rect x="0" y="0" width="100%" height="100%" style="fill:url(#fpGridB)"></rect>
+    <rect x="0" y="0" width="100%" height="100%" style="fill:url(#fpStoryGridA)"></rect>
+    <rect x="0" y="0" width="100%" height="100%" style="fill:url(#fpStoryGridB)"></rect>
   </svg>
 
   <div style="position:sticky;top:0;height:0;z-index:6">
-    <div style="position:absolute;left:0;right:0;top:0;height:44px;background:#feecd3f2;border-bottom:1px solid #114b5f2b;transition:opacity 300ms ease;{{ ribBar }}"></div>
-    <a href="index.html" style="position:absolute;left:20px;top:0;height:44px;display:flex;align-items:center;white-space:nowrap;font-size:13px;line-height:1.3;font-weight:700;color:#114b5f;text-decoration:none">thesafetystack.ai</a>
-    <div style="position:absolute;white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.3;color:#114b5f;pointer-events:none;transition:opacity 200ms ease;{{ cueStyle }}">Scroll</div>
+    <div style="position:absolute;left:0;right:0;top:0;height:44px;background:var(--surface-glass,#feecd3f2);border-bottom:1px solid var(--border,#114b5f2b);transition:opacity 300ms ease;{{ ribBar }}"></div>
+    <a href="index.html" onClick="{{ onBrandClick }}" style="position:absolute;left:20px;top:0;height:44px;display:flex;align-items:center;white-space:nowrap;font-family:var(--font-nav,ui-monospace,monospace);font-size:14px;line-height:1.3;font-weight:700;letter-spacing:-0.015em;gap:8px;color:var(--heading,#114b5f);text-decoration:none"><svg width="18" height="18" viewBox="0 0 64 64" aria-hidden="true" style="display:block;flex:none"><polygon points="4,38 32,24 60,38 32,52" style="fill:var(--logo-slab,#114b5f);opacity:0.52"/><polygon points="4,28 32,14 60,28 32,42" style="fill:var(--logo-slab,#114b5f)"/><line x1="32" y1="4" x2="32" y2="60" style="stroke:var(--accent,#da532c)" stroke-width="3.4" stroke-linecap="round"/></svg>The Safety Stack</a>
+    <div style="position:absolute;white-space:nowrap;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11px;line-height:1.3;color:var(--heading,#114b5f);pointer-events:none;transition:opacity 200ms ease;{{ cueStyle }}">Scroll</div>
     <div data-box="r-menu" style="position:absolute;right:0;top:0;transition:opacity 300ms ease;{{ ribNav }}">
-      <button type="button" onClick="{{ rb.menu.toggle }}" style="display:flex;align-items:center;height:44px;padding:0 20px;color:#114b5f;background:none;border:0;margin:0;font-size:13px;font-weight:700">Menu</button>
-      <div style="position:absolute;right:0;top:44px;overflow-y:auto;background:#feecd3;border-top:1px solid #114b5f33;border-bottom:1px solid #114b5f33;padding:4px 20px 18px;font-size:14px;line-height:1.4;{{ rb.menu.list }}">
-        <p style="margin:14px 0 2px;font-weight:700"><a href="why.html" style="display:block;padding:6px 0;color:#114b5f;text-decoration:none">Why Stack?</a></p>
-        <p style="margin:14px 0 2px;font-weight:700"><a href="stack.html" style="display:block;padding:6px 0;color:#114b5f;text-decoration:none">Explore the stack</a></p>
-        <ul style="list-style:none;margin:0;padding:0">
-          <li><a href="stack.html" style="display:block;padding:9px 0">The safety stack by lab</a></li>
-        </ul>
-        <p style="margin:14px 0 2px;padding:6px 0;font-weight:700;color:#114b5f">Wargame safety surfaces</p>
-        <ul style="list-style:none;margin:0;padding:0">
-          <li style="padding:4px 0;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#114b5f">in progress</li>
-          <li style="padding:4px 0">Continuous probabilistic inference over frontier lab safety stacks—tracking safeguard deployment, overlap, and correlated failures to monitor live risk-surface coverage.</li>
-        </ul>
-        <p style="margin:14px 0 2px;padding:6px 0;font-weight:700;color:#114b5f">Use the data</p>
+      <button type="button" onClick="{{ rb.menu.toggle }}" style="display:flex;align-items:center;height:44px;padding:0 20px;color:var(--heading,#114b5f);background:none;border:0;margin:0;font-size:13px;font-weight:700">Menu</button>
+      <div style="position:absolute;right:0;top:44px;overflow-y:auto;background:var(--surface,#feecd3);border-top:1px solid var(--border,#114b5f33);border-bottom:1px solid var(--border-strong,#114b5f33);padding:4px 20px 18px;font-size:14px;line-height:1.4;{{ rb.menu.list }}">
+        <p style="margin:14px 0 2px;font-weight:700"><a href="why.html" style="display:block;padding:6px 0;color:var(--heading,#114b5f);text-decoration:none">Why Stack?</a></p>
+        <p style="margin:14px 0 2px;font-weight:700"><a href="stack.html" style="display:block;padding:6px 0;color:var(--heading,#114b5f);text-decoration:none">Explore the stack</a></p>
+        <p style="margin:14px 0 2px;padding:6px 0;font-weight:700;color:var(--heading,#114b5f)">Use the data</p>
         <ul style="list-style:none;margin:0;padding:0">
           <li><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener" style="display:block;padding:9px 0">Model-by-technique matrix</a></li>
           <li><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener" style="display:block;padding:9px 0">Dataset on Hugging Face</a></li>
           <li><a href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener" style="display:block;padding:9px 0">Taxonomies on GitHub</a></li>
           <li><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener" style="display:block;padding:9px 0">Pipeline code on GitHub</a></li>
         </ul>
-        <p style="margin:14px 0 2px;padding:6px 0;font-weight:700;color:#114b5f">Blog</p>
-        <ul style="list-style:none;margin:0;padding:0">
-          <li style="padding:4px 0;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#114b5f">coming soon</li>
-        </ul>
-        <p style="margin:14px 0 2px;font-weight:700"><a href="team.html" style="display:block;padding:6px 0;color:#114b5f;text-decoration:none">Team</a></p>
-        <ul style="list-style:none;margin:0;padding:0">
-          <li><a href="team.html#jacob" style="display:block;padding:9px 0">Jacob Livingston Slosser</a></li>
-          <li><a href="team.html#tomas" style="display:block;padding:9px 0">Tomáš Gavenčiak</a></li>
-          <li><a href="team.html#finn" style="display:block;padding:9px 0">Finn Hambly</a></li>
-          <li><a href="team.html#dan" style="display:block;padding:9px 0">Dan Elton</a></li>
-          <li><a href="team.html#gavin" style="display:block;padding:9px 0">Advisor: Gavin Leech</a></li>
-        </ul>
+        <p style="margin:14px 0 2px;font-weight:700"><a href="team.html" style="display:block;padding:6px 0;color:var(--heading,#114b5f);text-decoration:none">Team</a></p>
       </div>
     </div>
   </div>
@@ -84,37 +73,37 @@
         <g><sc-for list="{{ isoShapes }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></g>
       </svg>
 
-      <div style="position:absolute;text-align:right;white-space:nowrap;font-weight:700;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.int }}">Interventions</div>
-      <div style="position:absolute;text-align:right;white-space:nowrap;font-weight:700;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.mon }}">Monitoring</div>
-      <div style="position:absolute;text-align:right;white-space:nowrap;font-weight:700;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.ass }}">Assessments</div>
+      <div style="position:absolute;text-align:right;white-space:nowrap;font-weight:700;line-height:1.2;color:var(--heading,#114b5f);pointer-events:none;{{ lab.int }}">Interventions</div>
+      <div style="position:absolute;text-align:right;white-space:nowrap;font-weight:700;line-height:1.2;color:var(--heading,#114b5f);pointer-events:none;{{ lab.mon }}">Monitoring</div>
+      <div style="position:absolute;text-align:right;white-space:nowrap;font-weight:700;line-height:1.2;color:var(--heading,#114b5f);pointer-events:none;{{ lab.ass }}">Assessments</div>
 
-      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.rlhf }}">RLHF</div>
-      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.refusal }}">Refusal training</div>
-      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.guard }}">Guard models</div>
-      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.cot }}">CoT monitoring</div>
-      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.red }}">Red-teaming</div>
-      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:#114b5f;pointer-events:none;{{ lab.jail }}">Jailbreak evaluations</div>
+      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:var(--heading,#114b5f);pointer-events:none;{{ lab.rlhf }}">RLHF</div>
+      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:var(--heading,#114b5f);pointer-events:none;{{ lab.refusal }}">Refusal training</div>
+      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:var(--heading,#114b5f);pointer-events:none;{{ lab.guard }}">Guard models</div>
+      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:var(--heading,#114b5f);pointer-events:none;{{ lab.cot }}">CoT monitoring</div>
+      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:var(--heading,#114b5f);pointer-events:none;{{ lab.red }}">Red-teaming</div>
+      <div style="position:absolute;white-space:nowrap;font-weight:600;line-height:1.2;color:var(--heading,#114b5f);pointer-events:none;{{ lab.jail }}">Jailbreak evaluations</div>
 
-      <div style="position:absolute;text-align:right;white-space:nowrap;font-family:'IBM Plex Mono',monospace;line-height:1.2;color:#a83a1b;pointer-events:none;{{ lab.t0 }}">Data issues</div>
-      <div style="position:absolute;text-align:right;white-space:nowrap;font-family:'IBM Plex Mono',monospace;line-height:1.2;color:#a83a1b;pointer-events:none;{{ lab.t1 }}">RL overtraining</div>
-      <div style="position:absolute;white-space:nowrap;font-family:'IBM Plex Mono',monospace;line-height:1.2;color:#a83a1b;pointer-events:none;{{ lab.t2 }}">Adversarial inputs</div>
-      <div style="position:absolute;white-space:nowrap;font-family:'IBM Plex Mono',monospace;line-height:1.2;color:#a83a1b;pointer-events:none;{{ lab.t3 }}">Deployment shift</div>
-      <div style="position:absolute;text-align:center;white-space:nowrap;font-weight:700;line-height:1.2;color:#a83a1b;pointer-events:none;{{ lab.harm }}">Harm</div>
+      <div style="position:absolute;text-align:right;white-space:nowrap;font-family:var(--font-mono,'IBM Plex Mono',monospace);line-height:1.2;color:var(--accent-ink,#a83a1b);pointer-events:none;{{ lab.t0 }}">Data issues</div>
+      <div style="position:absolute;text-align:right;white-space:nowrap;font-family:var(--font-mono,'IBM Plex Mono',monospace);line-height:1.2;color:var(--accent-ink,#a83a1b);pointer-events:none;{{ lab.t1 }}">RL overtraining</div>
+      <div style="position:absolute;white-space:nowrap;font-family:var(--font-mono,'IBM Plex Mono',monospace);line-height:1.2;color:var(--accent-ink,#a83a1b);pointer-events:none;{{ lab.t2 }}">Adversarial inputs</div>
+      <div style="position:absolute;white-space:nowrap;font-family:var(--font-mono,'IBM Plex Mono',monospace);line-height:1.2;color:var(--accent-ink,#a83a1b);pointer-events:none;{{ lab.t3 }}">Deployment shift</div>
+      <div style="position:absolute;text-align:center;white-space:nowrap;font-weight:700;line-height:1.2;color:var(--accent-ink,#a83a1b);pointer-events:none;{{ lab.harm }}">Harm</div>
 
-      <div style="position:absolute;text-align:right;white-space:nowrap;font-family:'IBM Plex Mono',monospace;line-height:1.3;color:#114b5f;pointer-events:none;{{ lab.dark }}">dark matter</div>
-      <div style="position:absolute;text-align:right;white-space:nowrap;font-family:'IBM Plex Mono',monospace;line-height:1.3;color:#114b5f;pointer-events:none;{{ lab.ghost }}">ghost matter</div>
+      <div style="position:absolute;text-align:right;white-space:nowrap;font-family:var(--font-mono,'IBM Plex Mono',monospace);line-height:1.3;color:var(--heading,#114b5f);pointer-events:none;{{ lab.dark }}">dark matter</div>
+      <div style="position:absolute;text-align:right;white-space:nowrap;font-family:var(--font-mono,'IBM Plex Mono',monospace);line-height:1.3;color:var(--heading,#114b5f);pointer-events:none;{{ lab.ghost }}">ghost matter</div>
 
       <section ref="{{ p1Ref }}" style="position:absolute;font-size:16px;line-height:1.62;{{ p1Style }}">
-        <h2 style="margin:0 0 10px;font-size:1.3em;line-height:1.25;font-weight:700;color:#114b5f">Why Stack?</h2>
-        <p style="margin:0;text-wrap:pretty">The de facto plan for AI safety of frontier labs, and thus the world, is <a href="https://oscardelaney.substack.com/p/when-is-defense-in-depth-unhelpful" target="_blank" rel="noopener">defence</a>-<a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">in-depth</a>.</p>
-        <p style="margin:14px 0 0;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.3;color:#114b5f">Scroll down</p>
+        <h2 style="margin:0 0 10px;font-size:1.3em;line-height:1.25;font-weight:700;color:var(--heading,#114b5f)">Why Stack?</h2>
+        <p style="margin:0;text-wrap:pretty">The de facto plan for AI safety of frontier labs, and thus the world, is <a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">defence-in-depth</a>.</p>
+        <p style="margin:14px 0 0;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:12px;line-height:1.3;color:var(--heading,#114b5f)">Scroll down</p>
       </section>
 
-      <div style="position:absolute;top:0;overflow:hidden;font-size:15px;line-height:1.65;-webkit-mask-image:linear-gradient(transparent 0,#000 13%,#000 94%,transparent 100%);mask-image:linear-gradient(transparent 0,#000 13%,#000 94%,transparent 100%);{{ colStyle }}">
+      <div style="position:absolute;top:0;overflow:hidden;font-size:15px;line-height:1.65;-webkit-mask-image:linear-gradient(transparent 0,#000 8%,#000 94%,transparent 100%);mask-image:linear-gradient(transparent 0,#000 8%,#000 94%,transparent 100%);{{ colStyle }}">
         <div ref="{{ reelRef }}" style="position:absolute;left:0;right:0;top:0;{{ reelStyle }}">
           <p data-line="1" style="margin:0 0 14px;{{ ln.l0 }}">The idea is, that if you stack together enough weak alignment and control techniques, the failures of each layer will get caught by later layers.</p>
           <p data-line="1" style="margin:0 0 14px;{{ ln.l1 }}">This “stack” includes all of the alignment, interpretability, and control methods that have tamed LLMs enough to make it possible to make money off of them.</p>
-          <h2 data-line="1" style="margin:30px 0 12px;font-size:1.3em;line-height:1.25;font-weight:700;color:#114b5f;{{ ln.l2 }}">How good is this plan?</h2>
+          <h2 data-line="1" style="margin:30px 0 12px;font-size:1.3em;line-height:1.25;font-weight:700;color:var(--heading,#114b5f);{{ ln.l2 }}">How good is this plan?</h2>
           <p data-line="1" style="margin:0 0 14px;{{ ln.l3 }}">We don’t know.</p>
           <p data-line="1" style="margin:0 0 14px;{{ ln.l4 }}">The actual safety stack of deployed technologies is not public. So we don’t know what many of the layers are and how the defenses and vulnerabilities line up to specific risks.</p>
           <p data-line="1" style="margin:0 0 14px;{{ ln.l5 }}">Let alone how well they work individually.</p>
@@ -136,8 +125,8 @@
     <div style="position:sticky;top:0;overflow:hidden;{{ sceneStyle }}">
       <svg aria-hidden="true" width="{{ SW }}" height="{{ SH }}" style="position:absolute;left:0;top:0;display:block">
         <defs>
-          <pattern id="fpHatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-            <line x1="0" y1="0" x2="0" y2="7" style="stroke:#feecd3;stroke-width:1.3;stroke-opacity:0.38"></line>
+          <pattern id="fpStoryHatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="7" style="stroke:var(--bg,#feecd3);stroke-width:1.3;stroke-opacity:0.38"></line>
           </pattern>
         </defs>
         <sc-for list="{{ boxG }}" as="g" hint-placeholder-count="0"><g style="{{ g.style }}"><sc-for list="{{ g.paths }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></g></sc-for>
@@ -149,73 +138,73 @@
       <p style="position:absolute;margin:0;font-size:16px;line-height:1.5;text-wrap:pretty;{{ cp.c4 }}">We will write up our findings and point to the more glaring presuppositions the stack assumes.</p>
 
       <div data-box="explore" style="position:absolute;left:0;top:0;{{ bx.explore.wrap }}" onMouseEnter="{{ bx.explore.enter }}" onMouseLeave="{{ bx.explore.leave }}" onPointerDown="{{ bx.explore.down }}" onFocus="{{ bx.explore.enter }}" onBlur="{{ bx.explore.blur }}">
-        <a href="stack.html" onClick="{{ bx.explore.click }}" style="position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center;font-size:14px;font-weight:700;line-height:1.2;color:#114b5f;text-decoration:none;{{ bx.explore.hit }}"><span style="display:flex;align-items:flex-end;justify-content:center;{{ bx.explore.name }}">Explore the stack</span></a>
-        <ul style="position:absolute;list-style:none;margin:0;font-size:12.5px;line-height:1.4;color:#333;{{ bx.explore.list }}">
-          <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:#114b5f;{{ bx.explore.tick }}"></span><a href="stack.html">The safety stack by lab</a></li>
+        <a href="stack.html" onClick="{{ bx.explore.click }}" style="position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center;font-size:14px;font-weight:700;line-height:1.2;color:var(--heading,#114b5f);text-decoration:none;{{ bx.explore.hit }}"><span style="display:flex;align-items:flex-end;justify-content:center;{{ bx.explore.name }}">Explore the stack</span></a>
+        <ul style="position:absolute;list-style:none;margin:0;font-size:12.5px;line-height:1.4;color:var(--ink,#333);{{ bx.explore.list }}">
+          <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:var(--heading,#114b5f);{{ bx.explore.tick }}"></span><a href="stack.html">The safety stack by lab</a></li>
         </ul>
       </div>
 
       <div data-box="wargame" style="position:absolute;left:0;top:0;{{ bx.wargame.wrap }}" onMouseEnter="{{ bx.wargame.enter }}" onMouseLeave="{{ bx.wargame.leave }}" onPointerDown="{{ bx.wargame.down }}" onFocus="{{ bx.wargame.enter }}" onBlur="{{ bx.wargame.blur }}">
-        <button type="button" onClick="{{ bx.wargame.click }}" style="position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center;font-size:14px;font-weight:700;line-height:1.2;color:#114b5f;background:none;border:0;padding:0;margin:0;cursor:default;{{ bx.wargame.hit }}"><span style="display:flex;align-items:flex-end;justify-content:center;{{ bx.wargame.name }}">Wargame safety surfaces</span></button>
-        <ul style="position:absolute;list-style:none;margin:0;font-size:12.5px;line-height:1.4;color:#333;{{ bx.wargame.list }}">
-          <li style="margin:0 0 8px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#114b5f">in progress</li>
-          <li style="position:relative;margin:0;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:#114b5f;{{ bx.wargame.tick }}"></span>Continuous probabilistic inference over frontier lab safety stacks—tracking safeguard deployment, overlap, and correlated failures to monitor live risk-surface coverage.</li>
+        <button type="button" onClick="{{ bx.wargame.click }}" style="position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center;font-size:14px;font-weight:700;line-height:1.2;color:var(--heading,#114b5f);background:none;border:0;padding:0;margin:0;cursor:default;{{ bx.wargame.hit }}"><span style="display:flex;align-items:flex-end;justify-content:center;{{ bx.wargame.name }}">Stress-test safety surfaces</span></button>
+        <ul style="position:absolute;list-style:none;margin:0;font-size:12.5px;line-height:1.4;color:var(--ink,#333);{{ bx.wargame.list }}">
+          <li style="margin:0 0 8px;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11.5px;color:var(--heading,#114b5f)">in development</li>
+          <li style="position:relative;margin:0;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:var(--heading,#114b5f);{{ bx.wargame.tick }}"></span>Continuous probabilistic inference over frontier lab safety stacks—tracking safeguard deployment, overlap, and correlated failures to monitor live risk-surface coverage.</li>
         </ul>
       </div>
 
       <div data-box="data" style="position:absolute;left:0;top:0;{{ bx.data.wrap }}" onMouseEnter="{{ bx.data.enter }}" onMouseLeave="{{ bx.data.leave }}" onPointerDown="{{ bx.data.down }}" onFocus="{{ bx.data.enter }}" onBlur="{{ bx.data.blur }}">
-        <button type="button" onClick="{{ bx.data.click }}" style="position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center;font-size:14px;font-weight:700;line-height:1.2;color:#114b5f;background:none;border:0;padding:0;margin:0;cursor:default;{{ bx.data.hit }}"><span style="display:flex;align-items:flex-end;justify-content:center;{{ bx.data.name }}">Use the data</span></button>
-        <ul style="position:absolute;list-style:none;margin:0;font-size:12.5px;line-height:1.4;color:#333;{{ bx.data.list }}">
-          <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:#114b5f;{{ bx.data.tick }}"></span><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model-by-technique matrix</a></li>
-          <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:#114b5f;{{ bx.data.tick }}"></span><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Dataset on Hugging Face</a></li>
-          <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:#114b5f;{{ bx.data.tick }}"></span><a href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Taxonomies on GitHub</a></li>
-          <li style="position:relative;margin:0;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:#114b5f;{{ bx.data.tick }}"></span><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline code on GitHub</a></li>
+        <button type="button" onClick="{{ bx.data.click }}" style="position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center;font-size:14px;font-weight:700;line-height:1.2;color:var(--heading,#114b5f);background:none;border:0;padding:0;margin:0;cursor:default;{{ bx.data.hit }}"><span style="display:flex;align-items:flex-end;justify-content:center;{{ bx.data.name }}">Use the data</span></button>
+        <ul style="position:absolute;list-style:none;margin:0;font-size:12.5px;line-height:1.4;color:var(--ink,#333);{{ bx.data.list }}">
+          <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:var(--heading,#114b5f);{{ bx.data.tick }}"></span><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model-by-technique matrix</a></li>
+          <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:var(--heading,#114b5f);{{ bx.data.tick }}"></span><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Dataset on Hugging Face</a></li>
+          <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:var(--heading,#114b5f);{{ bx.data.tick }}"></span><a href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Taxonomies on GitHub</a></li>
+          <li style="position:relative;margin:0;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:var(--heading,#114b5f);{{ bx.data.tick }}"></span><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline code on GitHub</a></li>
         </ul>
       </div>
 
       <div data-box="blog" style="position:absolute;left:0;top:0;{{ bx.blog.wrap }}" onMouseEnter="{{ bx.blog.enter }}" onMouseLeave="{{ bx.blog.leave }}" onPointerDown="{{ bx.blog.down }}" onFocus="{{ bx.blog.enter }}" onBlur="{{ bx.blog.blur }}">
-        <button type="button" onClick="{{ bx.blog.click }}" style="position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center;font-size:14px;font-weight:700;line-height:1.2;color:#114b5f;background:none;border:0;padding:0;margin:0;cursor:default;{{ bx.blog.hit }}"><span style="display:flex;align-items:flex-end;justify-content:center;{{ bx.blog.name }}">Blog</span></button>
-        <ul style="position:absolute;list-style:none;margin:0;font-size:12.5px;line-height:1.4;color:#333;{{ bx.blog.list }}">
-          <li style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#114b5f">coming soon</li>
+        <button type="button" onClick="{{ bx.blog.click }}" style="position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center;font-size:14px;font-weight:700;line-height:1.2;color:var(--heading,#114b5f);background:none;border:0;padding:0;margin:0;cursor:default;{{ bx.blog.hit }}"><span style="display:flex;align-items:flex-end;justify-content:center;{{ bx.blog.name }}">Blog</span></button>
+        <ul style="position:absolute;list-style:none;margin:0;font-size:12.5px;line-height:1.4;color:var(--ink,#333);{{ bx.blog.list }}">
+          <li style="margin:0;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11.5px;color:var(--heading,#114b5f)">coming soon</li>
         </ul>
       </div>
 
-      <p style="position:absolute;margin:0;font-size:20px;line-height:1.25;font-weight:700;color:#114b5f;{{ helpLead }}">This could help</p>
+      <p style="position:absolute;margin:0;font-size:20px;line-height:1.25;font-weight:700;color:var(--heading,#114b5f);{{ helpLead }}">This could help</p>
       <div style="position:absolute;font-size:16px;line-height:1.58;{{ help1 }}">
-        <p style="margin:0 0 6px;font-weight:700;color:#114b5f">Safety researchers.</p>
+        <p style="margin:0 0 6px;font-weight:700;color:var(--heading,#114b5f)">Safety researchers.</p>
         <p style="margin:0;text-wrap:pretty">In general, many researchers test their techniques piecemeal, comparing them individually. We can’t test the techniques in the environment (joint implementation), have no sense of how well they’re working as a whole, and have no sense of fault correlations. One of the few exceptions is a <a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">small AISI/FAR pilot study</a> which implemented and tested a few inference-time safeguards together.</p>
       </div>
       <div style="position:absolute;font-size:16px;line-height:1.58;{{ help2 }}">
-        <p style="margin:0 0 6px;font-weight:700;color:#114b5f">Policy community.</p>
+        <p style="margin:0 0 6px;font-weight:700;color:var(--heading,#114b5f)">Policy community.</p>
         <p style="margin:0;text-wrap:pretty">There are any number of efforts to set up "transparency", "vetting", "audits", and thereby promoting or mandating the use of existing safety technologies. But, in our experience, they usually don’t have a clear view of what these technologies are, or how much of the problem they would fix if they were mandatory and enforced.</p>
       </div>
       <div style="position:absolute;font-size:16px;line-height:1.58;{{ help3 }}">
-        <p style="margin:0 0 6px;font-weight:700;color:#114b5f">Funders.</p>
+        <p style="margin:0 0 6px;font-weight:700;color:var(--heading,#114b5f)">Funders.</p>
         <p style="margin:0;text-wrap:pretty">Grantmakers weigh impact in any proposal. This relies on an accurate view of what the current safety landscape is. Public information alone often cannot answer that. Individual researchers and evaluators often cannot answer that. Funders should be able to see which threats appear to have no safeguards or where safeguards fail together (for one example) to make effective use of their funds.</p>
       </div>
       <div ref="{{ finRef }}" style="position:absolute;{{ fin.wrap }}">
         <div style="display:flex;align-items:flex-start;{{ fin.gap }}">
           <span aria-hidden="true" style="flex:0 0 auto;display:block;{{ fin.spacer }}"></span>
-          <div style="flex:1 1 0;min-width:0"><a href="stack.html" style="display:block;margin:0 0 4px;font-size:14px;line-height:1.3;font-weight:700;color:#114b5f;text-decoration:none">Explore the stack</a>
-            <ul style="list-style:none;margin:0;padding:0;line-height:1.4;color:#333;{{ fin.ul }}"><li style="margin:0;{{ fin.li }}"><a href="stack.html">The safety stack by lab</a></li></ul>
+          <div style="flex:1 1 0;min-width:0"><a href="stack.html" style="display:block;margin:0 0 4px;font-size:14px;line-height:1.3;font-weight:700;color:var(--heading,#114b5f);text-decoration:none">Explore the stack</a>
+            <ul style="list-style:none;margin:0;padding:0;line-height:1.4;color:var(--ink,#333);{{ fin.ul }}"><li style="margin:0;{{ fin.li }}"><a href="stack.html">The safety stack by lab</a></li></ul>
           </div>
         </div>
         <div style="display:flex;align-items:flex-start;{{ fin.gap }}">
           <span aria-hidden="true" style="flex:0 0 auto;display:block;{{ fin.spacer }}"></span>
-          <div style="flex:1 1 0;min-width:0"><p style="margin:0 0 4px;font-size:14px;line-height:1.3;font-weight:700;color:#114b5f">Wargame safety surfaces</p>
-            <ul style="list-style:none;margin:0;padding:0;line-height:1.4;color:#333;{{ fin.ul }}"><li style="margin:0 0 5px;font-size:11.5px;color:#114b5f">in progress</li><li style="margin:0 0 5px">Continuous probabilistic inference over frontier lab safety stacks—tracking safeguard deployment, overlap, and correlated failures to monitor live risk-surface coverage.</li></ul>
+          <div style="flex:1 1 0;min-width:0"><p style="margin:0 0 4px;font-size:14px;line-height:1.3;font-weight:700;color:var(--heading,#114b5f)">Stress-test safety surfaces</p>
+            <ul style="list-style:none;margin:0;padding:0;line-height:1.4;color:var(--ink,#333);{{ fin.ul }}"><li style="margin:0 0 5px;font-size:11.5px;color:var(--heading,#114b5f)">in development</li><li style="margin:0 0 5px">Continuous probabilistic inference over frontier lab safety stacks—tracking safeguard deployment, overlap, and correlated failures to monitor live risk-surface coverage.</li></ul>
           </div>
         </div>
         <div style="display:flex;align-items:flex-start;{{ fin.gap }}">
           <span aria-hidden="true" style="flex:0 0 auto;display:block;{{ fin.spacer }}"></span>
-          <div style="flex:1 1 0;min-width:0"><p style="margin:0 0 4px;font-size:14px;line-height:1.3;font-weight:700;color:#114b5f">Use the data</p>
-            <ul style="list-style:none;margin:0;padding:0;line-height:1.4;color:#333;{{ fin.ul }}"><li style="margin:0;{{ fin.li }}"><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model-by-technique matrix</a></li><li style="margin:0;{{ fin.li }}"><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Dataset on Hugging Face</a></li><li style="margin:0;{{ fin.li }}"><a href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Taxonomies on GitHub</a></li><li style="margin:0;{{ fin.li }}"><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline code on GitHub</a></li></ul>
+          <div style="flex:1 1 0;min-width:0"><p style="margin:0 0 4px;font-size:14px;line-height:1.3;font-weight:700;color:var(--heading,#114b5f)">Use the data</p>
+            <ul style="list-style:none;margin:0;padding:0;line-height:1.4;color:var(--ink,#333);{{ fin.ul }}"><li style="margin:0;{{ fin.li }}"><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model-by-technique matrix</a></li><li style="margin:0;{{ fin.li }}"><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Dataset on Hugging Face</a></li><li style="margin:0;{{ fin.li }}"><a href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Taxonomies on GitHub</a></li><li style="margin:0;{{ fin.li }}"><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline code on GitHub</a></li></ul>
           </div>
         </div>
         <div style="display:flex;align-items:flex-start;">
           <span aria-hidden="true" style="flex:0 0 auto;display:block;{{ fin.spacer }}"></span>
-          <div style="flex:1 1 0;min-width:0"><p style="margin:0 0 4px;font-size:14px;line-height:1.3;font-weight:700;color:#114b5f">Blog</p>
-            <ul style="list-style:none;margin:0;padding:0;line-height:1.4;color:#333;{{ fin.ul }}"><li style="margin:0 0 5px;font-size:11.5px;color:#114b5f">coming soon</li></ul>
+          <div style="flex:1 1 0;min-width:0"><p style="margin:0 0 4px;font-size:14px;line-height:1.3;font-weight:700;color:var(--heading,#114b5f)">Blog</p>
+            <ul style="list-style:none;margin:0;padding:0;line-height:1.4;color:var(--ink,#333);{{ fin.ul }}"><li style="margin:0 0 5px;font-size:11.5px;color:var(--heading,#114b5f)">coming soon</li></ul>
           </div>
         </div>
       </div>
@@ -271,13 +260,26 @@ class Component extends DCLogic {
   T2 = (() => { const m = {}; let x = 0.15; this.TL2.forEach(e => { m[e[0]] = [x, e[1]]; x += e[1]; }); this.TOT2 = x + 0.35; return m; })();
   scRef = React.createRef(); rootRef = React.createRef(); t1Ref = React.createRef(); t2Ref = React.createRef();
   p1Ref = React.createRef(); reelRef = React.createRef(); aRef = React.createRef(); finRef = React.createRef();
-  state = {s:0, q:0, W:1440, V:900, p1H:110, ln:[], lnKey:'', aH:140, finKey:'', tx:0, ty:0, open:null, done:false, live:false};
+  state = {s:0, q:0, W:typeof window !== 'undefined' ? window.innerWidth : 1440, V:typeof window !== 'undefined' ? (window.innerHeight > 1800 ? 900 : Math.max(480, window.innerHeight)) : 900, p1H:110, ln:[], lnKey:'', aH:140, finKey:'', tx:0, ty:0, open:null, done:false, live:false, theme:typeof window !== 'undefined' && window.__siteTheme ? window.__siteTheme.mode() : 'light'};
+  svgTheme(){
+    if(typeof window !== 'undefined' && window.__siteTheme) return window.__siteTheme.svg();
+    return {bg:'#feecd3', svgHeading:'#114b5f', svgMuted:'#5c7f88', link:'#028090',
+      plate:{top:'#114b5f', front:'#285c6b', right:'#3c6c77', stroke:'#7ec7d8', solidStroke:'#2f7f94', edge:'#9fd6e2'},
+      ghost:{fill:'#114b5f', topOpacity:0.42, frontOpacity:0.34, rightOpacity:0.30},
+      none:{stroke:'#114b5f', maxOpacity:0.85}, hole:{rimWall:'#07202b', interior:'#feecd3'},
+      grid:{stroke:'#114b5f', opacityPage:0.13, hatchStroke:'#feecd3', hatchOpacity:0.38},
+      threat:{line:'#da532c', label:'#a83a1b'},
+      brackets:{roleTint:['#3a7f8c', '#337685', '#2d6d7e']}, wire:{boxStroke:'#114b5f', dmFill:'#114b5f', dmStroke:'#114b5f'}};
+  }
+  onThemeChange = () => { this.setState({theme:window.__siteTheme ? window.__siteTheme.mode() : 'light'}); };
+  onBrandClick = (e) => { if(this.props.embedded === true && typeof this.props.onDone === 'function'){ e.preventDefault(); this.props.onDone(); } };
   ptx = 0; pty = 0;
 
   componentDidMount(){
     this.reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     window.addEventListener('pointermove', this.onPointer, {passive:true});
     document.addEventListener('pointerdown', this.onDocDown);
+    window.addEventListener('site-theme-change', this.onThemeChange);
     if(this.MODE === 'phone'){
       const sc = this.scRef.current;
       if(sc){ sc.addEventListener('pointerdown', this.dragStart); sc.addEventListener('pointermove', this.dragMove); sc.addEventListener('pointerup', this.dragEnd); sc.addEventListener('pointercancel', this.dragEnd); sc.addEventListener('click', this.dragClick, true); }
@@ -290,6 +292,7 @@ class Component extends DCLogic {
     if(sc0){ sc0.removeEventListener('pointerdown', this.dragStart); sc0.removeEventListener('pointermove', this.dragMove); sc0.removeEventListener('pointerup', this.dragEnd); sc0.removeEventListener('pointercancel', this.dragEnd); sc0.removeEventListener('click', this.dragClick, true); }
     window.removeEventListener('pointermove', this.onPointer);
     document.removeEventListener('pointerdown', this.onDocDown);
+    window.removeEventListener('site-theme-change', this.onThemeChange);
   }
   reducedMotion(){ return this.reduced || this.props.reducedMotion === true; }
   /* how many pixels of scroll one step of length 1 takes */
@@ -446,7 +449,7 @@ class Component extends DCLogic {
   }
 
   renderVals(){
-    const st = this.state, C = this.C;
+    const st = this.state, TH = this.svgTheme(), C = {plate:TH.plate.top, teal:TH.link, acc:TH.threat.line, cream:TH.bg, edge:TH.plate.solidStroke, wire:TH.wire.boxStroke, heading:TH.svgHeading};
     const W = st.W, V = st.V, U = this.unit(V), SW = W, SH = V, phone = this.MODE === 'phone';
     const cl = x => Math.max(0, Math.min(1, x));
     const ez = k => k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
@@ -460,7 +463,7 @@ class Component extends DCLogic {
     const poly = pts => 'M' + pts.map(pt).join('L') + 'Z';
     const seg = (a, b) => 'M' + pt(a) + 'L' + pt(b);
     const ell = (c, rx, ry) => 'M' + f(c[0] - rx) + ' ' + f(c[1]) + 'A' + f(rx) + ' ' + f(ry) + ' 0 1 0 ' + f(c[0] + rx) + ' ' + f(c[1]) + 'A' + f(rx) + ' ' + f(ry) + ' 0 1 0 ' + f(c[0] - rx) + ' ' + f(c[1]) + 'Z';
-    const show = (o, a) => S(Object.assign(o, a > 0.005 ? {opacity:a.toFixed(2)} : {display:'none'}));
+    const show = (o, a) => S(Object.assign(o, a > 0.005 ? {opacity:a.toFixed(2)} : {opacity:'0', visibility:'hidden', 'pointer-events':'none'}));
     const still = this.reducedMotion(), tiltK = still ? 0 : 1;
     if(!this.HO){ this.HO = this.buildHoles(); this.ISO = this.buildIso(); }
     const HO = this.HO;
@@ -552,7 +555,7 @@ class Component extends DCLogic {
     const grow = ez(win(P.a15, 0.72, 1)), gh = HO.Mb[0];
     const linkA = win(P.a15, 0.55, 0.68) * (1 - win(P.a17, 0, 0.2));
     const link = {x:gh.x, y:gh.y, top:Z.N2, head:lerp(Z.N2, Z.Mb, ez(win(P.a15, 0.55, 0.72))), on:linkA > 0.01,
-      style:'fill:none;stroke:' + C.plate + ';stroke-width:1.6;stroke-dasharray:4 3;stroke-opacity:' + linkA.toFixed(2)};
+      style:'fill:none;stroke:' + C.wire + ';stroke-width:1.6;stroke-dasharray:4 3;stroke-opacity:' + linkA.toFixed(2)};
     const segBetween = (za, zb) => {
       lines.concat([link]).forEach(L => { if(!L.on) return; const a = Math.max(za, L.head), c = Math.min(zb, L.top); if(c - a > 0.02) put(seg(ps(L.x, L.y, a), ps(L.x, L.y, c)), L.style); });
       lines.forEach(L => { if(L.maybe > 0.01 && L.stopped){ const a = Math.max(za, L.zh), c = Math.min(zb, L.stopZ); if(c - a > 0.02) put(seg(ps(L.x, L.y, a), ps(L.x, L.y, c)), 'fill:none;stroke:' + C.acc + ';stroke-width:1.6;stroke-dasharray:1.5 5;stroke-linecap:round;stroke-opacity:' + (0.9 * L.maybe * L.a).toFixed(2)); } });
@@ -582,37 +585,37 @@ class Component extends DCLogic {
       const so = v => (v * A).toFixed(3);
       if(p.look === 'solid'){
         const th = 3.2;
-        put(poly(frontFace(p.z, th, p.dx)), 'fill:' + tint(0.9) + ';fill-opacity:' + so(0.97));
-        put(poly(rightFace(p.z, th, p.dx)), 'fill:' + tint(0.82) + ';fill-opacity:' + so(0.97));
-        put(outline + hp, 'fill:' + C.plate + ';fill-rule:evenodd;fill-opacity:' + so(0.97) + ';stroke:#7ec7d8;stroke-width:1.2;stroke-opacity:' + so(0.9));
+        put(poly(frontFace(p.z, th, p.dx)), 'fill:' + TH.plate.front + ';fill-opacity:' + so(0.97));
+        put(poly(rightFace(p.z, th, p.dx)), 'fill:' + TH.plate.right + ';fill-opacity:' + so(0.97));
+        put(outline + hp, 'fill:' + TH.plate.top + ';fill-rule:evenodd;fill-opacity:' + so(0.97) + ';stroke:' + TH.plate.stroke + ';stroke-width:1.2;stroke-opacity:' + so(0.9));
         const drop = th * cosP * zoom;
-        put(hs.map(h => holeD(h, p.z, p.dx, 0) + holeD(h, p.z, p.dx, drop)).join(''), 'fill:#07202b;fill-rule:evenodd;fill-opacity:' + so(0.55));
-        put(seg(fc[3], fc[2]), 'stroke:#9fd6e2;stroke-width:1;stroke-opacity:' + so(0.95));
+        put(hs.map(h => holeD(h, p.z, p.dx, 0) + holeD(h, p.z, p.dx, drop)).join(''), 'fill:' + TH.hole.rimWall + ';fill-rule:evenodd;fill-opacity:' + so(0.65));
+        put(seg(fc[3], fc[2]), 'stroke:' + TH.plate.edge + ';stroke-width:1;stroke-opacity:' + so(0.95));
         return;
       }
       if(p.look === 'heavy'){
-        put(outline, 'fill:none;stroke:' + C.plate + ';stroke-width:2.8;stroke-linejoin:round;stroke-opacity:' + so(1));
-        put(hp, 'fill:none;stroke:' + C.plate + ';stroke-width:1.5;stroke-opacity:' + so(1));
+        put(outline, 'fill:none;stroke:' + C.wire + ';stroke-width:2.8;stroke-linejoin:round;stroke-opacity:' + so(1));
+        put(hp, 'fill:none;stroke:' + C.wire + ';stroke-width:1.5;stroke-opacity:' + so(1));
         return;
       }
       const fog = p.look === 'fog' ? mFog : 0, dash = p.look === 'dash' ? mDash : 0;
       if(fog > 0){
         /* ghost matter: a see-through, blurred fill with no edge */
         const blur = ';filter:blur(' + (Math.max(1, 2.4 * zoom) * fog).toFixed(1) + 'px)';
-        put(poly(frontFace(p.z, 5, p.dx)), 'fill:' + C.plate + ';fill-opacity:' + so(0.34 * fog) + blur);
-        put(poly(rightFace(p.z, 5, p.dx)), 'fill:' + C.plate + ';fill-opacity:' + so(0.3 * fog) + blur);
-        put(outline, 'fill:' + C.plate + ';fill-opacity:' + so(0.42 * fog) + blur);
+        put(poly(frontFace(p.z, 5, p.dx)), 'fill:' + TH.ghost.fill + ';fill-opacity:' + so(TH.ghost.frontOpacity * fog) + blur);
+        put(poly(rightFace(p.z, 5, p.dx)), 'fill:' + TH.ghost.fill + ';fill-opacity:' + so(TH.ghost.rightOpacity * fog) + blur);
+        put(outline, 'fill:' + TH.ghost.fill + ';fill-opacity:' + so(TH.ghost.topOpacity * fog) + blur);
       }
       if(dash > 0){
         /* dark matter: dashed and lightly filled */
-        put(outline + hp, 'fill:' + C.plate + ';fill-rule:evenodd;fill-opacity:' + so(0.2 * dash) + ';stroke:' + C.plate + ';stroke-width:1.1;stroke-dasharray:4 3;stroke-opacity:' + so(0.9 * dash));
+        put(outline + hp, 'fill:' + TH.wire.dmFill + ';fill-rule:evenodd;fill-opacity:' + so(0.22 * dash) + ';stroke:' + TH.wire.dmStroke + ';stroke-width:1.1;stroke-dasharray:4 3;stroke-opacity:' + so(0.9 * dash));
       }
       /* a slice without a name is not known: from step a5 its edge and its holes are out of focus */
       const edge = 1 - Math.max(fog, dash);
       const soft = named[p.id] ? 0 : unk * edge * (p.id === 'Mb' ? 1 - sharpMb : 1);
       const blurS = soft > 0.03 ? ';filter:blur(' + (2.6 * sw * soft).toFixed(1) + 'px)' : '';
-      if(edge > 0.01) put(outline, 'fill:none;stroke:' + C.plate + ';stroke-width:' + lerp(1, 3.2, soft).toFixed(1) + ';stroke-opacity:' + so(lerp(0.85, 0.62, soft) * edge) + blurS);
-      if(hv * (1 - fog) > 0.01) put(hp, 'fill:none;stroke:' + C.plate + ';stroke-width:' + lerp(0.9, 2.4, soft).toFixed(1) + ';stroke-opacity:' + so(lerp(0.85, 0.5, soft) * hv * (1 - fog)) + blurS);
+      if(edge > 0.01) put(outline, 'fill:none;stroke:' + C.wire + ';stroke-width:' + lerp(1, 3.2, soft).toFixed(1) + ';stroke-opacity:' + so(lerp(0.85, 0.62, soft) * edge) + blurS);
+      if(hv * (1 - fog) > 0.01) put(hp, 'fill:none;stroke:' + C.wire + ';stroke-width:' + lerp(0.9, 2.4, soft).toFixed(1) + ';stroke-opacity:' + so(lerp(0.85, 0.5, soft) * hv * (1 - fog)) + blurS);
       /* step a15: the slice whose hole widens is outlined, and the hole gets a ring */
       if(p.id === 'Mb' && linkA > 0.01){
         const h = hs[0], r = h.r + (h.rMax - h.r) * grow + 4 / zoom;
@@ -625,7 +628,7 @@ class Component extends DCLogic {
     if(stackA > 0.005){
       const items = [];
       layers.forEach(l => {
-        const wire = v => 'fill:none;stroke:' + C.plate + ';stroke-width:.8;stroke-opacity:' + (v * (1 - 0.55 * dimD)).toFixed(3);
+        const wire = v => 'fill:none;stroke:' + C.wire + ';stroke-width:.8;stroke-opacity:' + (v * (1 - 0.55 * dimD)).toFixed(3);
         items.push({z:l.bot - 0.02, draw:() => { put(poly(face(l.bot, 0)), wire(0.5)); put(seg(pz(-HW, -HD, l.bot), pz(-HW, -HD, l.top)), wire(0.35)); }});
         items.push({z:l.top + 0.02, draw:() => {
           put(seg(pz(-HW, HD, l.bot), pz(-HW, HD, l.top)) + seg(pz(HW, HD, l.bot), pz(HW, HD, l.top)) + seg(pz(HW, -HD, l.bot), pz(HW, -HD, l.top)), wire(0.5));
@@ -675,7 +678,7 @@ class Component extends DCLogic {
     const dark = Object.assign(noteAt('Ib'), {k:'dark', a:aDark}), ghost = Object.assign(noteAt('Ma'), {k:'ghost', a:aGhost});
     solve(left.concat([dark, ghost]), 50, V - 6);
     left.forEach(it => {
-      const tintL = 'oklch(' + (0.56 - it.i * 0.03).toFixed(2) + ' 0.075 ' + (198 + it.i * 5) + ')';
+      const tintL = (TH.brackets && TH.brackets.roleTint && TH.brackets.roleTint[it.i]) || ('oklch(' + (0.56 - it.i * 0.03).toFixed(2) + ' 0.075 ' + (198 + it.i * 5) + ')');
       lab[it.k] = show({left:px(it.xr - 260), top:px(it.t), width:'260px', 'font-size':fsLayer + 'px'}, aLayer);
       if(aLayer > 0.01){
         const oa = ez(win(P.a1, 0.1, 0.8)) * labDim;
@@ -689,8 +692,8 @@ class Component extends DCLogic {
       lab[it.k] = show({left:px(it.xr - 160), top:px(it.t - 1), width:'160px', 'font-size':fsNote + 'px'}, it.a);
       if(it.a > 0.01){
         const oa = it.a / Math.max(0.01, labA);
-        over('M' + pt(it.an) + 'L' + f(it.xr + (phone ? 8 : 14)) + ' ' + f(it.c) + 'L' + f(it.xr + (phone ? 3 : 5)) + ' ' + f(it.c), 'fill:none;stroke:' + C.plate + ';stroke-width:.8;stroke-opacity:' + (0.75 * oa).toFixed(2));
-        over(ell(it.an, 2.2 * dk, 2.2 * dk), 'fill:' + C.plate + ';fill-opacity:' + oa.toFixed(2));
+        over('M' + pt(it.an) + 'L' + f(it.xr + (phone ? 8 : 14)) + ' ' + f(it.c) + 'L' + f(it.xr + (phone ? 3 : 5)) + ' ' + f(it.c), 'fill:none;stroke:' + C.wire + ';stroke-width:.8;stroke-opacity:' + (0.75 * oa).toFixed(2));
+        over(ell(it.an, 2.2 * dk, 2.2 * dk), 'fill:' + C.wire + ';fill-opacity:' + oa.toFixed(2));
       }
     });
     /* right: two slices of each layer have a name, with a line to the slice */
@@ -712,7 +715,7 @@ class Component extends DCLogic {
     }
     let harmPos = null, harmA = 0;
     { const arr = lines.filter(L => L.atHarm);
-      if(arr.length){ const e = arr.map(L => ps(L.x, L.y, L.zh)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length - 14 * sr, e.reduce((a, c) => a + c[1], 0) / e.length]; harmA = Math.max.apply(null, arr.map(L => L.a)) * labA; } }
+      if(arr.length){ const e0 = ps(0, 0, zAtHarm({x:0, y:0})); harmPos = [e0[0] - 14 * sr, e0[1]]; harmA = Math.max.apply(null, arr.map(L => L.a)) * labA; } }
 
     /* ---- steps a7 to a9: one slice alone, then two ---- */
     if(tau > 0.001){
@@ -745,7 +748,7 @@ class Component extends DCLogic {
       if(bIn * xa > 0.01){
         const zb = zB - (1 - bIn) * 24, pb = (x, y) => pi(x, y, zb), a = bIn * xa;
         ip(poly([pb(-HW + dxB, -HD), pb(HW + dxB, -HD), pb(HW + dxB, HD), pb(-HW + dxB, HD)]) + hB.map(h => ring(pb, h, dxB)).join(''),
-          'fill:' + C.cream + ';fill-opacity:' + (0.78 * a).toFixed(2) + ';fill-rule:evenodd;stroke:' + C.plate + ';stroke-width:1.4;stroke-linejoin:round;stroke-opacity:' + (0.95 * a).toFixed(2));
+          'fill:' + C.cream + ';fill-opacity:' + (0.78 * a).toFixed(2) + ';fill-rule:evenodd;stroke:' + C.wire + ';stroke-width:1.4;stroke-linejoin:round;stroke-opacity:' + (0.95 * a).toFixed(2));
         L4.forEach(L => { if(L.dotB > 0.02) ip(ell(pi(L.x, L.y, zB), 6 * dk, 3.6 * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.dotB * xa).toFixed(2)); });
       }
       segI(zB, zA);
@@ -753,13 +756,13 @@ class Component extends DCLogic {
         const outline = poly([pm(-HW + dxA, -HD), pm(HW + dxA, -HD), pm(HW + dxA, HD), pm(-HW + dxA, HD)]);
         const soft = unk * (1 - tau), blurS = soft > 0.03 ? ';filter:blur(' + (2.6 * sw * soft).toFixed(1) + 'px)' : '';
         ip(outline + hA.map(h => ring(pm, h, dxA)).join(''), 'fill:' + C.cream + ';fill-rule:evenodd;fill-opacity:' + (0.78 * tau).toFixed(2));
-        ip(outline, 'fill:none;stroke:' + C.plate + ';stroke-linejoin:round;stroke-width:' + lerp(lerp(1, 3.2, soft), 1.4, tau).toFixed(1) + ';stroke-opacity:' + lerp(lerp(0.85, 0.62, soft), 0.95, tau).toFixed(2) + blurS);
-        if(tau < 0.98) ip(HO.Mb.map(h => ring(pm, h, 0)).join(''), 'fill:none;stroke:' + C.plate + ';stroke-width:' + lerp(0.9, 2.4, soft).toFixed(1) + ';stroke-opacity:' + (lerp(0.85, 0.5, soft) * hv * (1 - tau)).toFixed(2) + blurS);
-        ip(hA.map(h => ring(pm, h, dxA)).join(''), 'fill:none;stroke:' + C.plate + ';stroke-width:1.4;stroke-opacity:' + (0.95 * tau).toFixed(2));
+        ip(outline, 'fill:none;stroke:' + C.wire + ';stroke-linejoin:round;stroke-width:' + lerp(lerp(1, 3.2, soft), 1.4, tau).toFixed(1) + ';stroke-opacity:' + lerp(lerp(0.85, 0.62, soft), 0.95, tau).toFixed(2) + blurS);
+        if(tau < 0.98) ip(HO.Mb.map(h => ring(pm, h, 0)).join(''), 'fill:none;stroke:' + C.wire + ';stroke-width:' + lerp(0.9, 2.4, soft).toFixed(1) + ';stroke-opacity:' + (lerp(0.85, 0.5, soft) * hv * (1 - tau)).toFixed(2) + blurS);
+        ip(hA.map(h => ring(pm, h, dxA)).join(''), 'fill:none;stroke:' + C.wire + ';stroke-width:1.4;stroke-opacity:' + (0.95 * tau).toFixed(2));
       }
       L4.forEach(L => { if(L.dotA * xa > 0.02) ip(ell(pi(L.x, L.y, zA), 6 * dk, 3.6 * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.dotA * xa).toFixed(2)); });
       segI(zA, 1e9);
-      if(tau > 0.5){ const e = (got.length ? got : L4).map(L => pi(L.x, L.y, L.zHi)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length, e[0][1]]; harmA = Math.max.apply(null, L4.map(L => L.harm)) * xa; }
+      if(tau > 0.5){ const e = L4.map(L => pi(L.x, L.y, L.zHi)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length, e[0][1]]; harmA = Math.max.apply(null, L4.map(L => L.harm)) * xa; }
     }
     lab.harm = show({left:px((harmPos ? harmPos[0] : 0) - 60), top:px((harmPos ? harmPos[1] : 0) + 7), width:'120px', 'font-size':'13px'}, harmPos ? harmA : 0);
 
@@ -769,12 +772,12 @@ class Component extends DCLogic {
     for(let i = 4; i <= 14; i++) rv.push(ez(win(P['t' + i], 0, 0.7)));
     const grp = [0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4], nextOf = [1, -1, 4, 4, -1, 6, -1, 8, 9, -1, 11, 12, 13, 14, -1];
     const gOut = [R3, rv[5], rv[7], ez(win(P.a12, 0, 0.6)), 0], ln = {}, L = st.ln;
-    const ctr = k => { const e = L[k === 2 ? 3 : k]; return e ? (e[0] + e[1]) / 2 : 0; };
+    const ctr = k => { if(k === 3 && L[2] && L[3]) return (L[2][0] + L[3][1]) / 2; const e = L[k]; return e ? (e[0] + e[1]) / 2 : 0; };
     let off = ctr(0);
     for(let k = 0; k < 15; k++){
       const a = rv[k] * lerp(1, 0.4, nextOf[k] < 0 ? 0 : rv[nextOf[k]]) * (1 - gOut[grp[k]]) * (phone && k < 13 ? 1 - rv[k + 2] : 1);
       ln['l' + k] = a > 0.005 ? 'opacity:' + a.toFixed(2) : 'opacity:0;visibility:hidden';
-      off = lerp(off, ctr(k), rv[k]);
+      if(k !== 2) off = lerp(off, ctr(k), rv[k]);
     }
     const p1Out = ez(win(P.a2, 0, 0.3));
 
@@ -827,13 +830,13 @@ class Component extends DCLogic {
         const top = [pj(x0, y0, h), pj(x1, y0, h), pj(x1, y1, h), pj(x0, y1, h)];
         const front = [pj(x0, y1, h), pj(x1, y1, h), pj(x1, y1, 0), pj(x0, y1, 0)], side = [pj(x1, y1, h), pj(x1, y0, h), pj(x1, y0, 0), pj(x1, y1, 0)];
         paths.push({d:poly([pj(x0, y0, 0), pj(x1, y0, 0), pj(x1, y1, 0), pj(x0, y1, 0)]), style:'fill:none;stroke:' + C.edge + ';stroke-width:.8;stroke-opacity:' + (0.5 * (1 - fill)).toFixed(2)});
-        paths.push({d:poly(front), style:'fill:' + tint(0.9) + ';fill-opacity:' + fo + ';stroke:' + C.edge + ';stroke-width:.8;stroke-opacity:' + oa});
-        paths.push({d:poly(side), style:'fill:' + tint(0.82) + ';fill-opacity:' + fo + ';stroke:' + C.edge + ';stroke-width:.8;stroke-opacity:' + oa});
-        paths.push({d:poly(top), style:'fill:' + C.plate + ';fill-opacity:' + fo + ';stroke:#7ec7d8;stroke-width:1.2;stroke-opacity:' + oa});
-        paths.push({d:seg(top[3], top[2]) + seg(top[2], top[1]), style:'fill:none;stroke:#9fd6e2;stroke-width:1;stroke-opacity:' + fo});
+        paths.push({d:poly(front), style:'fill:' + TH.plate.front + ';fill-opacity:' + fo + ';stroke:' + C.edge + ';stroke-width:.8;stroke-opacity:' + oa});
+        paths.push({d:poly(side), style:'fill:' + TH.plate.right + ';fill-opacity:' + fo + ';stroke:' + C.edge + ';stroke-width:.8;stroke-opacity:' + oa});
+        paths.push({d:poly(top), style:'fill:' + TH.plate.top + ';fill-opacity:' + fo + ';stroke:' + TH.plate.stroke + ';stroke-width:1.2;stroke-opacity:' + oa});
+        paths.push({d:seg(top[3], top[2]) + seg(top[2], top[1]), style:'fill:none;stroke:' + TH.plate.edge + ';stroke-width:1;stroke-opacity:' + fo});
         /* a box with nothing behind it yet: a faint diagonal hatch while the pointer is on it */
         const hatchA = Math.max(hover, phone ? win(mv, 0.5, 1) : allIn);
-        if(hatchA > 0.02 && (id === 'wargame' || id === 'blog')) paths.push({d:poly(top) + poly(front) + poly(side), style:'fill:url(#fpHatch);fill-opacity:' + hatchA.toFixed(2)});
+        if(hatchA > 0.02 && (id === 'wargame' || id === 'blog')) paths.push({d:poly(top) + poly(front) + poly(side), style:'fill:url(#fpStoryHatch);fill-opacity:' + hatchA.toFixed(2)});
       }
       /* a lit box has a glow around it, in the blue-green of the page */
       const glow = hl * fill;
@@ -842,16 +845,16 @@ class Component extends DCLogic {
       const xa = pj(x0, y1, 0)[0], xb = pj(x1, y0, 0)[0], yTop = pj(x0, y0, BH)[1], v = pj(x1, y1, 0);
       { const v0 = pj0(x1, y1, 0)[1]; if(i === 0 || phone) vertexY = i === 0 ? v0 : Math.max(vertexY, v0); }
       /* phone: a lit box shows the start of its line; its links come on a tap, in the place of the text under the boxes */
-      if(phone && hl * fill > 0.02) paths.push({d:seg(v, [v[0], v[1] + 16]), style:'fill:none;stroke:' + C.plate + ';stroke-width:1.2;stroke-opacity:' + (hl * fill).toFixed(2)});
+      if(phone && hl * fill > 0.02) paths.push({d:seg(v, [v[0], v[1] + 16]), style:'fill:none;stroke:' + C.wire + ';stroke-width:1.2;stroke-opacity:' + (hl * fill).toFixed(2)});
       const flip = v[0] + (id === 'blog' ? 120 : 290) > SW, lw = Math.max(120, Math.min(276, 254.6 * zoomB - 16, flip ? v[0] - 10 : SW - v[0] - 10));
       const listA = ready ? (phone ? hover : Math.max(bb[2], hover, allIn, i === 0 ? stay0 : 0, i === 3 ? stay3 : 0)) : 0;
       bx[id] = Object.assign(this.boxHandlers(id, id === 'explore'), {
         wrap:S({visibility:ready && mv < 0.5 ? 'visible' : 'hidden'}),
         hit:S(Object.assign({left:px(xa), top:px(yTop - nameH - 6), width:px(xb - xa), height:px(v[1] - yTop + nameH + 6), opacity:(win(rise, 0.7, 1) * (1 - win(mv, 0, 0.4))).toFixed(2)}, phone ? {'font-size':'11.5px'} : {})),
         name:S({height:nameH + 'px', width:px(phone ? 172 : Math.max(xb - xa, 150))}),
-        list:phone ? S({left:'20px', top:'@@LISTTOP@@', width:(W - 40) + 'px', 'font-size':'14px', 'border-left':'1px solid ' + C.plate, padding:'0 0 0 14px', opacity:listA.toFixed(2), visibility:listA > 0.02 ? 'visible' : 'hidden'})
+        list:phone ? S({left:'20px', top:'@@LISTTOP@@', width:(W - 40) + 'px', 'font-size':'14px', 'border-left':'1px solid ' + C.wire, padding:'0 0 0 14px', opacity:listA.toFixed(2), visibility:listA > 0.02 ? 'visible' : 'hidden'})
           : S(Object.assign({top:px(v[1]), width:px(lw), opacity:listA.toFixed(2), visibility:listA > 0.02 ? 'visible' : 'hidden'},
-          flip ? {left:px(v[0] - lw), 'border-right':'1px solid ' + C.plate, padding:'10px 12px 2px 0', 'text-align':'right'} : {left:px(v[0]), 'border-left':'1px solid ' + C.plate, padding:'10px 0 2px 12px'})),
+          flip ? {left:px(v[0] - lw), 'border-right':'1px solid ' + C.wire, padding:'10px 12px 2px 0', 'text-align':'right'} : {left:px(v[0]), 'border-left':'1px solid ' + C.wire, padding:'10px 0 2px 12px'})),
         tick:phone ? 'display:none' : (flip ? 'right:-12px' : 'left:-12px')
       });
     });
@@ -869,22 +872,20 @@ class Component extends DCLogic {
 
     /* ---- the ribbon ---- */
     const rb = {};
-    ['explore', 'wargame', 'data', 'blog', 'team'].forEach(k => {
-      const open = st.done && st.open === 'r-' + k;
-      rb[k] = Object.assign(this.boxHandlers('r-' + k, k === 'explore'), {list:S({opacity:open ? 1 : 0, visibility:open ? 'visible' : 'hidden'})});
-    });
+    { const open = st.done && st.open === 'r-data';
+      rb.data = Object.assign(this.boxHandlers('r-data', false), {list:S({opacity:open ? 1 : 0, visibility:open ? 'visible' : 'hidden'})}); }
     { const open = st.done && st.open === 'r-menu';
       rb.menu = {toggle:() => this.setState({open:this.state.open === 'r-menu' ? null : 'r-menu'}), list:S({width:W + 'px', 'max-height':(V - 44) + 'px', visibility:open ? 'visible' : 'hidden'})}; }
 
     return {
-      scRef:this.scRef, rootRef:this.rootRef, t1Ref:this.t1Ref, t2Ref:this.t2Ref, p1Ref:this.p1Ref, reelRef:this.reelRef, aRef:this.aRef,
+      scRef:this.scRef, rootRef:this.rootRef, onBrandClick:this.onBrandClick, t1Ref:this.t1Ref, t2Ref:this.t2Ref, p1Ref:this.p1Ref, reelRef:this.reelRef, aRef:this.aRef,
       scStyle:'height:' + V + 'px' + (phone ? ';touch-action:none' : ''), sceneStyle:'height:' + V + 'px', SW, SH, shapes, overs, isoShapes, lab, ln, sv, bx, boxG, rb,
       stackG:'opacity:' + stackA.toFixed(3), oversG:'opacity:' + labA.toFixed(3),
       t1Style:'height:' + Math.round(V + this.TOT1 * U) + 'px', t2Style:this.props.embedded === true ? 'display:none' : 'height:' + Math.round(V + this.TOT2 * U) + 'px',
       p1Style:show(Object.assign({left:px((W - p1W) / 2), top:px(p1Top - (still ? 0 : 30 * p1Out)), width:px(p1W)}, phone ? {'font-size':'15px', 'line-height':'1.55'} : {}), 1 - p1Out),
       colStyle:S(phone ? {left:'20px', top:textTop + 'px', width:(W - 40) + 'px', height:textH + 'px', 'font-size':'14px', 'line-height':'1.6', visibility:P.t1 > 0 ? 'visible' : 'hidden'}
         : {left:colX + 'px', width:colW + 'px', height:V + 'px', visibility:P.t1 > 0 ? 'visible' : 'hidden'}),
-      reelStyle:'transform:translateY(' + ((phone ? textH * 0.4 : pivY) - off).toFixed(1) + 'px)',
+      reelStyle:'transform:translateY(' + ((phone ? textH * 0.32 : Math.max(190, V * 0.36)) - off).toFixed(1) + 'px)',
       cueStyle:S(Object.assign({top:(V - 28) + 'px', opacity:(p1Out * (1 - inF)).toFixed(2)}, phone ? {left:px(W / 2 - 40), width:'80px', 'text-align':'center'} : {right:'20px'})),
       liP:phone ? 'padding:11px 0;margin:0' : '', cp,
       aStyle:S({left:px((W - aW) / 2), top:px(aTop - (still ? 0 : 30 * mx)), width:px(aW), opacity:(1 - mx).toFixed(2), visibility:mx < 0.99 ? 'visible' : 'hidden'}),
