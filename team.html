@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team — thesafetystack.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;background:#feecd3;color:#333;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;-webkit-font-smoothing:antialiased}
+  a{color:#028090;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+  a:hover{color:#114b5f}
+  button{font-family:inherit}
+  ::selection{background:#02809033}
+
+  .page{position:relative;min-height:100vh;display:flow-root}
+  .bg-grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+  /* Sticky top ribbon — matches index.html and why.html */
+  .ribbon{position:sticky;top:0;height:44px;z-index:10;background:#feecd3;border-bottom:1px solid #114b5f2b}
+  .brand{position:absolute;left:20px;top:0;height:44px;display:flex;align-items:center;white-space:nowrap;font-size:13px;line-height:1.3;font-weight:700;color:#114b5f;text-decoration:none}
+  .nav-wide{position:absolute;right:20px;top:0;height:44px;display:flex;align-items:stretch;gap:28px;font-size:13px;line-height:1.3;font-weight:700}
+  .nav-wide > a,.nav-item > a,.nav-item > button{display:flex;align-items:center;height:44px;color:#114b5f;text-decoration:none;white-space:nowrap;background:none;border:0;padding:0;margin:0;font-size:13px;font-weight:700}
+  .nav-item > button{cursor:default}
+  .nav-item{position:relative;display:flex;align-items:center}
+  .nav-drop{position:absolute;right:0;top:100%;margin:0;padding:10px 14px;list-style:none;background:#feecd3;border:1px solid #114b5f33;font-weight:400;line-height:1.4;opacity:0;visibility:hidden;transition:opacity 120ms ease}
+  .nav-item.open > .nav-drop{opacity:1;visibility:visible}
+  .nav-drop li{margin:0 0 6px}
+  .nav-drop li:last-child{margin-bottom:0}
+  .nav-drop .tag{margin-bottom:8px;font-size:11.5px;color:#114b5f}
+
+  .nav-narrow{display:none;position:absolute;right:0;top:0}
+  .menu-btn{display:flex;align-items:center;height:44px;padding:0 20px;color:#114b5f;background:none;border:0;margin:0;font-size:13px;font-weight:700;cursor:pointer}
+  .menu-panel{position:fixed;left:0;right:0;top:44px;max-height:calc(100vh - 44px);overflow-y:auto;background:#feecd3;border-top:1px solid #114b5f33;border-bottom:1px solid #114b5f33;padding:4px 20px 18px;font-size:14px;line-height:1.4;display:none}
+  .nav-narrow.open .menu-panel{display:block}
+  .menu-panel p{margin:14px 0 2px;font-weight:700;color:#114b5f}
+  .menu-panel p a{display:block;padding:6px 0;color:#114b5f;text-decoration:none}
+  .menu-panel p.label{padding:6px 0}
+  .menu-panel ul{list-style:none;margin:0;padding:0}
+  .menu-panel li a{display:block;padding:9px 0}
+  .menu-panel li.plain{padding:4px 0}
+  .menu-panel li.tag{padding:4px 0;font-size:12px;color:#114b5f}
+
+  @media (max-width:939px){
+    .nav-wide{display:none}
+    .nav-narrow{display:block}
+  }
+
+  /* Main content */
+  main{position:relative;max-width:1180px;margin:0 auto;padding:64px 32px 110px;font-size:15px;line-height:1.7}
+  .page-head{max-width:780px;margin:0 0 56px}
+  .page-head h1{margin:0 0 18px;font-size:clamp(32px,4vw,52px);line-height:1.06;font-weight:700;color:#114b5f}
+  .page-head p{margin:0;font-size:16px;line-height:1.7;text-wrap:pretty}
+
+  .section{margin:0 0 60px}
+  .section-title{margin:0 0 24px;padding:0 0 10px;border-bottom:1px solid #114b5f;font-size:17px;line-height:1.3;font-weight:700;color:#114b5f}
+
+  .core-list{display:flex;flex-direction:column;gap:0}
+  .member{display:grid;grid-template-columns:minmax(260px,330px) 1fr;gap:12px 44px;padding:24px 0;border-bottom:1px solid #114b5f33;scroll-margin-top:64px}
+  .member:first-child{padding-top:4px}
+  .member-name{margin:0 0 6px;font-size:18px;line-height:1.25;font-weight:700;color:#114b5f}
+  .member-affil{margin:0;font-size:12.5px;line-height:1.5;color:#5c7f88}
+  .member-bio{margin:0;font-size:15px;line-height:1.72;text-wrap:pretty}
+
+  .meta-band{margin:56px 0 0;padding:24px 0 0;border-top:1px solid #114b5f66;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:24px 36px;font-size:14px;line-height:1.65}
+  .meta-band h2{margin:0 0 8px;font-size:14px;font-weight:700;color:#114b5f}
+  .meta-band p{margin:0;text-wrap:pretty}
+  .contact-links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:8px}
+
+  @media (max-width:759px){
+    main{padding:40px 22px 84px}
+    .page-head{margin-bottom:40px}
+    .member{grid-template-columns:1fr;gap:10px;padding:20px 0}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <svg aria-hidden="true" class="bg-grid">
+    <defs>
+      <pattern id="fpGridA" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(21.8)">
+        <line x1="0" y1="0" x2="44" y2="0" style="stroke:#114b5f;stroke-width:0.7;stroke-opacity:0.13"></line>
+      </pattern>
+      <pattern id="fpGridB" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(-21.8)">
+        <line x1="0" y1="0" x2="44" y2="0" style="stroke:#114b5f;stroke-width:0.7;stroke-opacity:0.13"></line>
+      </pattern>
+    </defs>
+    <rect x="0" y="0" width="100%" height="100%" style="fill:url(#fpGridA)"></rect>
+    <rect x="0" y="0" width="100%" height="100%" style="fill:url(#fpGridB)"></rect>
+  </svg>
+
+  <header class="ribbon">
+    <a href="index.html" class="brand">thesafetystack.ai</a>
+    <nav class="nav-wide" aria-label="Primary">
+      <a href="why.html">Why Stack?</a>
+      <div class="nav-item" data-box="r-explore">
+        <a href="stack.html">Explore the stack</a>
+        <ul class="nav-drop" style="min-width:250px">
+          <li><a href="stack.html">The safety stack by lab</a></li>
+        </ul>
+      </div>
+      <div class="nav-item" data-box="r-wargame">
+        <button type="button">Wargame safety surfaces</button>
+        <ul class="nav-drop" style="min-width:270px">
+          <li class="tag">in progress</li>
+          <li>Continuous probabilistic inference over frontier lab safety stacks—tracking safeguard deployment, overlap, and correlated failures to monitor live risk-surface coverage.</li>
+        </ul>
+      </div>
+      <div class="nav-item" data-box="r-data">
+        <button type="button">Use the data</button>
+        <ul class="nav-drop" style="min-width:230px">
+          <li><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model-by-technique matrix</a></li>
+          <li><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Dataset on Hugging Face</a></li>
+          <li><a href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Taxonomies on GitHub</a></li>
+          <li><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline code on GitHub</a></li>
+        </ul>
+      </div>
+      <div class="nav-item" data-box="r-blog">
+        <button type="button">Blog</button>
+        <ul class="nav-drop" style="min-width:140px">
+          <li class="tag">coming soon</li>
+        </ul>
+      </div>
+      <div class="nav-item" data-box="r-team">
+        <a href="team.html" aria-current="page">Team</a>
+        <ul class="nav-drop" style="min-width:220px">
+          <li><a href="team.html#jacob">Jacob Livingston Slosser</a></li>
+          <li><a href="team.html#tomas">Tomáš Gavenčiak</a></li>
+          <li><a href="team.html#finn">Finn Hambly</a></li>
+          <li><a href="team.html#dan">Dan Elton</a></li>
+          <li><a href="team.html#gavin">Advisor: Gavin Leech</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="nav-narrow" data-box="r-menu">
+      <button type="button" class="menu-btn" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+      <div id="mobile-menu" class="menu-panel">
+        <p><a href="why.html">Why Stack?</a></p>
+        <p><a href="stack.html">Explore the stack</a></p>
+        <ul>
+          <li><a href="stack.html">The safety stack by lab</a></li>
+        </ul>
+        <p class="label">Wargame safety surfaces</p>
+        <ul>
+          <li class="tag">in progress</li>
+          <li class="plain">Continuous probabilistic inference over frontier lab safety stacks—tracking safeguard deployment, overlap, and correlated failures to monitor live risk-surface coverage.</li>
+        </ul>
+        <p class="label">Use the data</p>
+        <ul>
+          <li><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model-by-technique matrix</a></li>
+          <li><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Dataset on Hugging Face</a></li>
+          <li><a href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Taxonomies on GitHub</a></li>
+          <li><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline code on GitHub</a></li>
+        </ul>
+        <p class="label">Blog</p>
+        <ul>
+          <li class="tag">coming soon</li>
+        </ul>
+        <p><a href="team.html" aria-current="page">Team</a></p>
+        <ul>
+          <li><a href="team.html#jacob">Jacob Livingston Slosser</a></li>
+          <li><a href="team.html#tomas">Tomáš Gavenčiak</a></li>
+          <li><a href="team.html#finn">Finn Hambly</a></li>
+          <li><a href="team.html#dan">Dan Elton</a></li>
+          <li><a href="team.html#gavin">Advisor: Gavin Leech</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-head">
+      <h1>Team</h1>
+      <p><strong style="color:#114b5f">The Safety Stack</strong> is built and maintained by a small team mapping what AI safety techniques exist, which ones frontier labs appear to use, and where the gaps are. All of our data, taxonomies, and code are public and updated every week.</p>
+    </div>
+
+    <section class="section" aria-label="Team members">
+      <div class="core-list" style="border-top:1px solid #114b5f">
+
+        <article id="jacob" class="member" style="padding-top:24px">
+          <div>
+            <h2 class="member-name">Jacob Livingston Slosser</h2>
+            <p class="member-affil">Sapien Institute · Arb Research</p>
+          </div>
+          <p class="member-bio">Jacob leads the taxonomy of safety techniques, defining how interventions, monitors, and evaluations fit into layers and how published work gets mapped onto them. He also designed the site’s visual story and the <a href="stack.html">stack by lab</a> view.</p>
+        </article>
+
+        <article id="tomas" class="member">
+          <div>
+            <h2 class="member-name">Tomáš Gavenčiak</h2>
+            <p class="member-affil">Arb Research</p>
+          </div>
+          <p class="member-bio">Tomáš started The Safety Stack and builds the weekly pipeline that collects, screens, and annotates papers, forum posts, and system cards. He also maintains the catalogues of models and organisations and built the <a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">model-by-technique matrix</a>.</p>
+        </article>
+
+        <article id="finn" class="member">
+          <div>
+            <h2 class="member-name">Finn Hambly</h2>
+            <p class="member-affil">Arb Research</p>
+          </div>
+          <p class="member-bio">Finn works on the probabilistic inference layer, combining public evidence and forecasting to track which safeguards frontier labs are deploying. He focuses on modelling safeguard overlap and correlated failures to monitor live risk-surface coverage.</p>
+        </article>
+
+        <article id="dan" class="member">
+          <div>
+            <h2 class="member-name">Dan Elton</h2>
+            <p class="member-affil">Metascience Observatory</p>
+          </div>
+          <p class="member-bio">Dan co-built the early versions of The Safety Stack, helping put together the first data pipeline, early lab-stack reconstructions, and open-source evidence collection. He now advises the team.</p>
+        </article>
+
+        <article id="gavin" class="member">
+          <div>
+            <h2 class="member-name">Gavin Leech</h2>
+            <p class="member-affil">Arb Research · Paradigm 3</p>
+          </div>
+          <p class="member-bio">Gavin advises the team on research direction, annotation and inference methods, and how to make the data and tools useful to researchers and funders.</p>
+        </article>
+
+      </div>
+    </section>
+
+    <footer class="meta-band">
+      <div>
+        <h2>Shared infrastructure</h2>
+        <p>The Safety Stack builds on the <a href="https://shallowreview.ai/" target="_blank" rel="noopener">Shallow Review of Technical AI Safety</a> and shares data and pipeline code with its 2026 edition.</p>
+      </div>
+      <div>
+        <h2>Contact &amp; corrections</h2>
+        <p>To flag a missing paper or wrong annotation, ask for a takedown, or get in touch about the project, email <a href="mailto:info@thesafetystack.ai">info@thesafetystack.ai</a>.</p>
+        <div class="contact-links">
+          <a href="https://github.com/thesafetystack" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Hugging Face</a>
+          <a href="stack.html">Explore the stack</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<script>
+(() => {
+  let openEl = null, closeTimer = null;
+  const setOpen = (el) => {
+    clearTimeout(closeTimer);
+    if (openEl && openEl !== el) openEl.classList.remove('open');
+    openEl = el;
+    if (el) el.classList.add('open');
+    const mb = document.querySelector('.menu-btn');
+    if (mb) mb.setAttribute('aria-expanded', el && el.dataset.box === 'r-menu' ? 'true' : 'false');
+  };
+  document.querySelectorAll('.nav-item').forEach((item) => {
+    const trigger = item.querySelector(':scope > a, :scope > button');
+    const isLink = trigger && trigger.tagName === 'A';
+    let tap = null;
+    item.addEventListener('mouseenter', (e) => { if (!tap || !tap.touch) setOpen(item); });
+    item.addEventListener('mouseleave', () => { closeTimer = setTimeout(() => { if (openEl === item) setOpen(null); }, 160); });
+    item.addEventListener('focusin', () => setOpen(item));
+    item.addEventListener('focusout', (e) => { if (!item.contains(e.relatedTarget)) setOpen(null); });
+    if (trigger) {
+      trigger.addEventListener('pointerdown', (e) => {
+        tap = { touch: e.pointerType === 'touch' || e.pointerType === 'pen', wasOpen: openEl === item };
+      });
+      trigger.addEventListener('click', (e) => {
+        if (tap && tap.touch) {
+          if (!tap.wasOpen) { if (isLink) e.preventDefault(); setOpen(item); }
+          else if (!isLink) { setOpen(null); }
+        } else if (!isLink) {
+          setOpen(item);
+        }
+        tap = null;
+      });
+    }
+  });
+  const menuWrap = document.querySelector('.nav-narrow');
+  const menuBtn = document.querySelector('.menu-btn');
+  if (menuWrap && menuBtn) {
+    menuBtn.addEventListener('click', () => setOpen(openEl === menuWrap ? null : menuWrap));
+    menuWrap.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(null)));
+  }
+  document.addEventListener('pointerdown', (e) => { if (openEl && !e.target.closest('[data-box]')) setOpen(null); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && openEl) setOpen(null); });
+})();
+</script>
+</body>
+</html>

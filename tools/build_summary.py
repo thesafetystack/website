@@ -583,9 +583,12 @@ def build(folder):
     for r in out["lookup"]:
         lookup.setdefault(r["grp"], {})[r["how"]] = r["n"]
 
-    placeholders = ", ".join("?" for _ in used_docs)
-    docs = {r[0]: {"t": r[1], "u": r[2], "y": r[3], "k": r[4]} for r in con.execute(
-        f"SELECT doc_id, title, url, year, kind FROM doc WHERE doc_id IN ({placeholders}) ORDER BY doc_id", sorted(used_docs)).fetchall()}
+    if used_docs:
+        placeholders = ", ".join("?" for _ in used_docs)
+        docs = {r[0]: {"t": r[1], "u": r[2], "y": r[3], "k": r[4]} for r in con.execute(
+            f"SELECT doc_id, title, url, year, kind FROM doc WHERE doc_id IN ({placeholders}) ORDER BY doc_id", sorted(used_docs)).fetchall()}
+    else:
+        docs = {}
 
     totals = out["totals"][0]
     layer_n = {r["kind"]: r["n"] for r in out["layer_counts"]}

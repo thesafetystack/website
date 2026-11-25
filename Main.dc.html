@@ -71,13 +71,13 @@
         </ul>
       </div>
       <div data-box="r-team" style="position:relative;display:flex;align-items:center" onMouseEnter="{{ rb.team.enter }}" onMouseLeave="{{ rb.team.leave }}" onFocus="{{ rb.team.enter }}" onBlur="{{ rb.team.blur }}">
-        <button type="button" onClick="{{ rb.team.enter }}" style="display:flex;align-items:center;height:44px;color:#114b5f;background:none;border:0;padding:0;margin:0;font-size:13px;font-weight:700;white-space:nowrap;cursor:default">Team</button>
+        <a href="team.html" onPointerDown="{{ rb.team.down }}" onClick="{{ rb.team.click }}" style="display:flex;align-items:center;height:44px;color:#114b5f;text-decoration:none;white-space:nowrap">Team</a>
         <ul style="position:absolute;right:0;top:100%;margin:0;padding:10px 14px;list-style:none;min-width:220px;background:#feecd3;border:1px solid #114b5f33;font-weight:400;line-height:1.4;{{ rb.team.list }}">
-          <li style="margin:0 0 6px">Jacob Livingston Slosser</li>
-          <li style="margin:0 0 6px">Tomáš Gavenčiak</li>
-          <li style="margin:0 0 6px">Finn Hambly</li>
-          <li style="margin:0 0 6px">Dan Elton</li>
-          <li style="margin:0">Advisor: Gavin Leech</li>
+          <li style="margin:0 0 6px"><a href="team.html#jacob">Jacob Livingston Slosser</a></li>
+          <li style="margin:0 0 6px"><a href="team.html#tomas">Tomáš Gavenčiak</a></li>
+          <li style="margin:0 0 6px"><a href="team.html#finn">Finn Hambly</a></li>
+          <li style="margin:0 0 6px"><a href="team.html#dan">Dan Elton</a></li>
+          <li style="margin:0"><a href="team.html#gavin">Advisor: Gavin Leech</a></li>
         </ul>
       </div>
     </nav>
@@ -851,7 +851,7 @@ class Component extends DCLogic {
     const rb = {};
     ['explore', 'wargame', 'data', 'blog', 'team'].forEach(k => {
       const open = st.done && st.open === 'r-' + k;
-      rb[k] = Object.assign(this.boxHandlers('r-' + k, k === 'explore'), {list:S({opacity:open ? 1 : 0, visibility:open ? 'visible' : 'hidden'})});
+      rb[k] = Object.assign(this.boxHandlers('r-' + k, k === 'explore' || k === 'team'), {list:S({opacity:open ? 1 : 0, visibility:open ? 'visible' : 'hidden'})});
     });
     { const open = st.done && st.open === 'r-menu';
       rb.menu = {toggle:() => this.setState({open:this.state.open === 'r-menu' ? null : 'r-menu'}), list:S({width:W + 'px', 'max-height':(V - 44) + 'px', visibility:open ? 'visible' : 'hidden'})}; }

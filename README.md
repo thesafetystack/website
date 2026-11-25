@@ -8,6 +8,7 @@ This repository holds the website of The Safety Stack as plain files. Nothing is
 |---|---|
 | `index.html` | The front page. |
 | `why.html` | The "Why Stack?" page. |
+| `team.html` | The Team page. |
 | `Main.dc.html`, `Mobile.dc.html` | The scroll story for wide and for narrow windows. The front page loads one of them by name when its play button is pressed, so the names must stay as they are, including the capital letters. |
 | `stack.html` | The stack visualisation. |
 | `summary.json`, `summary.js` | The data of the stack visualisation. Both hold the same content. The page reads `summary.json` when it is served from a web address and `summary.js` when it is opened from disk. |
@@ -26,8 +27,8 @@ python tools/build_summary.py <release folder> <output folder>
 
 The release folder is one release of the dataset as published, with `release.json`, `data/corpus.parquet` and `taxonomies/`. The script needs Python with `duckdb` and `pyyaml`, and it was written against DuckDB 2.0. It takes about 12 seconds, and two runs on the same release give the same bytes. It has run on the releases 2026-11-02 and 2026-11-08 and has not been tried on later ones.
 
-## Weekly update, not built yet
+## Weekly update
 
-No step replaces the two files automatically. The plan under discussion is a last step in the weekly pipeline run that runs the script on the new release and commits `summary.json` and `summary.js` to the top level of this repository. That step needs a credential that is allowed to write to this repository.
+The weekly Railway cycle in [the-safety-stack-pipeline](https://github.com/thesafetystack/the-safety-stack-pipeline) (`tools/scheduled_run.py`, D810) runs its reviewed copy of the summary builder (`tools/build_website_summary.py`, kept in sync with `tools/build_summary.py` here) on the verified public release right after uploading to Hugging Face, validates `summary.json` and `summary.js`, and commits and pushes them to `main` when they change. On Railway, set `WEBSITE_GITHUB_TOKEN` (a GitHub fine-grained personal access token scoped to `Contents: Read and write` on this repository only) to enable it. A staged release can also be pushed by hand with `python tools/scheduled_run.py update-website --release-id <date>`.
 
 Four things in the script are kept by hand and do not follow the data: the list of labs with their sources, the lab and model names used to tie a suspicion to a lab, the three layer definitions, and the wording of the key. They are in the settings block at the top of the script.
