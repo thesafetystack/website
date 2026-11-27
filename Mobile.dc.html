@@ -95,7 +95,7 @@
 
       <section ref="{{ p1Ref }}" style="position:absolute;font-size:16px;line-height:1.62;{{ p1Style }}">
         <h2 style="margin:0 0 10px;font-size:1.3em;line-height:1.25;font-weight:700;color:var(--heading,#114b5f)">Why Stack?</h2>
-        <p style="margin:0;text-wrap:pretty">The de facto plan for AI safety of frontier labs, and thus the world, is <a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">defence-in-depth</a>.</p>
+        <p style="margin:0;text-wrap:pretty">The de facto plan for AI safety of frontier labs is <a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">defence-in-depth</a>.</p>
         <p style="margin:14px 0 0;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:12px;line-height:1.3;color:var(--heading,#114b5f)">Scroll down</p>
       </section>
 
@@ -109,7 +109,7 @@
           <p data-line="1" style="margin:0 0 14px;{{ ln.l5 }}">Let alone how well they work individually.</p>
           <p data-line="1" style="margin:0 0 14px;{{ ln.l6 }}">Let alone how the layers interact with each other.</p>
           <p data-line="1" style="margin:0 0 14px;{{ ln.l7 }}">This is because some research <a href="https://claude.ai/artifact/RAn3qmQFhrEoj9i9bEtaHp" target="_blank" rel="noopener">went dark</a> as it commercialised (and because it became irresponsible to release “dual-use” safety techniques).</p>
-          <p data-line="1" style="margin:0 0 14px;{{ ln.l8 }}">We call these layers <strong>dark matter</strong>: internal mitigations that are alluded to in system cards which may or may not be reflected in the public literature. AKA trust me bro techniques.</p>
+          <p data-line="1" style="margin:0 0 14px;{{ ln.l8 }}">We call these layers <strong>dark matter</strong>: internal mitigations that are alluded to in system cards which may or may not be reflected in the public literature.</p>
           <p data-line="1" style="margin:0 0 14px;{{ ln.l9 }}">We can try and infer some of these techniques, but they still remain as what we call <strong>ghost matter.</strong></p>
           <p data-line="1" style="margin:46px 0 14px;{{ ln.l10 }}">As a result, it is quite possible that the strategy is giving the world a false sense of security, because the stack might be failing to cover some hazards.</p>
           <p data-line="1" style="margin:0 0 14px;{{ ln.l11 }}">It is quite possible that external research into creating new layers for the stack is wasted effort - duplicating existing private techniques.</p>
@@ -132,7 +132,7 @@
         <sc-for list="{{ boxG }}" as="g" hint-placeholder-count="0"><g style="{{ g.style }}"><sc-for list="{{ g.paths }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></g></sc-for>
       </svg>
 
-      <p style="position:absolute;margin:0;font-size:16px;line-height:1.5;text-wrap:pretty;{{ cp.c1 }}">As a first step, we built as complete an inventory of current AI safety techniques as we think can be done. We scraped safety papers and inferred use through OSINT to try and work out what people are probably using.</p>
+      <p style="position:absolute;margin:0;font-size:16px;line-height:1.5;text-wrap:pretty;{{ cp.c1 }}">As a first step, we built as complete an inventory of current AI safety techniques as we think can be done. We collected safety papers, posts and model cards, and had a language model label which techniques each document reports as used.</p>
       <p style="position:absolute;margin:0;font-size:16px;line-height:1.5;text-wrap:pretty;{{ cp.c2 }}">We are building a safety surface model that breaks threats into concrete slices, so that you can bring your own threat model, switch safeguards and failure scenarios on and off, and see which threats have no cover or a single point of failure.</p>
       <p style="position:absolute;margin:0;font-size:16px;line-height:1.5;text-wrap:pretty;{{ cp.c3 }}">All the data and code are held publicly and updated automatically on a weekly run. We’ll keep it maintained as new things get developed.</p>
       <p style="position:absolute;margin:0;font-size:16px;line-height:1.5;text-wrap:pretty;{{ cp.c4 }}">We will write up our findings and point to the more glaring presuppositions the stack assumes.</p>
@@ -176,7 +176,7 @@
       </div>
       <div style="position:absolute;font-size:16px;line-height:1.58;{{ help2 }}">
         <p style="margin:0 0 6px;font-weight:700;color:var(--heading,#114b5f)">Policy community.</p>
-        <p style="margin:0;text-wrap:pretty">There are any number of efforts to set up "transparency", "vetting", "audits", and thereby promoting or mandating the use of existing safety technologies. But, in our experience, they usually don’t have a clear view of what these technologies are, or how much of the problem they would fix if they were mandatory and enforced.</p>
+        <p style="margin:0;text-wrap:pretty">There are any number of efforts to set up transparency, vetting, audits, and thereby promoting or mandating the use of existing safety technologies. But, in our experience, they usually don’t have a clear view of what these technologies are, or how much of the problem they would fix if they were mandatory and enforced.</p>
       </div>
       <div style="position:absolute;font-size:16px;line-height:1.58;{{ help3 }}">
         <p style="margin:0 0 6px;font-weight:700;color:var(--heading,#114b5f)">Funders.</p>
