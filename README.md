@@ -9,7 +9,7 @@ This repository holds the website of The Safety Stack as plain files. Nothing is
 | `index.html` | The front page. |
 | `why.html` | The "Why Stack?" page. |
 | `team.html` | The Team page. |
-| `Main.dc.html`, `Mobile.dc.html` | The scroll story for wide and for narrow windows. The front page loads one of them by name when its play button is pressed, so the names must stay as they are, including the capital letters. |
+| `Main.dc.html`, `Mobile.dc.html` | The scroll story for wide and for narrow windows. They are no longer linked from the front page or any other page; they open only by their own address. |
 | `stack.html` | The stack visualisation. |
 | `nav.js` | Shared navigation ribbon, light/dark theme tokens and toggle, and instant client-side page switching across the four pages. Pass `?style=classic` to preview the earlier cream/monospace palette. |
 | `summary.json`, `summary.js` | The data of the stack visualisation. Both hold the same content. The page reads `summary.json` when it is served from a web address and `summary.js` when it is opened from disk. |

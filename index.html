@@ -44,18 +44,10 @@
   a:hover{color:var(--link-hover,#114b5f)}
   button{font-family:inherit}
   ::selection{background:var(--selection,#02809033)}
-  @keyframes fpPulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.9);opacity:0}}
-  .fp-pulse{animation:fpPulse 1.8s ease-out infinite}
-  .fp-enter{cursor:pointer;text-decoration:none;color:inherit}
-  .fp-enter .fp-play{transition:transform .2s ease}
-  .fp-enter:hover .fp-play,.fp-enter:focus-within .fp-play{transform:scale(1.12)}
-  .fp-enter .fp-fig{transition:filter .25s ease}
-  .fp-enter:hover .fp-fig,.fp-enter:focus-within .fp-fig{filter:drop-shadow(0 0 16px rgba(2,128,144,.5))}
   .tile-head{margin:0 0 14px;padding:0 0 10px;border-bottom:1px solid var(--tile-rule,#114b5f);display:flex;flex-direction:column;justify-content:flex-end;gap:4px}
   .tile-status{font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11px;line-height:1.2;font-weight:500;color:var(--muted,#5c7f88)}
   .tile-head h2{margin:0;font-size:17px;line-height:1.3;font-weight:700;color:var(--heading,#114b5f)}
   @media (min-width:560px){.tile-head{min-height:51px}}
-  @media (prefers-reduced-motion:reduce){.fp-pulse{animation:none}}
 </style>
 </helmet>
 <div style="position:relative;overflow:hidden;{{ scStyle }}">
@@ -78,33 +70,22 @@
     <rect x="0" y="0" width="100%" height="100%" style="fill:url(#fpGridB)"></rect>
   </svg>
 
-  <div class="fp-enter" ref="{{ bandRef }}" style="position:relative;margin-top:44px;border-bottom:1px solid var(--border,#114b5f33);overflow:hidden;{{ bannerStyle }}">
-    <span class="fp-fig" style="position:absolute;top:0;display:block;{{ bannerFig }}"><span style="position:relative;display:block;{{ F.banner.box }}"><svg aria-hidden="true" width="{{ F.banner.w }}" height="{{ F.banner.h }}" style="display:block;overflow:visible"><sc-for list="{{ F.banner.paths }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></svg><sc-for list="{{ F.banner.texts }}" as="t" hint-placeholder-count="0"><span aria-hidden="true" style="{{ t.style }}">{{ t.t }}</span></sc-for></span></span>
+  <div ref="{{ bandRef }}" style="position:relative;margin-top:44px;border-bottom:1px solid var(--border,#114b5f33);overflow:hidden;{{ bannerStyle }}">
+    <span style="position:absolute;top:0;display:block;{{ bannerFig }}"><span style="position:relative;display:block;{{ F.banner.box }}"><svg aria-hidden="true" width="{{ F.banner.w }}" height="{{ F.banner.h }}" style="display:block;overflow:visible"><sc-for list="{{ F.banner.paths }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></svg><sc-for list="{{ F.banner.texts }}" as="t" hint-placeholder-count="0"><span aria-hidden="true" style="{{ t.style }}">{{ t.t }}</span></sc-for></span></span>
     <div ref="{{ bannerTextRef }}" style="position:absolute;left:0;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;gap:26px;{{ bannerText }}">
       <h1 style="margin:0;font-size:clamp(30px,3.4vw,46px);line-height:1.02;font-weight:700;color:var(--heading,#114b5f)">A public inventory of AI safety techniques</h1>
-      <div style="font-size:14px;line-height:1.55;color:var(--muted,#5c7f88);text-wrap:pretty"><div>Latest release <span>{{ rel.id }}</span> · <span>{{ rel.documents }}</span> documents selected from over 200,000 candidates across 43 sources · labelled by a language model, not individually verified</div><div>Built by a <a href="team.html" style="position:relative;z-index:1">small research team</a> · funded by a grantmaking.ai Launch Round grant and via Manifund</div></div>
-      <span aria-hidden="true" class="fp-play" style="position:relative;display:block;width:64px;height:64px"><span class="fp-pulse" style="position:absolute;left:0;top:0;width:64px;height:64px;border-radius:50%;border:2px solid var(--heading,#114b5f)"></span><svg width="64" height="64" style="position:absolute;left:0;top:0;display:block"><circle cx="32" cy="32" r="30" style="fill:var(--heading,#114b5f)"></circle><path d="M26 19L47 32L26 45Z" style="fill:var(--bg,#feecd3)"></path></svg></span>
+      <div style="font-size:14px;line-height:1.55;color:var(--muted,#5c7f88);text-wrap:pretty"><div>Latest release <span>{{ rel.id }}</span> · <span>{{ rel.documents }}</span> documents selected from over 200,000 candidates across 43 sources · labelled by a language model, not individually verified</div><div>Built by a <a href="team.html">small research team</a> · funded by a grantmaking.ai Launch Round grant and via Manifund</div></div>
     </div>
-    <button ref="{{ playBtnRef }}" type="button" aria-label="Play the story of the stack" onClick="{{ story.open }}" style="position:absolute;left:0;top:0;width:100%;height:100%;margin:0;padding:0;border:0;background:none;cursor:pointer"></button>
   </div>
 
   <main style="position:relative;max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:60px;font-size:15px;line-height:1.7;{{ mainStyle }}"><section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr));gap:var(--lead-gap,18px 20px);margin:0;font-size:16.5px;line-height:1.7"><p style="margin:0;text-wrap:pretty"><strong style="color:var(--heading,#114b5f)">The Safety Stack</strong> is a public inventory of the techniques used to make frontier AI models safe. Currently, frontier labs rely on a <a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">defence-in-depth</a> approach that compiles many weak safety techniques together so that the failures of one layer (hopefully) get caught by the next. We don’t know how good a strategy this is, as the actual stack deployed in any given lab is not public.</p><p style="margin:0;text-wrap:pretty">So we tried to find out. We built the inventory from published papers and from open-source evidence of what labs are probably using. Alongside it we are building a model that breaks threats into concrete slices, so that you can see which threats may have no cover or depend on only a single safeguard. All data and code are public and are updated every week. <a href="why.html" style="font-weight:700;white-space:nowrap">Read more <span aria-hidden="true">&rarr;</span></a></p></section><section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:40px 20px;margin:0"><div><div class="tile-head"><h2><a href="stack.html" style="color:var(--heading,#114b5f);text-decoration:none">Explore the stack</a></h2></div><ul style="list-style:none;margin:0;padding:0;font-size:14.5px;line-height:1.55"><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="stack.html">The safety stack by lab</a></li></ul></div><div><div class="tile-head"><span class="tile-status">in development</span><h2>Inference over lab safety stacks</h2></div><ul style="list-style:none;margin:0;padding:0;font-size:14.5px;line-height:1.55"><li style="margin:0 0 7px">Probabilistic inference over frontier labs’ safety stacks: estimating which safeguards are deployed, how they overlap, and where their failures are correlated.</li></ul></div><div><div class="tile-head"><h2>Use the data</h2></div><ul style="list-style:none;margin:0;padding:0;font-size:14.5px;line-height:1.55"><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Dataset on Hugging Face</a><span style="display:block;color:var(--muted,#5c7f88)">40k+ safety-relevant papers, posts, pages, model cards and other documents, each annotated by a language model with the techniques and models it discusses. Released weekly.</span></li><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline source code</a><span style="display:block;color:var(--muted,#5c7f88)">The data processing pipeline, on GitHub.</span></li><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Taxonomies</a><span style="display:block;color:var(--muted,#5c7f88)">The dataset’s taxonomies of techniques, models and organisations, current and in development, on GitHub.</span></li><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model explorer (demo)</a><span style="display:block;color:var(--muted,#5c7f88)">Which models the documents discuss, and in what role.</span></li></ul></div><div><div class="tile-head"><span class="tile-status">coming soon</span><h2>Blog</h2></div></div></section><footer class="site-footer" aria-label="Site footer"><div>The Safety Stack · Data &amp; taxonomies: <a href="https://github.com/thesafetystack/the-safety-stack/blob/main/LICENSE" target="_blank" rel="noopener">CC0 1.0</a> · Pipeline code: <a href="https://github.com/thesafetystack/the-safety-stack-pipeline/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a></div><div class="site-footer-links"><a href="https://github.com/thesafetystack" target="_blank" rel="noopener">GitHub</a><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Hugging Face</a><a href="https://github.com/thesafetystack/the-safety-stack/issues" target="_blank" rel="noopener">Corrections</a><a href="mailto:info@thesafetystack.ai">info@thesafetystack.ai</a><a href="team.html">Team</a></div></footer></main>
 </div>
 </div>
-<sc-if value="{{ story.on }}" hint-placeholder-val="{{ false }}">
-<div ref="{{ storyRef }}" role="dialog" aria-modal="true" aria-label="The story of the safety stack" style="position:fixed;inset:0;z-index:20;overflow:hidden;background:var(--bg,#feecd3);{{ story.style }}">
-  <sc-if value="{{ story.wide }}" hint-placeholder-val="{{ false }}"><dc-import name="Main" embedded="{{ true }}" on-done="{{ story.close }}" hint-size="100%,100%"></dc-import></sc-if>
-  <sc-if value="{{ story.narrow }}" hint-placeholder-val="{{ false }}"><dc-import name="Mobile" embedded="{{ true }}" on-done="{{ story.close }}" hint-size="100%,100%"></dc-import></sc-if>
-  <button type="button" aria-label="Close the story" onClick="{{ story.close }}" style="position:absolute;right:10px;top:0;z-index:30;width:44px;height:44px;margin:0;padding:0;border:0;background:none;cursor:pointer;color:var(--heading,#114b5f)">
-    <svg aria-hidden="true" width="44" height="44" style="display:block"><path d="M15 15L29 29M29 15L15 29" style="fill:none;stroke:var(--heading,#114b5f);stroke-width:2;stroke-linecap:round"></path></svg>
-  </button>
-</div>
-</sc-if>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
 /* A plain version of the front page of thesafetystack.ai, for discussion: the same text as the interactive page, set as
-   paragraphs, with the links in view from the start. The interactive page is reached from the picture at the top.
+   paragraphs, with the links in view from the start.
    There are four pages made from this one source; MODE says which one this page is.
      a  text beside pictures: each part of the argument has a still picture of the stack next to it
      b  one large picture that stays at the left while the text scrolls at the right; the links are a plain list
@@ -122,8 +103,8 @@ class Component extends DCLogic {
     ['t5', 0.4], ['a7', 1.5], ['t6', 0.4], ['a8', 1.6], ['t7', 0.5], ['a9', 1.0], ['t8', 0.5], ['a10', 0.7], ['t9', 0.5], ['a11', 0.8], ['a12', 0.7],
     ['t10', 0.5], ['a13', 0.9], ['t11', 0.5], ['a14', 0.9], ['t12', 0.5], ['a15', 1.5], ['t13', 0.45], ['a16', 0.8], ['t14', 0.5], ['a17', 1.2]];
   T1 = (() => { const m = {}; let x = 0.15; this.TL1.forEach(e => { m[e[0]] = [x, e[1]]; x += e[1]; }); this.TOT1 = x + 0.6; return m; })();
-  scRef = React.createRef(); bandRef = React.createRef(); bannerTextRef = React.createRef(); playBtnRef = React.createRef(); storyRef = React.createRef();
-  state = {W:typeof window !== 'undefined' ? window.innerWidth : 1440, V:typeof window !== 'undefined' ? (window.innerHeight > 1800 ? 900 : Math.max(480, window.innerHeight)) : 900, t:0, sA:0, play:false, grown:false, clipT:0, clipB:0, open:null, live:false, tH:0, rel:typeof window !== 'undefined' ? window.__TSS_RELEASE : null, theme:typeof window !== 'undefined' && window.__siteTheme ? window.__siteTheme.mode() : 'light'};
+  scRef = React.createRef(); bandRef = React.createRef(); bannerTextRef = React.createRef();
+  state = {W:typeof window !== 'undefined' ? window.innerWidth : 1440, V:typeof window !== 'undefined' ? (window.innerHeight > 1800 ? 900 : Math.max(480, window.innerHeight)) : 900, t:0, sA:0, clipT:0, clipB:0, open:null, live:false, tH:0, rel:typeof window !== 'undefined' ? window.__TSS_RELEASE : null, theme:typeof window !== 'undefined' && window.__siteTheme ? window.__siteTheme.mode() : 'light'};
 
   svgTheme(){
     if(typeof window !== 'undefined' && window.__siteTheme) return window.__siteTheme.svg();
@@ -141,7 +122,6 @@ class Component extends DCLogic {
     this.reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     document.addEventListener('pointerdown', this.onDocDown);
     window.addEventListener('site-theme-change', this.onThemeChange);
-    document.addEventListener('keydown', this.onKeyDown);
     this.t0 = performance.now();
     this.tick();
     /* the latest release and its number of documents, from release.js, which the summary builder writes with each release;
@@ -153,21 +133,10 @@ class Component extends DCLogic {
       document.head.appendChild(s);
     }
   }
-  setBgInert(on){
-    const rib = document.querySelector('.site-ribbon');
-    [this.scRef.current, rib].forEach(el => {
-      if(!el) return;
-      el.inert = !!on;
-      if(on) el.setAttribute('aria-hidden', 'true');
-      else el.removeAttribute('aria-hidden');
-    });
-  }
   componentWillUnmount(){
-    cancelAnimationFrame(this.raf); clearTimeout(this.closeTimer); clearTimeout(this.playTimer);
-    this.setBgInert(false);
+    cancelAnimationFrame(this.raf); clearTimeout(this.closeTimer);
     document.removeEventListener('pointerdown', this.onDocDown);
     window.removeEventListener('site-theme-change', this.onThemeChange);
-    document.removeEventListener('keydown', this.onKeyDown);
   }
   /* Once a frame: the size of the window, and the time for the one moving picture (about 30 times a second). The page
      scrolls inside its own area, which is as tall as the window, so it works whether or not the document around it scrolls. */
@@ -175,8 +144,7 @@ class Component extends DCLogic {
     this.raf = requestAnimationFrame(this.tick);
     const sc = this.scRef.current; if(!sc) return;
     const st = this.state, W = sc.clientWidth || window.innerWidth, ih = window.innerHeight, V = ih > 1800 ? 900 : Math.max(480, ih);
-    /* while the story is open over the page, the picture in the band stands still */
-    let t = this.reduced ? 5 : (st.play ? st.t : Math.round((performance.now() - this.t0) / 1000 * 30) / 30), sA = st.sA;
+    let t = this.reduced ? 5 : Math.round((performance.now() - this.t0) / 1000 * 30) / 30, sA = st.sA;
     if(this.MODE === 'w'){
       /* The Why Stack? page: the drawing is tied to the text by the scroll position alone. Each sentence of the argument
          carries the step of the story it belongs to. The story starts when the page is at its top and is over when the end of the
@@ -206,32 +174,6 @@ class Component extends DCLogic {
     /* the height of the text in the band, which the band makes room for */
     const tb = this.bannerTextRef.current, tH = tb ? Math.ceil([...tb.children].reduce((h, c) => h + c.offsetHeight, 0) + 26 * (tb.children.length - 1)) : st.tH;
     if(W !== st.W || V !== st.V || t !== st.t || sA !== st.sA || tH !== st.tH || !st.live) this.setState({W, V, t, sA, tH, live:true});
-  };
-  /* The front page: the story opens inside the page. It first covers only the band it was started from and then grows
-     until it fills the window. When the reader closes it, or has scrolled to its end, it goes back into the band. */
-  openStory = () => {
-    if(this.state.play) return;
-    clearTimeout(this.playTimer);
-    this.setBgInert(true);
-    this.setState({play:true, grown:true}, () => {
-      const focusStory = (tries) => {
-        const dlg = this.storyRef.current;
-        if(!dlg || !this.state.play) return;
-        const inner = dlg.querySelector('[data-scroller="1"]');
-        if(inner){ inner.focus({preventScroll:true}); return; }
-        if(tries > 0) setTimeout(() => focusStory(tries - 1), 40);
-      };
-      focusStory(15);
-    });
-  };
-  onKeyDown = (e) => { if(e.key === 'Escape' && this.state.play) this.closeStory(); };
-  closeStory = () => {
-    if(!this.state.play) return;
-    clearTimeout(this.playTimer);
-    this.setBgInert(false);
-    this.setState({play:false, grown:false}, () => {
-      if(this.playBtnRef.current) this.playBtnRef.current.focus({preventScroll:true});
-    });
   };
   /* the Why Stack? page, narrow window: the drawing is a band that stays under the ribbon, this many px high */
   bandH(V){ return Math.round(Math.max(230, Math.min(V * 0.42, 360))); }
@@ -704,8 +646,6 @@ class Component extends DCLogic {
       out.rel = {id:rel.id || '2026-11-22', documents:rel.documents ? rel.documents.toLocaleString('en-US') : '43,826'};
       out.bandRef = this.bandRef;
       out.mainStyle = narrow ? 'padding:32px 22px 80px;--lp:7px' : 'padding:44px 32px 110px';
-      out.story = {on:st.play, wide:W >= 700, narrow:W < 700, open:this.openStory, close:this.closeStory,
-        style:S({width:W + 'px', height:V + 'px'})};
     }
 
     if(m === 'w'){
@@ -730,11 +670,10 @@ class Component extends DCLogic {
       rb.data = Object.assign(this.boxHandlers('r-data', false), {list:S({opacity:open ? 1 : 0, visibility:open ? 'visible' : 'hidden'})}); }
     { const open = st.open === 'r-menu';
       rb.menu = {toggle:() => this.setState({open:this.state.open === 'r-menu' ? null : 'r-menu'}), list:S({width:W + 'px', 'max-height':(V - 44) + 'px', visibility:open ? 'visible' : 'hidden'})}; }
-    if(!out.story) out.story = {on:false};
     const TH = this.svgTheme();
     const gridLineStyle = 'stroke:' + TH.grid.stroke + ';stroke-width:0.7;stroke-opacity:' + TH.grid.opacityPage;
     const hatchLineStyle = 'stroke:' + TH.grid.hatchStroke + ';stroke-width:1.3;stroke-opacity:' + TH.grid.hatchOpacity;
-    return Object.assign(out, {scRef:this.scRef, bannerTextRef:this.bannerTextRef, playBtnRef:this.playBtnRef, storyRef:this.storyRef, scStyle:'height:' + V + 'px', F, B, rb, gridLineStyle, hatchLineStyle,
+    return Object.assign(out, {scRef:this.scRef, bannerTextRef:this.bannerTextRef, scStyle:'height:' + V + 'px', F, B, rb, gridLineStyle, hatchLineStyle,
       ribNavD:wide ? '' : 'display:none', ribNavP:wide ? 'display:none' : ''});
   }
 }

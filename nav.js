@@ -745,30 +745,10 @@
   });
 
   /* Warm small page shells in idle; warm heavy summary.json only on stack intent */
-  const warmedDc = new Set();
-  function warmDcComponent(name) {
-    if (warmedDc.has(name)) return;
-    warmedDc.add(name);
-    fetch(new URL('./' + name + '.dc.html', location.href).href)
-      .then((r) => (r.ok ? r.text() : ''))
-      .then((html) => {
-        if (!html) { warmedDc.delete(name); return; }
-        const rec = parsePageHtml(name, html);
-        if (rec.kind !== 'dc') return;
-        return waitForDcRuntime().then(() => {
-          if (rec.propsRaw) window.__dcUpdate(name, 'props', rec.propsRaw, false);
-          window.__dcUpdate(name, 'html', '', true);
-          window.__dcUpdate(name, 'html', rec.template, false);
-          window.__dcUpdate(name, 'js', rec.js, false);
-        });
-      })
-      .catch(() => { warmedDc.delete(name); });
-  }
   const warmAll = () => {
     const saveData = navigator.connection && navigator.connection.saveData;
     if (saveData) return;
     Object.keys(PAGES).forEach((k) => loadPage(k).catch(() => {}));
-    if (currentKey === 'index') warmDcComponent(window.innerWidth < 700 ? 'Mobile' : 'Main');
   };
   const scheduleWarm = () => {
     if (window.requestIdleCallback) window.requestIdleCallback(warmAll, { timeout: 1200 });
