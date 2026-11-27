@@ -253,7 +253,7 @@
     .site-brand { font-family: var(--font-nav); font-size: 14px; font-weight: 700; letter-spacing: -0.015em; }
     .site-nav-wide { font-family: var(--font-nav); font-size: 13.5px; font-weight: 500; }
     .site-nav-wide > a, .site-nav-item > button { font-family: var(--font-nav); font-size: 13.5px; font-weight: 500; }
-    .site-nav-wide > a[aria-current="page"] { box-shadow: inset 0 -2px 0 var(--accent); }
+    .site-nav-wide > a[aria-current="page"], .site-nav-item.current > button { box-shadow: inset 0 -2px 0 var(--accent); }
     a { text-decoration-color: color-mix(in srgb, var(--link) 38%, transparent); text-underline-offset: 3px; }
     a:hover { text-decoration-color: currentColor; }
     h1, h2 { font-family: var(--font-display) !important; letter-spacing: -0.02em; }
@@ -406,11 +406,13 @@
     ['https://huggingface.co/datasets/thesafetystack/the-safety-stack', 'Dataset on Hugging Face'],
     ['https://github.com/thesafetystack/the-safety-stack-pipeline', 'Pipeline source code'],
     ['https://github.com/thesafetystack/the-safety-stack', 'Taxonomies on GitHub'],
-    ['https://stack-model-explorer.gavento.workers.dev/', 'Model explorer (demo)'],
   ];
   const dataLis = DATA_LINKS
     .map(([u, t]) => `<li><a href="${u}" target="_blank" rel="noopener">${t}</a></li>`)
     .join('');
+
+  const exploreLis = `<li><a href="stack.html${STYLE === 'brand' ? '?style=classic' : ''}" data-page="stack">The safety stack by lab</a></li>`
+    + '<li><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model explorer (demo)</a></li>';
 
   const LOGO_SVG = '<svg width="18" height="18" viewBox="0 0 64 64" aria-hidden="true" style="display:block;flex:none"><polygon points="4,38 32,24 60,38 32,52" style="fill:var(--logo-slab);opacity:0.52"/><polygon points="4,28 32,14 60,28 32,42" style="fill:var(--logo-slab)"/><line x1="32" y1="4" x2="32" y2="60" style="stroke:var(--accent)" stroke-width="3.4" stroke-linecap="round"/></svg>';
   const styleQ = STYLE === 'brand' ? '?style=classic' : '';
@@ -423,9 +425,12 @@
     <a href="index.html${styleQ}" class="site-brand">${LOGO_SVG}The Safety Stack</a>
     <nav class="site-nav-wide" aria-label="Primary">
       <a href="why.html${styleQ}" data-page="why">Why Stack?</a>
-      <a href="stack.html${styleQ}" data-page="stack">Explore the stack</a>
+      <div class="site-nav-item" data-navbox="r-explore" data-page-group="stack">
+        <button type="button" aria-expanded="false">Explore<span aria-hidden="true" style="font-size:10px;opacity:0.65">&#9662;</span></button>
+        <ul class="site-nav-drop">${exploreLis}</ul>
+      </div>
       <div class="site-nav-item" data-navbox="r-data">
-        <button type="button" aria-expanded="false">Use the data<span aria-hidden="true" style="font-size:10px;opacity:0.65">&#9662;</span></button>
+        <button type="button" aria-expanded="false">Data and code<span aria-hidden="true" style="font-size:10px;opacity:0.65">&#9662;</span></button>
         <ul class="site-nav-drop">${dataLis}</ul>
       </div>
       <a href="team.html${styleQ}" data-page="team">Team</a>
@@ -436,8 +441,9 @@
       <button type="button" class="site-menu-btn" aria-expanded="false" aria-controls="site-mobile-menu">Menu</button>
       <div id="site-mobile-menu" class="site-menu-panel">
         <p><a href="why.html${styleQ}" data-page="why">Why Stack?</a></p>
-        <p><a href="stack.html${styleQ}" data-page="stack">Explore the stack</a></p>
-        <p class="label">Use the data</p>
+        <p class="label">Explore</p>
+        <ul>${exploreLis}</ul>
+        <p class="label">Data and code</p>
         <ul>${dataLis}</ul>
         <p><a href="team.html${styleQ}" data-page="team">Team</a></p>
       </div>
@@ -464,6 +470,7 @@
       if (a.getAttribute('data-page') === key) a.setAttribute('aria-current', 'page');
       else a.removeAttribute('aria-current');
     });
+    header.querySelectorAll('[data-page-group]').forEach((el) => el.classList.toggle('current', el.getAttribute('data-page-group') === key));
   }
   syncCurrentNav(currentKey);
 
@@ -491,15 +498,15 @@
     }
   };
 
-  const dataItem = header.querySelector('.site-nav-item');
-  const dataBtn = dataItem && dataItem.querySelector(':scope > button');
-  if (dataItem && dataBtn) {
+  header.querySelectorAll('.site-nav-item').forEach((dataItem) => {
+    const dataBtn = dataItem.querySelector(':scope > button');
+    if (!dataBtn) return;
     dataItem.addEventListener('mouseenter', () => { if (!tap || !tap.touch) setOpen(dataItem); });
     dataItem.addEventListener('mouseleave', () => {
       closeTimer = setTimeout(() => { if (openEl === dataItem) setOpen(null); }, 160);
     });
     dataItem.addEventListener('focusin', () => setOpen(dataItem));
-    dataItem.addEventListener('focusout', (e) => { if (!dataItem.contains(e.relatedTarget)) setOpen(null); });
+    dataItem.addEventListener('focusout', (e) => { if (openEl === dataItem && !dataItem.contains(e.relatedTarget)) setOpen(null); });
     dataBtn.addEventListener('pointerdown', (e) => {
       tap = { touch: e.pointerType === 'touch' || e.pointerType === 'pen', wasOpen: openEl === dataItem };
     });
@@ -508,7 +515,7 @@
       setOpen(wasOpen ? null : dataItem);
       tap = null;
     });
-  }
+  });
 
   const menuWrap = header.querySelector('.site-nav-narrow');
   const menuBtn = header.querySelector('.site-menu-btn');
