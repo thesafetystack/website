@@ -24,13 +24,13 @@ This repository holds the website of The Safety Stack as plain files. Nothing is
 
 ## Updating the data of the stack visualisation
 
-The two summary files in this repository were built from release 2026-11-08 of the dataset [thesafetystack/the-safety-stack](https://huggingface.co/datasets/thesafetystack/the-safety-stack). The stack visualisation shows newer data only after both files at the top level are replaced, and the front page shows the newer release only after `release.js` is replaced with them.
+The two summary files and `release.js` in this repository were built from release 2026-11-22 of the dataset [thesafetystack/the-safety-stack](https://huggingface.co/datasets/thesafetystack/the-safety-stack). The stack visualisation shows newer data only after both files at the top level are replaced, and the front page shows the newer release only after `release.js` is replaced with them.
 
 ```
 python tools/build_summary.py <release folder> <output folder>
 ```
 
-The release folder is one release of the dataset as published, with `release.json`, `data/corpus.parquet` and `taxonomies/`. The script needs Python with `duckdb` and `pyyaml`, and it was written against DuckDB 2.0. It takes about 12 seconds, and two runs on the same release give the same bytes. It has run on the releases 2026-11-02 and 2026-11-08 and has not been tried on later ones.
+The release folder is one release of the dataset as published, with `release.json`, `data/corpus.parquet` and `taxonomies/`. The script needs Python with `duckdb` and `pyyaml`, and it was written against DuckDB 2.0. It takes about 12 seconds, and two runs on the same release give the same bytes. It has run on the releases 2026-11-02, 2026-11-08 and 2026-11-22 and has not been tried on later ones.
 
 ## Weekly update
 

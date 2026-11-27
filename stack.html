@@ -389,12 +389,14 @@ class Component extends DCLogic {
     const legacyKey = {
       cards: ["stated in the lab's cards"], own: ["used in the lab's papers"],
       ghost: ['ghost matter: suspected by others'], argues_not: ['disputed: another document argues it is not used'],
-      dark: ["dark matter: in the lab's cards, not in the taxonomy", 'dark matter: in cards, outside taxonomy'], hole: ['holes are cosmetic']
+      dark: ["dark matter: in the lab's cards, not in the taxonomy", 'dark matter: in cards, outside taxonomy'], hole: ['holes are cosmetic'],
+      none: ['unknown']
     };
     const crispKey = {
       cards: "stated in lab's cards", own: "used in lab's papers",
       ghost: 'ghost matter: suspected', argues_not: 'disputed: argued not in use',
-      dark: 'dark matter: alluded to in cards, not in our catalogue', hole: 'illustrative holes: no layer is known to be flawless'
+      dark: 'dark matter: alluded to in cards, not in our catalogue', hole: 'illustrative holes: no layer is known to be flawless',
+      none: 'no public evidence found'
     };
     d.key.forEach(k => { this.keyText[k.id] = (legacyKey[k.id] && legacyKey[k.id].indexOf(k.text) >= 0) ? crispKey[k.id] : k.text; });
     this.blocks = d.layers.map((l, i) => ({role:l.id, idx:i, label:l.name, definition:l.definition || '', flat:false,
@@ -635,15 +637,15 @@ class Component extends DCLogic {
     if(ev.suspected && stop === 0) return 'ghost';
     return ev.own ? 'own' : 'none';
   }
-  lookWord(g){ return {cards:'stated in the lab\'s cards', own:'used in the lab\'s papers', ghost:'suspected by others', none:'unknown'}[g]; }
-  /* the evidence about one lab in a few words; with none of it, unknown */
+  lookWord(g){ return {cards:'stated in the lab\'s cards', own:'used in the lab\'s papers', ghost:'suspected by others', none:'no evidence found'}[g]; }
+  /* the evidence about one lab in a few words; with none of it, no evidence found */
   evidenceWords(ev){
     const parts = [];
     if(ev.cards) parts.push('stated in cards');
     if(ev.own) parts.push('used in the lab\'s papers');
     if(ev.suspected) parts.push('suspected by others');
     if(ev.argues_not) parts.push('disputed');
-    return parts.length ? parts.join(' · ') : 'unknown';
+    return parts.length ? parts.join(' · ') : 'no evidence found';
   }
   /* The colours of a slice by its look: top and two sides. A lighter slice is an opaque lighter tint, so a packed
      run of lighter slices still reads lighter than a run of solid ones. Fog is see-through and blurred. 'solid' is
@@ -889,7 +891,7 @@ class Component extends DCLogic {
       /* name, and under it the count of each look as drawn at this position of the slider */
       const nameY0 = K.OY + (K.PW / 2 + K.PD / 2) * sinA - zEntry - 150;
       const nameY = Math.max(nameY0, vbY0 + 12);
-      const name2 = lab ? counts.cards + ' cards · ' + counts.own + ' papers · ' + counts.ghost + ' suspected · ' + counts.none + ' unknown' : 'all ' + d.techniques.length + ' techniques in the taxonomy';
+      const name2 = lab ? counts.cards + ' cards · ' + counts.own + ' papers · ' + counts.ghost + ' suspected · ' + counts.none + ' no evidence' : 'all ' + d.techniques.length + ' techniques in the taxonomy';
       P.tags.push({k:pre + 'name', x:(ox - K.PD * K.COS + (lab ? 68 : 0)).toFixed(1), y:nameY.toFixed(1), w:340 * ts, h:34 * ts, text:ctx.name, text2:name2,
         style:'font-size:' + (15 * ts).toFixed(1) + 'px;font-weight:800;color:' + TH.svgHeading + ';white-space:nowrap;line-height:1.2;opacity:' + alpha.toFixed(2), style2:'font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:' + (10 * ts).toFixed(1) + 'px;color:' + TH.svgMuted + ';white-space:nowrap;line-height:1.25;opacity:' + alpha.toFixed(2)});
       P.meta = meta;
@@ -1024,7 +1026,7 @@ class Component extends DCLogic {
       qHits:all('fills').concat(cols.filter(c => c !== firstCol).reduce((a, c) => a.concat(c.P.hits), [])),
       oHits:firstCol ? firstCol.P.hits : [],
       brackets, sliceLabels, leaders,
-      intro:'How frontier labs layer safeguards for defence in depth: ' + d.techniques.length + ' techniques across ' + d.layers.length + ' layers, mapped from public evidence.',
+      intro:'What the public record shows about frontier labs’ safeguards: ' + d.techniques.length + ' techniques in ' + d.layers.length + ' layers, by what each lab states in its own cards, what its researchers used in papers, and what others attribute to it. Actual deployment is rarely stated. Labels are a language model’s readings of public documents and have not been individually verified.',
       labToggles:d.labs.map(l => ({k:l.id, name:l.name, style:tick, checked:vis.some(s => s.lab === l.id && s.dir > 0), onChange:() => this.toggleLab(l.id)}))
         .concat([{k:'cat', name:'Full catalogue', style:tick + ';margin-left:10px;padding-left:12px;border-left:1px solid var(--border-strong,#114b5f44)', checked:st.cat, onChange:this.onCat}]),
       labsNote:max === 1 ? '1 at a time' : 'up to 4',
@@ -1122,7 +1124,7 @@ class Component extends DCLogic {
       const openG = groups.find(g => ev[g] && this.state.ev === key + '|' + g), grp = openG ? ev[openG] : null;
       const unknown = !groups.some(g => ev[g]);
       const cells = groups.map(g => cell(key, g, ev[g]));
-      if(unknown) cells[0] = Object.assign(cells[0], {text:'unknown', textStyle:'font-size:12px;color:var(--muted,#5c7f88)'});
+      if(unknown) cells[0] = Object.assign(cells[0], {text:'no evidence found', textStyle:'font-size:12px;color:var(--muted,#5c7f88)'});
       return {k:key, lab:name, labStyle:'font-size:12.5px;line-height:1.2;color:var(--heading,#114b5f);font-weight:' + (bold ? 700 : 400), cells, open:!!grp,
         openTitle:grp ? name + ' · ' + groupWord[openG] + ' · ' + this.plural(grp.n, 'document') + ' · highest level ' + grp.level + ' of 4' : '',
         docs:grp ? grp.docs.map((x, i) => docRow(x, key + openG + i)) : [],
