@@ -388,15 +388,15 @@ class Component extends DCLogic {
     d.labs.forEach(l => { this.labOf[l.id] = l; });
     const legacyKey = {
       cards: ["stated in the lab's cards"], own: ["used in the lab's papers"],
-      ghost: ['ghost matter: suspected by others'], argues_not: ['disputed: another document argues it is not used'],
-      dark: ["dark matter: in the lab's cards, not in the taxonomy", 'dark matter: in cards, outside taxonomy'], hole: ['holes are cosmetic'],
-      none: ['unknown']
+      ghost: ['ghost matter: suspected by others'], argues_not: ['disputed: another document argues it is not used', 'disputed: argued not in use'],
+      dark: ["dark matter: in the lab's cards, not in the taxonomy", 'dark matter: in cards, outside taxonomy', 'dark matter: alluded to in cards, not in our catalogue'], hole: ['holes are cosmetic'],
+      none: ['unknown', 'no public evidence found']
     };
     const crispKey = {
       cards: "stated in lab's cards", own: "used in lab's papers",
-      ghost: 'ghost matter: suspected', argues_not: 'disputed: argued not in use',
-      dark: 'dark matter: alluded to in cards, not in our catalogue', hole: 'illustrative holes: no layer is known to be flawless',
-      none: 'no public evidence found'
+      ghost: 'ghost matter: suspected', argues_not: 'disputed: argued not in use · counted by its other evidence',
+      dark: 'dark matter: alluded to in cards, not in our catalogue · not in the tally', hole: 'illustrative holes: no layer is known to be flawless',
+      none: 'no evidence found in this release'
     };
     d.key.forEach(k => { this.keyText[k.id] = (legacyKey[k.id] && legacyKey[k.id].indexOf(k.text) >= 0) ? crispKey[k.id] : k.text; });
     this.blocks = d.layers.map((l, i) => ({role:l.id, idx:i, label:l.name, definition:l.definition || '', flat:false,
@@ -891,9 +891,11 @@ class Component extends DCLogic {
       /* name, and under it the count of each look as drawn at this position of the slider */
       const nameY0 = K.OY + (K.PW / 2 + K.PD / 2) * sinA - zEntry - 150;
       const nameY = Math.max(nameY0, vbY0 + 12);
-      const name2 = lab ? counts.cards + ' cards · ' + counts.own + ' papers · ' + counts.ghost + ' suspected · ' + counts.none + ' no evidence' : 'all ' + d.techniques.length + ' techniques in the taxonomy';
+      /* a lab's tally counts techniques, in two lines */
+      const name2 = lab ? 'of ' + (counts.cards + counts.own + counts.ghost + counts.none) + ' techniques: ' + counts.cards + ' in its cards · ' + counts.own + ' in its papers\n'
+        + counts.ghost + ' suspected · ' + counts.none + ' no evidence found' : 'all ' + d.techniques.length + ' techniques in the taxonomy';
       P.tags.push({k:pre + 'name', x:(ox - K.PD * K.COS + (lab ? 68 : 0)).toFixed(1), y:nameY.toFixed(1), w:340 * ts, h:34 * ts, text:ctx.name, text2:name2,
-        style:'font-size:' + (15 * ts).toFixed(1) + 'px;font-weight:800;color:' + TH.svgHeading + ';white-space:nowrap;line-height:1.2;opacity:' + alpha.toFixed(2), style2:'font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:' + (10 * ts).toFixed(1) + 'px;color:' + TH.svgMuted + ';white-space:nowrap;line-height:1.25;opacity:' + alpha.toFixed(2)});
+        style:'font-size:' + (15 * ts).toFixed(1) + 'px;font-weight:800;color:' + TH.svgHeading + ';white-space:nowrap;line-height:1.2;opacity:' + alpha.toFixed(2), style2:'font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:' + (10 * ts).toFixed(1) + 'px;color:' + TH.svgMuted + ';white-space:pre;line-height:1.25;opacity:' + alpha.toFixed(2)});
       P.meta = meta;
       return P;
     };

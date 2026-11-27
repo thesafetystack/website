@@ -107,9 +107,9 @@ KEY = [
     {"id": "cards", "text": "stated in lab's cards"},
     {"id": "own", "text": "used in lab's papers"},
     {"id": "ghost", "text": "ghost matter: suspected"},
-    {"id": "none", "text": "no public evidence found"},
-    {"id": "argues_not", "text": "disputed: argued not in use"},
-    {"id": "dark", "text": "dark matter: alluded to in cards, not in our catalogue"},
+    {"id": "none", "text": "no evidence found in this release"},
+    {"id": "argues_not", "text": "disputed: argued not in use · counted by its other evidence"},
+    {"id": "dark", "text": "dark matter: alluded to in cards, not in our catalogue · not in the tally"},
     {"id": "hole", "text": "illustrative holes: no layer is known to be flawless"},
 ]
 NOTES = [
