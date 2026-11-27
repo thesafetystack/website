@@ -407,6 +407,23 @@
   const ON_EXPLORER = /(^|\/)explorer(\.html)?$/i.test(location.pathname.replace(/\/+$/, ''));
   let currentKey = ON_EXPLORER ? 'explorer' : (pageKeyFromPath(location.pathname) || 'index');
 
+  /* Clean extensionless URLs on production (GitHub Pages serves /why, /stack, /explorer, /team natively);
+     localhost and file:// keep .html hrefs so python3 -m http.server and local disk opens keep working. */
+  const CLEAN_URLS = location.protocol === 'https:' && /^(www\.)?thesafetystack\.ai$/i.test(location.hostname);
+  function cleanPath(pathname) {
+    if (!CLEAN_URLS) return pathname;
+    const p = (pathname || '/').replace(/\/+$/, '') || '/';
+    if (/^\/index(\.html)?$/i.test(p)) return '/';
+    const m = /^\/(why|stack|explorer|team)\.html$/i.exec(p);
+    return m ? '/' + m[1].toLowerCase() : p;
+  }
+  if (CLEAN_URLS) {
+    const cp = cleanPath(location.pathname);
+    if (cp !== location.pathname) {
+      try { history.replaceState(history.state, '', cp + location.search + location.hash); } catch {}
+    }
+  }
+
   const DATA_LINKS = [
     ['https://huggingface.co/datasets/thesafetystack/the-safety-stack', 'Dataset on Hugging Face'],
     ['https://github.com/thesafetystack/the-safety-stack-pipeline', 'Pipeline source code'],
@@ -416,20 +433,20 @@
     .map(([u, t]) => `<li><a href="${u}" target="_blank" rel="noopener">${t}</a></li>`)
     .join('');
 
-  const exploreLis = `<li><a href="stack.html${STYLE === 'brand' ? '?style=classic' : ''}" data-page="stack">The safety stack by lab</a></li>`
-    + `<li><a href="explorer.html${STYLE === 'brand' ? '?style=classic' : ''}" data-page="explorer">Dataset explorer</a></li>`;
-
   const LOGO_SVG = '<svg width="18" height="18" viewBox="0 0 64 64" aria-hidden="true" style="display:block;flex:none"><polygon points="4,38 32,24 60,38 32,52" style="fill:var(--logo-slab);opacity:0.52"/><polygon points="4,28 32,14 60,28 32,42" style="fill:var(--logo-slab)"/><line x1="32" y1="4" x2="32" y2="60" style="stroke:var(--accent)" stroke-width="3.4" stroke-linecap="round"/></svg>';
   const styleQ = STYLE === 'brand' ? '?style=classic' : '';
+  const pageHref = (name) => (CLEAN_URLS ? (name === 'index' ? '/' : '/' + name) : name + '.html') + styleQ;
+  const exploreLis = `<li><a href="${pageHref('stack')}" data-page="stack">The safety stack by lab</a></li>`
+    + `<li><a href="${pageHref('explorer')}" data-page="explorer">Dataset explorer</a></li>`;
   const SUN_SVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>';
   const MOON_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
 
   const header = document.createElement('header');
   header.className = 'site-ribbon';
   header.innerHTML = `
-    <a href="index.html${styleQ}" class="site-brand">${LOGO_SVG}The Safety Stack</a>
+    <a href="${pageHref('index')}" class="site-brand">${LOGO_SVG}The Safety Stack</a>
     <nav class="site-nav-wide" aria-label="Primary">
-      <a href="why.html${styleQ}" data-page="why">Why Stack?</a>
+      <a href="${pageHref('why')}" data-page="why">Why Stack?</a>
       <div class="site-nav-item" data-navbox="r-explore" data-page-group="stack explorer">
         <button type="button" aria-expanded="false">Explore<span aria-hidden="true" style="font-size:10px;opacity:0.65">&#9662;</span></button>
         <ul class="site-nav-drop">${exploreLis}</ul>
@@ -438,19 +455,19 @@
         <button type="button" aria-expanded="false">Data and code<span aria-hidden="true" style="font-size:10px;opacity:0.65">&#9662;</span></button>
         <ul class="site-nav-drop">${dataLis}</ul>
       </div>
-      <a href="team.html${styleQ}" data-page="team">Team</a>
+      <a href="${pageHref('team')}" data-page="team">Team</a>
       <button type="button" class="site-theme-btn" data-theme-toggle="1"></button>
     </nav>
     <div class="site-nav-narrow" data-navbox="r-menu">
       <button type="button" class="site-theme-btn" data-theme-toggle="1"></button>
       <button type="button" class="site-menu-btn" aria-expanded="false" aria-controls="site-mobile-menu">Menu</button>
       <div id="site-mobile-menu" class="site-menu-panel">
-        <p><a href="why.html${styleQ}" data-page="why">Why Stack?</a></p>
+        <p><a href="${pageHref('why')}" data-page="why">Why Stack?</a></p>
         <p class="label">Explore</p>
         <ul>${exploreLis}</ul>
         <p class="label">Data and code</p>
         <ul>${dataLis}</ul>
-        <p><a href="team.html${styleQ}" data-page="team">Team</a></p>
+        <p><a href="${pageHref('team')}" data-page="team">Team</a></p>
       </div>
     </div>
   `;
@@ -700,7 +717,7 @@
       if (seq !== navSeq) return;
 
       if (push) {
-        history.pushState({ spaPage: key }, '', targetUrl.pathname + targetUrl.search + targetUrl.hash);
+        history.pushState({ spaPage: key }, '', cleanPath(targetUrl.pathname) + targetUrl.search + targetUrl.hash);
       }
 
       cleanupCurrentPage();
@@ -762,7 +779,13 @@
     try { u = new URL(rawHref, location.href); } catch { return; }
     if (u.origin !== location.origin) return;
     const key = pageKeyFromPath(u.pathname);
-    if (!key) return;
+    if (!key) {
+      if (CLEAN_URLS) {
+        const cp = cleanPath(u.pathname);
+        if (cp !== u.pathname) { e.preventDefault(); location.href = cp + u.search + u.hash; }
+      }
+      return;
+    }
     e.preventDefault();
     navigate(u, true);
   });

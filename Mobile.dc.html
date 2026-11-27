@@ -27,6 +27,10 @@
   button{font-family:inherit}
   ::selection{background:var(--selection,#02809033)}
   .fp-fixed-stage a,.fp-fixed-stage button{pointer-events:auto}
+  .fp-fixed-stage [data-selectable="1"]{pointer-events:auto;user-select:text;-webkit-user-select:text;cursor:text}
+  .fp-return-btn{display:inline-flex;align-items:center;gap:8px;margin:16px 0 0;padding:8px 14px;border:1px solid var(--border-strong,#114b5f44);border-radius:var(--radius-sm,4px);background:var(--surface,#fff8ec);color:var(--heading,#114b5f);font-family:var(--font-mono,ui-monospace,Menlo,monospace);font-size:12px;line-height:1.25;font-weight:500;cursor:pointer;transition:border-color .15s ease,background-color .15s ease,color .15s ease}
+  .fp-return-btn:hover{border-color:var(--link,#028090);background:var(--surface-2,#efeae0);color:var(--link,#028090)}
+  .fp-return-btn:focus-visible{outline:2px solid var(--ring,#028090);outline-offset:2px}
 </style>
 </helmet>
 <div ref="{{ scRef }}" data-scroller="1" tabindex="0" style="position:relative;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;overflow-anchor:none;background:var(--bg,#feecd3);color:var(--ink,#333);font-family:var(--font-prose,'IBM Plex Mono',ui-monospace,Menlo,monospace);{{ scStyle }}">
@@ -53,13 +57,16 @@
       <button type="button" onClick="{{ rb.menu.toggle }}" style="display:flex;align-items:center;height:44px;padding:0 20px;color:var(--heading,#114b5f);background:none;border:0;margin:0;font-size:13px;font-weight:700">Menu</button>
       <div style="position:absolute;right:0;top:44px;overflow-y:auto;background:var(--surface,#feecd3);border-top:1px solid var(--border,#114b5f33);border-bottom:1px solid var(--border-strong,#114b5f33);padding:4px 20px 18px;font-size:14px;line-height:1.4;{{ rb.menu.list }}">
         <p style="margin:14px 0 2px;font-weight:700"><a href="why.html" style="display:block;padding:6px 0;color:var(--heading,#114b5f);text-decoration:none">Why Stack?</a></p>
-        <p style="margin:14px 0 2px;font-weight:700"><a href="stack.html" style="display:block;padding:6px 0;color:var(--heading,#114b5f);text-decoration:none">Explore the stack</a></p>
-        <p style="margin:14px 0 2px;padding:6px 0;font-weight:700;color:var(--heading,#114b5f)">Use the data</p>
+        <p style="margin:14px 0 2px;padding:6px 0;font-weight:700;color:var(--heading,#114b5f)">Explore</p>
+        <ul style="list-style:none;margin:0;padding:0">
+          <li><a href="stack.html" style="display:block;padding:9px 0">The safety stack by lab</a></li>
+          <li><a href="explorer.html" style="display:block;padding:9px 0">Dataset explorer</a></li>
+        </ul>
+        <p style="margin:14px 0 2px;padding:6px 0;font-weight:700;color:var(--heading,#114b5f)">Data and code</p>
         <ul style="list-style:none;margin:0;padding:0">
           <li><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener" style="display:block;padding:9px 0">Dataset on Hugging Face</a></li>
           <li><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener" style="display:block;padding:9px 0">Pipeline source code</a></li>
           <li><a href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener" style="display:block;padding:9px 0">Taxonomies on GitHub</a></li>
-          <li><a href="explorer.html" style="display:block;padding:9px 0">Dataset explorer</a></li>
         </ul>
         <p style="margin:14px 0 2px;font-weight:700"><a href="team.html" style="display:block;padding:6px 0;color:var(--heading,#114b5f);text-decoration:none">Team</a></p>
       </div>
@@ -67,7 +74,7 @@
   </div>
 
   <div ref="{{ t1Ref }}" style="position:relative;{{ t1Style }}">
-    <div class="fp-fixed-stage" style="{{ scene1Style }}">
+    <div ref="{{ stage1Ref }}" class="fp-fixed-stage" style="{{ scene1Style }}">
       <svg aria-hidden="true" width="{{ SW }}" height="{{ SH }}" style="position:absolute;left:0;top:0;display:block">
         <g style="{{ stackG }}"><sc-for list="{{ shapes }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></g>
         <g style="{{ oversG }}"><sc-for list="{{ overs }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></g>
@@ -94,29 +101,30 @@
       <div style="position:absolute;text-align:right;white-space:nowrap;font-family:var(--font-mono,'IBM Plex Mono',monospace);line-height:1.3;color:var(--heading,#114b5f);pointer-events:none;{{ lab.dark }}">dark matter</div>
       <div style="position:absolute;text-align:right;white-space:nowrap;font-family:var(--font-mono,'IBM Plex Mono',monospace);line-height:1.3;color:var(--heading,#114b5f);pointer-events:none;{{ lab.ghost }}">ghost matter</div>
 
-      <section ref="{{ p1Ref }}" style="position:absolute;font-size:16px;line-height:1.62;{{ p1Style }}">
+      <section ref="{{ p1Ref }}" data-selectable="1" style="position:absolute;font-size:16px;line-height:1.62;{{ p1Style }}">
         <h2 style="margin:0 0 10px;font-size:1.3em;line-height:1.25;font-weight:700;color:var(--heading,#114b5f)">Why Stack?</h2>
         <p style="margin:0;text-wrap:pretty">The de facto plan for AI safety of frontier labs is <a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">defence-in-depth</a>.</p>
-        <p style="margin:14px 0 0;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:12px;line-height:1.3;color:var(--heading,#114b5f)">Scroll down</p>
+        <p style="margin:14px 0 0;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:12px;line-height:1.3;color:var(--heading,#114b5f);user-select:none">Scroll down</p>
       </section>
 
       <div style="position:absolute;top:0;overflow:hidden;font-size:15px;line-height:1.65;-webkit-mask-image:linear-gradient(transparent 0,#000 8%,#000 94%,transparent 100%);mask-image:linear-gradient(transparent 0,#000 8%,#000 94%,transparent 100%);{{ colStyle }}">
         <div ref="{{ reelRef }}" style="position:absolute;left:0;right:0;top:0;{{ reelStyle }}">
-          <p data-line="1" style="margin:0 0 14px;{{ ln.l0 }}">The idea is, that if you stack together enough weak alignment and control techniques, the failures of each layer will get caught by later layers.</p>
-          <p data-line="1" style="margin:0 0 14px;{{ ln.l1 }}">This “stack” includes all of the alignment, interpretability, and control methods that have tamed LLMs enough to make it possible to make money off of them.</p>
-          <h2 data-line="1" style="margin:30px 0 12px;font-size:1.3em;line-height:1.25;font-weight:700;color:var(--heading,#114b5f);{{ ln.l2 }}">How good is this plan?</h2>
-          <p data-line="1" style="margin:0 0 14px;{{ ln.l3 }}">We don’t know.</p>
-          <p data-line="1" style="margin:0 0 14px;{{ ln.l4 }}">The actual safety stack of deployed technologies is not public. So we don’t know what many of the layers are and how the defenses and vulnerabilities line up to specific risks.</p>
-          <p data-line="1" style="margin:0 0 14px;{{ ln.l5 }}">Let alone how well they work individually.</p>
-          <p data-line="1" style="margin:0 0 14px;{{ ln.l6 }}">Let alone how the layers interact with each other.</p>
-          <p data-line="1" style="margin:0 0 14px;{{ ln.l7 }}">This is because some research <a href="https://claude.ai/artifact/RAn3qmQFhrEoj9i9bEtaHp" target="_blank" rel="noopener">went dark</a> as it commercialised (and because it became irresponsible to release “dual-use” safety techniques).</p>
-          <p data-line="1" style="margin:0 0 14px;{{ ln.l8 }}">We call these layers <strong>dark matter</strong>: internal mitigations that are alluded to in system cards but are not in our catalogue of published techniques.</p>
-          <p data-line="1" style="margin:0 0 14px;{{ ln.l9 }}">We can try and infer some of the techniques a lab uses from what others write; use that others suspect but the lab does not state is what we call <strong>ghost matter.</strong></p>
-          <p data-line="1" style="margin:46px 0 14px;{{ ln.l10 }}">As a result, it is quite possible that the strategy is giving the world a false sense of security, because the stack might be failing to cover some hazards.</p>
-          <p data-line="1" style="margin:0 0 14px;{{ ln.l11 }}">It is quite possible that external research into creating new layers for the stack is wasted effort - duplicating existing private techniques.</p>
-          <p data-line="1" style="margin:0 0 14px;{{ ln.l12 }}">It is also quite possible that layers developed in isolation from each other end up having contradictory effects on the target model’s safety.</p>
-          <p data-line="1" style="margin:0 0 14px;{{ ln.l13 }}">Where, for instance, a technique in one layer can weaken a technique in another.</p>
-          <p data-line="1" style="margin:0 0 14px;{{ ln.l14 }}">The situation makes it impossible for policy work to be calibrated to how much mandating the use of particular techniques would actually help.</p>
+          <p data-line="1" data-selectable="1" style="margin:0 0 14px;{{ ln.l0 }}">The idea is, that if you stack together enough weak alignment and control techniques, the failures of each layer will get caught by later layers.</p>
+          <p data-line="1" data-selectable="1" style="margin:0 0 14px;{{ ln.l1 }}">This “stack” includes all of the alignment, interpretability, and control methods that have tamed LLMs enough to make it possible to make money off of them.</p>
+          <h2 data-line="1" data-selectable="1" style="margin:30px 0 12px;font-size:1.3em;line-height:1.25;font-weight:700;color:var(--heading,#114b5f);{{ ln.l2 }}">How good is this plan?</h2>
+          <p data-line="1" data-selectable="1" style="margin:0 0 14px;{{ ln.l3 }}">We don’t know.</p>
+          <p data-line="1" data-selectable="1" style="margin:0 0 14px;{{ ln.l4 }}">The actual safety stack of deployed technologies is not public. So we don’t know what many of the layers are and how the defenses and vulnerabilities line up to specific risks.</p>
+          <p data-line="1" data-selectable="1" style="margin:0 0 14px;{{ ln.l5 }}">Let alone how well they work individually.</p>
+          <p data-line="1" data-selectable="1" style="margin:0 0 14px;{{ ln.l6 }}">Let alone how the layers interact with each other.</p>
+          <p data-line="1" data-selectable="1" style="margin:0 0 14px;{{ ln.l7 }}">This is because some research <a href="https://claude.ai/artifact/RAn3qmQFhrEoj9i9bEtaHp" target="_blank" rel="noopener">went dark</a> as it commercialised (and because it became irresponsible to release “dual-use” safety techniques).</p>
+          <p data-line="1" data-selectable="1" style="margin:0 0 14px;{{ ln.l8 }}">We call these layers <strong>dark matter</strong>: internal mitigations that are alluded to in system cards but are not in our catalogue of published techniques.</p>
+          <p data-line="1" data-selectable="1" style="margin:0 0 14px;{{ ln.l9 }}">We can also try to infer some of a lab’s techniques from what others write. We call these <strong>ghost matter</strong>: techniques that outsiders suspect a lab uses, but the lab itself does not state.</p>
+          <p data-line="1" data-selectable="1" style="margin:46px 0 14px;{{ ln.l10 }}">As a result, it is quite possible that the strategy is giving the world a false sense of security, because the stack might be failing to cover some hazards.</p>
+          <p data-line="1" data-selectable="1" style="margin:0 0 14px;{{ ln.l11 }}">It is quite possible that external research into creating new layers for the stack is wasted effort - duplicating existing private techniques.</p>
+          <p data-line="1" data-selectable="1" style="margin:0 0 14px;{{ ln.l12 }}">It is also quite possible that layers developed in isolation from each other end up having contradictory effects on the target model’s safety.</p>
+          <p data-line="1" data-selectable="1" style="margin:0 0 14px;{{ ln.l13 }}">Where, for instance, a technique in one layer can weaken a technique in another.</p>
+          <p data-line="1" data-selectable="1" style="margin:0 0 14px;{{ ln.l14 }}">The situation makes it impossible for policy work to be calibrated to how much mandating the use of particular techniques would actually help.</p>
+          <div style="{{ doneBtn.wrap }}"><button type="button" class="fp-return-btn" onClick="{{ doneBtn.click }}" style="{{ doneBtn.btn }}"><span aria-hidden="true">&larr;</span>{{ doneBtn.label }}</button></div>
         </div>
       </div>
     </div>
@@ -215,7 +223,7 @@
 </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"reducedMotion":{"editor":"boolean","default":false,"tsType":"boolean","section":"Scene"},"embedded":{"editor":null,"default":false,"tsType":"boolean"},"onDone":{"editor":null,"tsType":"() => void"},"$preview":{"width":390,"height":844}}'>
+<script type="text/x-dc" data-dc-script data-props='{"reducedMotion":{"editor":"boolean","default":false,"tsType":"boolean","section":"Scene"},"embedded":{"editor":null,"default":false,"tsType":"boolean"},"onDone":{"editor":null,"tsType":"() => void"},"returnLabel":{"editor":null,"default":"","tsType":"string"},"$preview":{"width":390,"height":844}}'>
 /* The front page of thesafetystack.ai.
    The page has two scenes, one under the other, on one sheet of grid. Each scene is held in the window while the
    reader scrolls through it, and the scroll position alone decides what it shows, so scrolling back reverses it.
@@ -255,11 +263,11 @@ class Component extends DCLogic {
   LI = [{x:-96, y:8}, {x:-34, y:-18}, {x:28, y:20}, {x:92, y:-10}];
   TL1 = [['a1', 0.7], ['a2', 1.2], ['t1', 0.45], ['a3', 1.6], ['t2', 0.45], ['a4', 0.6], ['t3', 0.45], ['a5', 0.8], ['t4', 0.5], ['a6', 0.9],
     ['t5', 0.4], ['a7', 1.5], ['t6', 0.4], ['a8', 1.6], ['t7', 0.5], ['a9', 1.0], ['t8', 0.5], ['a10', 0.7], ['t9', 0.5], ['a11', 0.8], ['a12', 0.7],
-    ['t10', 0.5], ['a13', 0.9], ['t11', 0.5], ['a14', 0.9], ['t12', 0.5], ['a15', 1.5], ['t13', 0.45], ['a16', 0.8], ['t14', 0.5], ['a17', 1.2]];
+    ['t10', 0.5], ['a13', 0.9], ['t11', 0.5], ['a14', 0.9], ['t12', 0.5], ['a15', 1.5], ['t13', 0.45], ['a16', 0.8], ['t14', 0.5], ['a17', 0.95]];
   TL2 = [['c1', 0.8], ['c2', 0.8], ['c3', 0.8], ['c4', 0.8], ['x', 0.6], ['h1', 1.1], ['h2', 1.1], ['h3', 1.1], ['f', 0.8]];
-  T1 = (() => { const m = {}; let x = 0.15; this.TL1.forEach(e => { m[e[0]] = [x, e[1]]; x += e[1]; }); this.TOT1 = x + 0.6; return m; })();
+  T1 = (() => { const m = {}; let x = 0.15; this.TL1.forEach(e => { m[e[0]] = [x, e[1]]; x += e[1]; }); this.TOT1 = x + 0.2; return m; })();
   T2 = (() => { const m = {}; let x = 0.15; this.TL2.forEach(e => { m[e[0]] = [x, e[1]]; x += e[1]; }); this.TOT2 = x + 0.35; return m; })();
-  scRef = React.createRef(); rootRef = React.createRef(); t1Ref = React.createRef(); t2Ref = React.createRef();
+  scRef = React.createRef(); rootRef = React.createRef(); stage1Ref = React.createRef(); t1Ref = React.createRef(); t2Ref = React.createRef();
   p1Ref = React.createRef(); reelRef = React.createRef(); aRef = React.createRef(); finRef = React.createRef();
   state = {s:0, q:0, W:typeof window !== 'undefined' ? window.innerWidth : 1440, V:typeof window !== 'undefined' ? (window.innerHeight > 1800 ? 900 : Math.max(480, window.innerHeight)) : 900, p1H:110, ln:[], lnKey:'', aH:140, finKey:'', tx:0, ty:0, open:null, done:false, live:false, theme:typeof window !== 'undefined' && window.__siteTheme ? window.__siteTheme.mode() : 'light'};
   svgTheme(){
@@ -276,11 +284,20 @@ class Component extends DCLogic {
   onBrandClick = (e) => { if(this.props.embedded === true && typeof this.props.onDone === 'function'){ e.preventDefault(); this.props.onDone(); } };
   ptx = 0; pty = 0;
 
+  onStageWheel = (e) => {
+    if(this.props.embedded !== true) return;
+    const sc = this.scRef.current; if(!sc || !e.deltaY) return;
+    const mul = e.deltaMode === 1 ? 40 : (e.deltaMode === 2 ? (sc.clientHeight || 600) : 1);
+    sc.scrollTop += e.deltaY * mul;
+    e.preventDefault();
+  };
   componentDidMount(){
     this.reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     window.addEventListener('pointermove', this.onPointer, {passive:true});
     document.addEventListener('pointerdown', this.onDocDown);
     window.addEventListener('site-theme-change', this.onThemeChange);
+    const st1 = this.stage1Ref.current;
+    if(st1) st1.addEventListener('wheel', this.onStageWheel, {passive:false});
     if(this.MODE === 'phone'){
       const sc = this.scRef.current;
       if(sc){ sc.addEventListener('pointerdown', this.dragStart); sc.addEventListener('pointermove', this.dragMove); sc.addEventListener('pointerup', this.dragEnd); sc.addEventListener('pointercancel', this.dragEnd); sc.addEventListener('click', this.dragClick, true); }
@@ -291,6 +308,8 @@ class Component extends DCLogic {
     cancelAnimationFrame(this.raf); clearTimeout(this.closeTimer);
     const sc0 = this.scRef.current;
     if(sc0){ sc0.removeEventListener('pointerdown', this.dragStart); sc0.removeEventListener('pointermove', this.dragMove); sc0.removeEventListener('pointerup', this.dragEnd); sc0.removeEventListener('pointercancel', this.dragEnd); sc0.removeEventListener('click', this.dragClick, true); }
+    const st1 = this.stage1Ref.current;
+    if(st1) st1.removeEventListener('wheel', this.onStageWheel);
     window.removeEventListener('pointermove', this.onPointer);
     document.removeEventListener('pointerdown', this.onDocDown);
     window.removeEventListener('site-theme-change', this.onThemeChange);
@@ -311,6 +330,7 @@ class Component extends DCLogic {
   dragStart = (e) => {
     if(e.pointerType === 'mouse' && e.button !== 0) return;
     if(e.target && e.target.closest && e.target.closest('[data-box="r-menu"]')) return;
+    if(e.pointerType === 'mouse' && e.target && e.target.closest && e.target.closest('[data-selectable="1"]')) return;
     this.glide = null;
     const sc = this.scRef.current;
     this.drag = {id:e.pointerId, y:e.clientY, y0:e.clientY, t:performance.now(), v:0, moved:false};
@@ -355,10 +375,9 @@ class Component extends DCLogic {
     const r3 = n => Math.round(n * 1000) / 1000;
     const s = emb ? r3(Math.max(0, Math.min(this.TOT1, sc.scrollTop / U)))
       : r3(Math.max(0, Math.min(this.TOT1, (sc.getBoundingClientRect().top - t1.getBoundingClientRect().top) / U)));
-    /* embedded: this page is shown inside the front page, which has the destinations itself. Only the stack story is
-       played; when the reader has scrolled to its end, the front page is told, and it takes the story away again. */
+    /* embedded: this page is shown inside a parent page (home or Why Stack?). Only the stack story is played;
+       at the end the scroll stops cleanly so the reader can scroll back up or click the return button. */
     const q = emb ? 0 : r3(Math.max(0, Math.min(this.TOT2, (sc.getBoundingClientRect().top - t2.getBoundingClientRect().top) / U)));
-    if(emb && s >= this.TOT1 - 0.02 && !this.toldDone){ this.toldDone = true; if(typeof this.props.onDone === 'function') this.props.onDone(); }
     const p1 = this.p1Ref.current, a = this.aRef.current, reel = this.reelRef.current;
     const p1H = (p1 && p1.offsetHeight) || st.p1H, aH = (a && a.offsetHeight) || st.aH;
     let ln = st.ln, lnKey = st.lnKey;
@@ -521,6 +540,44 @@ class Component extends DCLogic {
     const fine = style => sw === 1 ? style : style.replace(/stroke-width:([0-9.]+)/g, (m, v) => 'stroke-width:' + (parseFloat(v) * sw).toFixed(2));
     const put = (d, style) => { shapes.push({d, style:fine(style)}); };
     const over = (d, style) => { overs.push({d, style:fine(style)}); };
+    /* Harm: where a threat gets through it leaves a mark on the ground under the stack, drawn flat in the ground's own
+       plane (gp maps a point (x, y) of that plane to the screen), so it turns and foreshortens with the stack. g runs from
+       0 to 1 as the line touches down: the dot lands, short cracks run out from it, then a broken ring opens round them.
+       Everything follows g, so the mark grows and shrinks with the scroll and never pops. seed gives each mark its own cracks. */
+    const impact = (out, gp, x0, y0, g, a, seed, k) => {
+      if(g <= 0.004 || a <= 0.01) return;
+      const rnd = j => { const s = Math.sin(seed * 127.1 + j * 311.7) * 43758.5453; return s - Math.floor(s); };
+      const gq = (r, t) => gp(x0 + r * Math.cos(t), y0 + r * Math.sin(t));
+      const loop = (r, t0, t1, n) => { let d = ''; for(let j = 0; j <= n; j++) d += (j ? 'L' : 'M') + pt(gq(r, lerp(t0, t1, j / n))); return d; };
+      const cG = ez(cl(g / 0.3)), qG = ez(cl((g - 0.1) / 0.6)), rG = ez(cl((g - 0.35) / 0.65));
+      out(loop(7 * k * (0.35 + 0.65 * cG), 0, 6.2832, 28) + 'Z', 'fill:' + C.acc + ';stroke:none;fill-opacity:' + (0.14 * a * cG).toFixed(3));
+      /* cracks: seven of uneven length, each bending a little half way out; between neighbours a short straight chord,
+         as in a pane that has been shot through; round all of it, a faint broken ring */
+      let d = '', w = ''; const n = 7, t0 = rnd(0) * 6.2832, r0 = 3 * k, T = [], R = [];
+      for(let j = 0; j < n; j++){
+        const t = t0 + 6.2832 * (j + 0.5 * (rnd(j + 1) - 0.5)) / n, len = (6.5 + 10 * rnd(j + 11)) * k, rm = lerp(r0, len, 0.45), r1 = lerp(r0, len, qG);
+        T.push(t); R.push(len);
+        if(r1 - r0 < 0.25) continue;
+        const t2 = t + 0.34 * (rnd(j + 21) - 0.5);
+        d += 'M' + pt(gq(r0, t)) + 'L' + pt(gq(Math.min(r1, rm), t)) + (r1 > rm ? 'L' + pt(gq(r1, lerp(t, t2, (r1 - rm) / (len - rm)))) : '');
+      }
+      if(d) out(d, 'fill:none;stroke:' + C.acc + ';stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:' + (0.92 * a * cl(qG * 3)).toFixed(2));
+      if(rG > 0.01){
+        for(let j = 0; j < n; j++){
+          if(rnd(j + 51) < 0.35) continue;
+          const j2 = (j + 1) % n, rc = Math.min(R[j], R[j2]) * (0.5 + 0.15 * rnd(j + 61)), tb = T[j2] + (j2 ? 0 : 6.2832);
+          const pa = gq(rc, T[j]), pb = gq(rc, tb), m = [lerp(pa[0], pb[0], 0.5), lerp(pa[1], pb[1], 0.5)];
+          w += 'M' + pt([lerp(m[0], pa[0], rG), lerp(m[1], pa[1], rG)]) + 'L' + pt([lerp(m[0], pb[0], rG), lerp(m[1], pb[1], rG)]);
+        }
+        if(w) out(w, 'fill:none;stroke:' + C.acc + ';stroke-width:.85;stroke-linecap:round;stroke-opacity:' + (0.75 * a * rG).toFixed(2));
+        const rr = 15 * k * lerp(0.75, 1, rG), s0 = rnd(31) * 6.2832; let e = '';
+        for(let j = 0; j < 3; j++){ const b = s0 + j * 2.0944, span = (1.1 + 0.45 * rnd(j + 41)) * rG; e += loop(rr, b, b + span, 12); }
+        out(e, 'fill:none;stroke:' + C.acc + ';stroke-width:.8;stroke-linecap:round;stroke-opacity:' + (0.38 * a * rG).toFixed(2));
+      }
+      out(loop(2.7 * k * (0.55 + 0.45 * cG), 0, 6.2832, 16) + 'Z', 'fill:' + C.acc + ';stroke:none;fill-opacity:' + (a * cG).toFixed(2));
+    };
+    /* the marks are kept near one size on the screen (about 26 px across, a little less on the phone) whatever the size of the drawing */
+    const kH = Math.max(0.75, Math.min(1.8, 0.78 / zoom)) * dk;
 
     /* Steps a7 to a9: one slice of the stack is taken out on its own. tau runs from 0 (the stack) to 1 (the slice alone).
        As it rises, the slices above the chosen one move up and those below move down, like an accordion opening, and fade,
@@ -532,8 +589,15 @@ class Component extends DCLogic {
     const labDim = 1 - 0.65 * dimD;
 
     /* ---- the lines from above ---- */
-    const yHarmU = uy(HW, HD, zBase) + 24;
-    const zAtHarm = L => ((L.x * sn + L.y * cs) * sinP - yHarmU) / cosP;
+    /* Harm: one straight line under the stack, parallel to the front edges of its slices (ps(-HW, HD, z) to ps(HW, HD, z)),
+       a little below the lowest slice. A line that gets through goes down until it meets it, so every end lies on it.
+       harmO is a point of it, harmD its direction on the screen (1 px long), harmK the place of a point along it. */
+    const harmO = ps(0, HD, zBase - 30), harmE = ps(HW, HD, zBase - 30), harmN = Math.hypot(harmE[0] - harmO[0], harmE[1] - harmO[1]) || 1;
+    const harmD = [(harmE[0] - harmO[0]) / harmN, (harmE[1] - harmO[1]) / harmN];
+    const harmX = (vx, vy) => harmD[0] * vy - harmD[1] * vx;
+    const harmK = p => (p[0] - harmO[0]) * harmD[0] + (p[1] - harmO[1]) * harmD[1];
+    const onHarm = k => [harmO[0] + harmD[0] * k, harmO[1] + harmD[1] * k];
+    const zAtHarm = L => { const p0 = ps(L.x, L.y, 0), p1 = ps(L.x, L.y, 1); return harmX(harmO[0] - p0[0], harmO[1] - p0[1]) / harmX(p1[0] - p0[0], p1[1] - p0[1]); };
     const oldOut = ez(win(P.a12, 0, 0.5));
     const LD = [
       {dn:['a3', 0.03, 0.22], stop:'Ia', ext:0, out:oldOut, maybe:0},
@@ -541,17 +605,27 @@ class Component extends DCLogic {
       {dn:['a3', 0.7, 0.98], stop:null, ext:1, out:oldOut},
       {dn:['a3', 0.48, 0.68], stop:'Ma', ext:ez(win(P.a13, 0.1, 0.9)), out:0, maybe:2},
       {dn:['a15', 0, 0.26], stop:'Mb', ext:ez(win(P.a16, 0.05, 0.9)), out:0},
-      {dn:['a17', 0.45, 1], stop:null, ext:1, out:0}];
+      {dn:['a17', 0.4, 0.86], stop:null, ext:1, out:0}];
     const lines = this.LP.map((p, i) => {
       const D = LD[i], top = stackTop + (i === 0 || i === 3 ? 28 : (i > 3 ? 44 : 62)), zh = zAtHarm(p);
       const dn = ez(win(P[D.dn[0]], D.dn[1], D.dn[2]));
       const stopZ = D.stop ? Z[D.stop] : null, end = stopZ === null ? zh : lerp(stopZ, zh, D.ext), a = (1 - D.out) * (1 - 0.6 * dimD) * (1 - win(tau, 0, 0.3));
       /* step a6: a line stopped at a slice that is out of focus may or may not go on. A dotted line comes and goes below the slice. */
       const v = D.maybe === undefined ? 0 : cl((P.a6 - 0.08 * D.maybe) / 0.84), maybe = D.maybe === undefined ? 0 : 0.5 - 0.5 * Math.cos(4 * Math.PI * v);
-      return {x:p.x, y:p.y, top, head:lerp(top, end, dn), on:dn > 0 && a > 0.01, a, stopped:dn >= 1 && D.ext <= 0 && a > 0.01, stopZ, atHarm:dn >= 1 && D.ext >= 1 && a > 0.01, zh, maybe,
+      return {x:p.x, y:p.y, top, head:lerp(top, end, dn), on:dn > 0 && a > 0.01, a, stopped:dn >= 1 && D.ext <= 0 && a > 0.01, stopZ, atHarm:dn >= 1 && D.ext >= 1 && a > 0.01, zh, maybe, hw:a * cl(1 - (lerp(top, end, dn) - zh) / 36),
         la:win(P[D.dn[0]], D.dn[1], D.dn[1] + 0.08) * (1 - oldOut) * labDim,
         style:'fill:none;stroke:' + C.acc + ';stroke-width:1.8;stroke-linecap:round;stroke-opacity:' + a.toFixed(2)};
     });
+    /* the part of the Harm line that is drawn: from the first to the last line that has reached it. A line on its way in
+       stretches the part smoothly, from the part already there to its own end, so neither the part nor its name jumps. */
+    const harmSpan = (() => {
+      const hs = lines.filter(L => L.hw > 0.01).map(L => ({k:harmK(ps(L.x, L.y, L.zh)), w:Math.min(1, L.hw)})); if(!hs.length) return null;
+      const top = hs.reduce((m, h) => h.w > m.w ? h : m, hs[0]), full = hs.filter(h => h.w >= 0.999);
+      const fLo = full.length ? Math.min.apply(null, full.map(h => h.k)) : top.k, fHi = full.length ? Math.max.apply(null, full.map(h => h.k)) : top.k;
+      let lo = fLo, hi = fHi;
+      hs.forEach(h => { const e = lerp(Math.max(fLo, Math.min(fHi, h.k)), h.k, h.w); lo = Math.min(lo, e); hi = Math.max(hi, e); });
+      return {lo, hi, a:top.w};
+    })();
     /* step a15: the slice added in the top layer acts on one slice of the middle layer. A dashed line joins the two. */
     const grow = ez(win(P.a15, 0.72, 1)), gh = HO.Mb[0];
     const linkA = win(P.a15, 0.55, 0.68) * (1 - win(P.a17, 0, 0.2));
@@ -645,13 +719,8 @@ class Component extends DCLogic {
       /* where a line is stopped: a dot on the slice */
       lines.forEach(L => { if(L.stopped) items.push({z:L.stopZ + 0.01, draw:() => { const c = ps(L.x, L.y, L.stopZ); put(ell(c, 4.8 * dk, Math.max(1.8, 4.8 * sinP) * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.a * (1 - 0.8 * L.maybe)).toFixed(2)); }}); });
       items.sort((a, c) => a.z - c.z);
-      /* under the stack: where the lines that get through end */
-      const arrived = lines.filter(L => L.atHarm);
-      if(arrived.length){
-        const ends = arrived.map(L => ps(L.x, L.y, L.zh)).sort((a, c) => a[0] - c[0]);
-        const a0 = ends[0], a1 = ends[ends.length - 1], aa = Math.max.apply(null, arrived.map(L => L.a));
-        put(seg([a0[0] - 9 * cr, a0[1] - 9 * sr], [a1[0] + 9 * cr, a1[1] + 9 * sr]), 'stroke:' + C.acc + ';stroke-width:1.8;stroke-linecap:round;stroke-opacity:' + aa.toFixed(2));
-      }
+      /* under the stack: a mark where each line that gets through lands, on the ground at its own place (x, y, zh) */
+      lines.forEach((L, i) => { if(L.on) impact(put, (x, y) => ps(x, y, L.zh), L.x, L.y, cl(1 - (L.head - L.zh) / 10), L.a, i + 1, kH); });
       let prev = -1e9;
       items.forEach(it => { segBetween(prev, it.z); it.draw(); prev = it.z; });
       segBetween(prev, 1e9);
@@ -714,9 +783,9 @@ class Component extends DCLogic {
       const L = lines[i], p = ps(L.x, L.y, L.top), leftSide = i < 2, w = 170;
       lab['t' + i] = show({left:px(leftSide ? p[0] - 8 - w : p[0] + 8), top:px(p[1] - (i === 1 || i === 2 ? 15 : 3)), width:w + 'px', 'font-size':fsLine + 'px'}, L.la * labA);
     }
-    let harmPos = null, harmA = 0;
-    { const arr = lines.filter(L => L.atHarm);
-      if(arr.length){ const e0 = ps(0, 0, zAtHarm({x:0, y:0})); harmPos = [e0[0] - 14 * sr, e0[1]]; harmA = Math.max.apply(null, arr.map(L => L.a)) * labA; } }
+    let harmPos = null, harmA = 0, harmDrop = 7;
+    /* the name sits under the middle of the drawn part; it is let down by as much as the line falls under half its width */
+    if(harmSpan){ harmPos = onHarm((harmSpan.lo + harmSpan.hi) / 2); harmA = harmSpan.a * labA; harmDrop = 6 + 20 * Math.abs(harmD[1] / (harmD[0] || 1)) + 14 * kH * sinP * zoom; }
 
     /* ---- steps a7 to a9: one slice alone, then two ---- */
     if(tau > 0.001){
@@ -735,7 +804,8 @@ class Component extends DCLogic {
       const ip = (d, style) => { isoShapes.push({d, style:fine(style)}); };
       const ring = (fn, h, dx) => { let d = ''; for(let k = 0; k < 26; k++){ const a = k / 26 * Math.PI * 2; d += (k ? 'L' : 'M') + pt(fn(h.x + dx + h.r * Math.cos(a), h.y + h.r * Math.sin(a))); } return d + 'Z'; };
       const L4 = LI.map((L, i) => {
-        const zHi = zH + (L.x * si + L.y * ci) * sI / cI;
+        /* Harm, under the slice alone: a line parallel to the slice's front edges through pi(0, 0, zH); each line ends on it */
+        const zHi = zH + L.y * sI / (cI * ci);
         const eA = ez(margin(hA, L, dxA)), eB = ez(margin(hB, L, dxB)), stopB = lerp(zHi, zB, bIn);
         const end = eA < 1 ? lerp(zA, stopB, eA) : lerp(zB, zHi, Math.max(eB, 1 - bIn));
         const dn = ez(win(P.a7, 0.34 + i * 0.03, 0.5 + i * 0.03));
@@ -743,8 +813,7 @@ class Component extends DCLogic {
       });
       const ls = 'fill:none;stroke:' + C.acc + ';stroke-width:2;stroke-linecap:round;stroke-opacity:' + xa.toFixed(2);
       const segI = (za, zb) => { if(xa > 0.01) L4.forEach(L => { if(!L.on) return; const a = Math.max(za, L.head), c = Math.min(zb, zTop); if(c - a > 0.02) ip(seg(pi(L.x, L.y, a), pi(L.x, L.y, c)), ls); }); };
-      const got = L4.filter(L => L.harm > 0.9);
-      if(got.length && xa > 0.01){ const e = got.map(L => pi(L.x, L.y, L.zHi)).sort((a, c) => a[0] - c[0]); ip(seg([e[0][0] - 10, e[0][1]], [e[e.length - 1][0] + 10, e[e.length - 1][1]]), ls); }
+      L4.forEach((L, i) => { if(L.on && xa > 0.01) impact(ip, (x, y) => pi(x, y, L.zHi), L.x, L.y, cl(1 - (L.head - L.zHi) / 10), xa, i + 11, 1); });
       segI(-1e9, zB);
       if(bIn * xa > 0.01){
         const zb = zB - (1 - bIn) * 24, pb = (x, y) => pi(x, y, zb), a = bIn * xa;
@@ -763,9 +832,9 @@ class Component extends DCLogic {
       }
       L4.forEach(L => { if(L.dotA * xa > 0.02) ip(ell(pi(L.x, L.y, zA), 6 * dk, 3.6 * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.dotA * xa).toFixed(2)); });
       segI(zA, 1e9);
-      if(tau > 0.5){ const e = L4.map(L => pi(L.x, L.y, L.zHi)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length, e[0][1]]; harmA = Math.max.apply(null, L4.map(L => L.harm)) * xa; }
+      if(tau > 0.5){ const e = L4.map(L => pi(L.x, L.y, L.zHi)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length, e.reduce((a, c) => a + c[1], 0) / e.length]; harmA = Math.max.apply(null, L4.map(L => L.harm)) * xa; harmDrop = 6 + 20 * si * sI / ci + 13 * sI * zI; }
     }
-    lab.harm = show({left:px((harmPos ? harmPos[0] : 0) - 60), top:px((harmPos ? harmPos[1] : 0) + 7), width:'120px', 'font-size':'13px'}, harmPos ? harmA : 0);
+    lab.harm = show({left:px((harmPos ? harmPos[0] : 0) - 60), top:px((harmPos ? harmPos[1] : 0) + harmDrop), width:'120px', 'font-size':'13px'}, harmPos ? harmA : 0);
 
     /* ---- the text of scene 1: one sentence to a line. The line being read sits at the middle of the window, level with
        the drawing; the lines before it move up and dim. At four points the text before is cleared altogether. ---- */
@@ -777,7 +846,7 @@ class Component extends DCLogic {
     let off = ctr(0);
     for(let k = 0; k < 15; k++){
       const a = rv[k] * lerp(1, 0.4, nextOf[k] < 0 ? 0 : rv[nextOf[k]]) * (1 - gOut[grp[k]]) * (phone && k < 13 ? 1 - rv[k + 2] : 1);
-      ln['l' + k] = a > 0.005 ? 'opacity:' + a.toFixed(2) : 'opacity:0;pointer-events:none';
+      ln['l' + k] = a > 0.05 ? 'opacity:' + a.toFixed(2) : (a > 0.005 ? 'opacity:' + a.toFixed(2) + ';pointer-events:none;user-select:none;-webkit-user-select:none' : 'opacity:0;pointer-events:none;user-select:none;-webkit-user-select:none');
       if(k !== 2) off = lerp(off, ctr(k), rv[k]);
     }
     const p1Out = ez(win(P.a2, 0, 0.3));
@@ -879,19 +948,26 @@ class Component extends DCLogic {
       rb.menu = {toggle:() => this.setState({open:this.state.open === 'r-menu' ? null : 'r-menu'}), list:S({width:W + 'px', 'max-height':(V - 44) + 'px', visibility:open ? 'visible' : 'hidden'})}; }
 
     const emb = this.props.embedded === true;
+    const doneBtnA = emb ? ez(win(P.a17, 0.72, 1)) : 0;
+    const doneBtn = {
+      label: this.props.returnLabel || 'Return',
+      click: () => { if(typeof this.props.onDone === 'function') this.props.onDone(); },
+      wrap: emb ? S({opacity:doneBtnA.toFixed(2), visibility:doneBtnA > 0.02 ? 'visible' : 'hidden'}) : 'display:none',
+      btn: doneBtnA > 0.02 ? 'pointer-events:auto' : 'pointer-events:none'
+    };
     return {
-      scRef:this.scRef, rootRef:this.rootRef, onBrandClick:this.onBrandClick, t1Ref:this.t1Ref, t2Ref:this.t2Ref, p1Ref:this.p1Ref, reelRef:this.reelRef, aRef:this.aRef,
+      scRef:this.scRef, rootRef:this.rootRef, stage1Ref:this.stage1Ref, onBrandClick:this.onBrandClick, t1Ref:this.t1Ref, t2Ref:this.t2Ref, p1Ref:this.p1Ref, reelRef:this.reelRef, aRef:this.aRef,
       scStyle:'height:' + V + 'px' + (phone ? ';touch-action:none' : ''), sceneStyle:'height:' + V + 'px',
       scene1Style:emb ? ('position:fixed;left:0;top:0;width:' + W + 'px;height:' + V + 'px;overflow:hidden;pointer-events:none') : ('position:sticky;top:0;overflow:hidden;height:' + V + 'px'),
       ribWrapStyle:emb ? ('position:fixed;left:0;top:0;width:' + W + 'px;height:0;z-index:6;pointer-events:none') : 'position:sticky;top:0;height:0;z-index:6',
-      SW, SH, shapes, overs, isoShapes, lab, ln, sv, bx, boxG, rb,
+      SW, SH, shapes, overs, isoShapes, lab, ln, sv, bx, boxG, rb, doneBtn,
       stackG:'opacity:' + stackA.toFixed(3), oversG:'opacity:' + labA.toFixed(3),
       t1Style:'height:' + Math.round(V + this.TOT1 * U) + 'px', t2Style:emb ? 'display:none' : 'height:' + Math.round(V + this.TOT2 * U) + 'px',
       p1Style:show(Object.assign({left:px((W - p1W) / 2), top:px(p1Top - (still ? 0 : 30 * p1Out)), width:px(p1W)}, phone ? {'font-size':'15px', 'line-height':'1.55'} : {}), 1 - p1Out),
       colStyle:S(phone ? {left:'20px', top:textTop + 'px', width:(W - 40) + 'px', height:textH + 'px', 'font-size':'14px', 'line-height':'1.6', 'pointer-events':'none'}
         : {left:colX + 'px', width:colW + 'px', height:V + 'px', 'pointer-events':'none'}),
       reelStyle:'will-change:transform;transform:translate3d(0,' + ((phone ? textH * 0.32 : Math.max(190, V * 0.36)) - off).toFixed(1) + 'px,0)',
-      cueStyle:S(Object.assign({top:(V - 28) + 'px', opacity:(p1Out * (1 - inF)).toFixed(2)}, phone ? {left:px(W / 2 - 40), width:'80px', 'text-align':'center'} : {right:'20px'})),
+      cueStyle:S(Object.assign({top:(V - 28) + 'px', opacity:(p1Out * (1 - inF) * (1 - doneBtnA)).toFixed(2)}, phone ? {left:px(W / 2 - 40), width:'80px', 'text-align':'center'} : {right:'20px'})),
       liP:phone ? 'padding:11px 0;margin:0' : '', cp,
       aStyle:S({left:px((W - aW) / 2), top:px(aTop - (still ? 0 : 30 * mx)), width:px(aW), opacity:(1 - mx).toFixed(2), visibility:mx < 0.99 ? 'visible' : 'hidden'}),
       helpLead:S(Object.assign({left:px(helpX), top:px(lowerTop), opacity:(in1 * (1 - out3) * (1 - openAny)).toFixed(2), visibility:in1 * (1 - out3) * (1 - openAny) > 0.01 ? 'visible' : 'hidden'}, phone ? {'font-size':'17px'} : {})),

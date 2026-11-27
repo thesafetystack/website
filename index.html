@@ -90,8 +90,8 @@
 </div>
 <sc-if value="{{ story.on }}" hint-placeholder-val="{{ false }}">
 <div ref="{{ storyRef }}" role="dialog" aria-modal="true" aria-label="Interactive walkthrough of the safety stack" style="position:fixed;inset:0;z-index:20;overflow:hidden;background:var(--bg,#feecd3);{{ story.style }}">
-  <sc-if value="{{ story.wide }}" hint-placeholder-val="{{ false }}"><dc-import name="Main" embedded="{{ true }}" on-done="{{ story.close }}" hint-size="100%,100%"></dc-import></sc-if>
-  <sc-if value="{{ story.narrow }}" hint-placeholder-val="{{ false }}"><dc-import name="Mobile" embedded="{{ true }}" on-done="{{ story.close }}" hint-size="100%,100%"></dc-import></sc-if>
+  <sc-if value="{{ story.wide }}" hint-placeholder-val="{{ false }}"><dc-import name="Main" embedded="{{ true }}" on-done="{{ story.finish }}" return-label="Return to home" hint-size="100%,100%"></dc-import></sc-if>
+  <sc-if value="{{ story.narrow }}" hint-placeholder-val="{{ false }}"><dc-import name="Mobile" embedded="{{ true }}" on-done="{{ story.finish }}" return-label="Return to home" hint-size="100%,100%"></dc-import></sc-if>
   <button type="button" aria-label="Close the walkthrough" onClick="{{ story.close }}" style="position:absolute;right:10px;top:0;z-index:30;width:44px;height:44px;margin:0;padding:0;border:0;background:none;cursor:pointer;color:var(--heading,#114b5f)">
     <svg aria-hidden="true" width="44" height="44" style="display:block"><path d="M15 15L29 29M29 15L15 29" style="fill:none;stroke:var(--heading,#114b5f);stroke-width:2;stroke-linecap:round"></path></svg>
   </button>
@@ -117,10 +117,10 @@ class Component extends DCLogic {
   LI = [{x:-96, y:8}, {x:-34, y:-18}, {x:28, y:20}, {x:92, y:-10}];
   TL1 = [['a1', 0.7], ['a2', 1.2], ['t1', 0.45], ['a3', 1.6], ['t2', 0.45], ['a4', 0.6], ['t3', 0.45], ['a5', 0.8], ['t4', 0.5], ['a6', 0.9],
     ['t5', 0.4], ['a7', 1.5], ['t6', 0.4], ['a8', 1.6], ['t7', 0.5], ['a9', 1.0], ['t8', 0.5], ['a10', 0.7], ['t9', 0.5], ['a11', 0.8], ['a12', 0.7],
-    ['t10', 0.5], ['a13', 0.9], ['t11', 0.5], ['a14', 0.9], ['t12', 0.5], ['a15', 1.5], ['t13', 0.45], ['a16', 0.8], ['t14', 0.5], ['a17', 1.2]];
-  T1 = (() => { const m = {}; let x = 0.15; this.TL1.forEach(e => { m[e[0]] = [x, e[1]]; x += e[1]; }); this.TOT1 = x + 0.6; return m; })();
+    ['t10', 0.5], ['a13', 0.9], ['t11', 0.5], ['a14', 0.9], ['t12', 0.5], ['a15', 1.5], ['t13', 0.45], ['a16', 0.8], ['t14', 0.5], ['a17', 0.95]];
+  T1 = (() => { const m = {}; let x = 0.15; this.TL1.forEach(e => { m[e[0]] = [x, e[1]]; x += e[1]; }); this.TOT1 = x + 0.2; return m; })();
   scRef = React.createRef(); bandRef = React.createRef(); bannerTextRef = React.createRef(); playBtnRef = React.createRef(); storyRef = React.createRef();
-  state = {W:typeof window !== 'undefined' ? window.innerWidth : 1440, V:typeof window !== 'undefined' ? (window.innerHeight > 1800 ? 900 : Math.max(480, window.innerHeight)) : 900, t:0, sA:0, hoverA:0, play:false, open:null, live:false, tH:0, theme:typeof window !== 'undefined' && window.__siteTheme ? window.__siteTheme.mode() : 'light'};
+  state = {W:typeof window !== 'undefined' ? window.innerWidth : 1440, V:typeof window !== 'undefined' ? (window.innerHeight > 1800 ? 900 : Math.max(480, window.innerHeight)) : 900, t:0, sA:0, hoverA:0, play:false, closing:false, open:null, live:false, tH:0, theme:typeof window !== 'undefined' && window.__siteTheme ? window.__siteTheme.mode() : 'light'};
 
   svgTheme(){
     if(typeof window !== 'undefined' && window.__siteTheme) return window.__siteTheme.svg();
@@ -143,11 +143,40 @@ class Component extends DCLogic {
     this.tick();
   }
   componentWillUnmount(){
-    cancelAnimationFrame(this.raf); clearTimeout(this.closeTimer);
+    cancelAnimationFrame(this.raf); clearTimeout(this.closeTimer); clearTimeout(this.fadeTimer);
+    this.clearScrollTail();
     this.setBgInert(false);
     document.removeEventListener('pointerdown', this.onDocDown);
     document.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('site-theme-change', this.onThemeChange);
+  }
+  absorbScrollTail(){
+    this.clearScrollTail();
+    const stop = () => this.clearScrollTail();
+    /* only the rest of the downward scroll that ended the story is held back: as soon as the reader scrolls up (or the
+       finger moves down), the hold is let go at once, so the page under the story moves back with them */
+    let ty = null;
+    this._tailHandler = (e) => {
+      let down = true;
+      if(e.type === 'wheel') down = e.deltaY > 0 || (e.deltaY === 0 && e.deltaX === 0);
+      else if(e.touches && e.touches.length){ const y = e.touches[0].clientY; down = ty === null || y <= ty; ty = y; }
+      if(!down){ stop(); return; }
+      e.preventDefault();
+      clearTimeout(this._tailQuiet);
+      this._tailQuiet = setTimeout(stop, 160);
+    };
+    window.addEventListener('wheel', this._tailHandler, {passive:false, capture:true});
+    window.addEventListener('touchmove', this._tailHandler, {passive:false, capture:true});
+    this._tailQuiet = setTimeout(stop, 260);
+    this._tailMax = setTimeout(stop, 1200);
+  }
+  clearScrollTail(){
+    clearTimeout(this._tailQuiet); clearTimeout(this._tailMax);
+    if(this._tailHandler){
+      window.removeEventListener('wheel', this._tailHandler, {capture:true});
+      window.removeEventListener('touchmove', this._tailHandler, {capture:true});
+      this._tailHandler = null;
+    }
   }
   setBgInert(on){
     [this.scRef.current, document.querySelector('.site-ribbon')].forEach(el => {
@@ -170,10 +199,12 @@ class Component extends DCLogic {
   leaveStory = () => { this.figHot = false; };
   openStory = () => {
     if(this.state.play) return;
+    clearTimeout(this.fadeTimer);
+    this.clearScrollTail();
     this.figHot = false;
     this.warmStory();
     this.setBgInert(true);
-    this.setState({play:true}, () => {
+    this.setState({play:true, closing:false}, () => {
       const focusStory = (tries) => {
         const dlg = this.storyRef.current;
         if(!dlg || !this.state.play) return;
@@ -184,13 +215,24 @@ class Component extends DCLogic {
       focusStory(20);
     });
   };
-  onKeyDown = (e) => { if(e.key === 'Escape' && this.state.play) this.closeStory(); };
-  closeStory = () => {
+  onKeyDown = (e) => { if(e.key === 'Escape' && this.state.play) this.closeStory(false); };
+  finishStory = () => { this.closeStory(true); };
+  closeStory = (fromScroll) => {
     if(!this.state.play) return;
-    this.setBgInert(false);
-    this.setState({play:false}, () => {
-      if(this.playBtnRef.current){ this.skipFocusTint = true; this.playBtnRef.current.focus({preventScroll:true}); }
-    });
+    clearTimeout(this.fadeTimer);
+    const done = () => {
+      this.setBgInert(false);
+      this.setState({play:false, closing:false}, () => {
+        if(this.playBtnRef.current){ this.skipFocusTint = true; this.playBtnRef.current.focus({preventScroll:true}); }
+      });
+    };
+    if(fromScroll === true){
+      if(this.reduced){ done(); return; }
+      this.setState({closing:true});
+      this.fadeTimer = setTimeout(done, 220);
+    } else {
+      done();
+    }
   };
   /* Once a frame: the size of the window, and the time for the one moving picture (about 30 times a second). The page
      scrolls inside its own area, which is as tall as the window, so it works whether or not the document around it scrolls. */
@@ -207,7 +249,7 @@ class Component extends DCLogic {
       /* The Why Stack? page: the drawing is tied to the text by the scroll position alone. Each sentence of the argument
          carries the step of the story it belongs to. The story starts when the page is at its top and is over when the end of the
          argument has come up to the middle of the window. In between, the sentences take their turns in order: while a
-         sentence has its turn the drawing moves from the step of that sentence to the step of the next one. The drawing takes about a fifth of a second to follow, only to even out the wheel. */
+         sentence has its turn the drawing moves from the step of that sentence to the step of the next one. The drawing takes about a seventh of a second to follow, only to even out the wheel. */
       t = 0;
       const top0 = sc.getBoundingClientRect().top, ms = sc.querySelectorAll('[data-s]'), pts = [];
       const val = k => k === 'm0' ? 0 : (k === 'end' ? this.T1.a17[0] + this.T1.a17[1] : (k === 'h' ? this.T1.t3[0] : this.T1[k][0] + this.T1[k][1] * 0.5));
@@ -227,7 +269,7 @@ class Component extends DCLogic {
       }
       const now = performance.now(), dt = Math.min(0.1, (now - (this.tPrev || now)) / 1000), d = goal - sA;
       this.tPrev = now;
-      sA = this.reduced || Math.abs(d) < 0.004 ? goal : sA + d * (1 - Math.exp(-dt / 0.16));
+      sA = this.reduced || Math.abs(d) < 0.006 ? goal : sA + d * (1 - Math.exp(-dt / 0.14));
     }
     /* the height of the text in the band, which the band makes room for */
     const tb = this.bannerTextRef.current, tH = tb ? Math.ceil([...tb.children].reduce((h, c) => h + c.offsetHeight, 0) + 26 * (tb.children.length - 1)) : st.tH;
@@ -380,6 +422,44 @@ class Component extends DCLogic {
     const fine = style => sw === 1 ? style : style.replace(/stroke-width:([0-9.]+)/g, (m, v) => 'stroke-width:' + (parseFloat(v) * sw).toFixed(2));
     const put = (d, style) => { shapes.push({d, style:fine(style)}); };
     const over = (d, style) => { overs.push({d, style:fine(style)}); };
+    /* Harm: where a threat gets through it leaves a mark on the ground under the stack, drawn flat in the ground's own
+       plane (gp maps a point (x, y) of that plane to the screen), so it turns and foreshortens with the stack. g runs from
+       0 to 1 as the line touches down: the dot lands, short cracks run out from it, then a broken ring opens round them.
+       Everything follows g, so the mark grows and shrinks with the scroll and never pops. seed gives each mark its own cracks. */
+    const impact = (out, gp, x0, y0, g, a, seed, k) => {
+      if(g <= 0.004 || a <= 0.01) return;
+      const rnd = j => { const s = Math.sin(seed * 127.1 + j * 311.7) * 43758.5453; return s - Math.floor(s); };
+      const gq = (r, t) => gp(x0 + r * Math.cos(t), y0 + r * Math.sin(t));
+      const loop = (r, t0, t1, n) => { let d = ''; for(let j = 0; j <= n; j++) d += (j ? 'L' : 'M') + pt(gq(r, lerp(t0, t1, j / n))); return d; };
+      const cG = ez(cl(g / 0.3)), qG = ez(cl((g - 0.1) / 0.6)), rG = ez(cl((g - 0.35) / 0.65));
+      out(loop(7 * k * (0.35 + 0.65 * cG), 0, 6.2832, 28) + 'Z', 'fill:' + C.acc + ';stroke:none;fill-opacity:' + (0.14 * a * cG).toFixed(3));
+      /* cracks: seven of uneven length, each bending a little half way out; between neighbours a short straight chord,
+         as in a pane that has been shot through; round all of it, a faint broken ring */
+      let d = '', w = ''; const n = 7, t0 = rnd(0) * 6.2832, r0 = 3 * k, T = [], R = [];
+      for(let j = 0; j < n; j++){
+        const t = t0 + 6.2832 * (j + 0.5 * (rnd(j + 1) - 0.5)) / n, len = (6.5 + 10 * rnd(j + 11)) * k, rm = lerp(r0, len, 0.45), r1 = lerp(r0, len, qG);
+        T.push(t); R.push(len);
+        if(r1 - r0 < 0.25) continue;
+        const t2 = t + 0.34 * (rnd(j + 21) - 0.5);
+        d += 'M' + pt(gq(r0, t)) + 'L' + pt(gq(Math.min(r1, rm), t)) + (r1 > rm ? 'L' + pt(gq(r1, lerp(t, t2, (r1 - rm) / (len - rm)))) : '');
+      }
+      if(d) out(d, 'fill:none;stroke:' + C.acc + ';stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:' + (0.92 * a * cl(qG * 3)).toFixed(2));
+      if(rG > 0.01){
+        for(let j = 0; j < n; j++){
+          if(rnd(j + 51) < 0.35) continue;
+          const j2 = (j + 1) % n, rc = Math.min(R[j], R[j2]) * (0.5 + 0.15 * rnd(j + 61)), tb = T[j2] + (j2 ? 0 : 6.2832);
+          const pa = gq(rc, T[j]), pb = gq(rc, tb), m = [lerp(pa[0], pb[0], 0.5), lerp(pa[1], pb[1], 0.5)];
+          w += 'M' + pt([lerp(m[0], pa[0], rG), lerp(m[1], pa[1], rG)]) + 'L' + pt([lerp(m[0], pb[0], rG), lerp(m[1], pb[1], rG)]);
+        }
+        if(w) out(w, 'fill:none;stroke:' + C.acc + ';stroke-width:.85;stroke-linecap:round;stroke-opacity:' + (0.75 * a * rG).toFixed(2));
+        const rr = 15 * k * lerp(0.75, 1, rG), s0 = rnd(31) * 6.2832; let e = '';
+        for(let j = 0; j < 3; j++){ const b = s0 + j * 2.0944, span = (1.1 + 0.45 * rnd(j + 41)) * rG; e += loop(rr, b, b + span, 12); }
+        out(e, 'fill:none;stroke:' + C.acc + ';stroke-width:.8;stroke-linecap:round;stroke-opacity:' + (0.38 * a * rG).toFixed(2));
+      }
+      out(loop(2.7 * k * (0.55 + 0.45 * cG), 0, 6.2832, 16) + 'Z', 'fill:' + C.acc + ';stroke:none;fill-opacity:' + (a * cG).toFixed(2));
+    };
+    /* the marks are kept near one size on the screen (about 26 px across, a little less on the phone) whatever the size of the drawing */
+    const kH = Math.max(0.75, Math.min(1.8, 0.78 / zoom)) * dk;
 
     /* Steps a7 to a9: one slice of the stack is taken out on its own. tau runs from 0 (the stack) to 1 (the slice alone).
        As it rises, the slices above the chosen one move up and those below move down, like an accordion opening, and fade,
@@ -391,8 +471,15 @@ class Component extends DCLogic {
     const labDim = 1 - 0.65 * dimD;
 
     /* ---- the lines from above ---- */
-    const yHarmU = uy(HW, HD, zBase) + 24;
-    const zAtHarm = L => ((L.x * sn + L.y * cs) * sinP - yHarmU) / cosP;
+    /* Harm: one straight line under the stack, parallel to the front edges of its slices (ps(-HW, HD, z) to ps(HW, HD, z)),
+       a little below the lowest slice. A line that gets through goes down until it meets it, so every end lies on it.
+       harmO is a point of it, harmD its direction on the screen (1 px long), harmK the place of a point along it. */
+    const harmO = ps(0, HD, zBase - 30), harmE = ps(HW, HD, zBase - 30), harmN = Math.hypot(harmE[0] - harmO[0], harmE[1] - harmO[1]) || 1;
+    const harmD = [(harmE[0] - harmO[0]) / harmN, (harmE[1] - harmO[1]) / harmN];
+    const harmX = (vx, vy) => harmD[0] * vy - harmD[1] * vx;
+    const harmK = p => (p[0] - harmO[0]) * harmD[0] + (p[1] - harmO[1]) * harmD[1];
+    const onHarm = k => [harmO[0] + harmD[0] * k, harmO[1] + harmD[1] * k];
+    const zAtHarm = L => { const p0 = ps(L.x, L.y, 0), p1 = ps(L.x, L.y, 1); return harmX(harmO[0] - p0[0], harmO[1] - p0[1]) / harmX(p1[0] - p0[0], p1[1] - p0[1]); };
     const oldOut = ez(win(P.a12, 0, 0.5));
     const LD = [
       {dn:['a3', 0.03, 0.22], stop:'Ia', ext:0, out:oldOut, maybe:0},
@@ -400,17 +487,27 @@ class Component extends DCLogic {
       {dn:['a3', 0.7, 0.98], stop:null, ext:1, out:oldOut},
       {dn:['a3', 0.48, 0.68], stop:'Ma', ext:ez(win(P.a13, 0.1, 0.9)), out:0, maybe:2},
       {dn:['a15', 0, 0.26], stop:'Mb', ext:ez(win(P.a16, 0.05, 0.9)), out:0},
-      {dn:['a17', 0.45, 1], stop:null, ext:1, out:0}];
+      {dn:['a17', 0.4, 0.86], stop:null, ext:1, out:0}];
     const lines = this.LP.map((p, i) => {
       const D = LD[i], top = stackTop + (i === 0 || i === 3 ? 28 : (i > 3 ? 44 : 62)), zh = zAtHarm(p);
       const dn = ez(win(P[D.dn[0]], D.dn[1], D.dn[2]));
       const stopZ = D.stop ? Z[D.stop] : null, end = stopZ === null ? zh : lerp(stopZ, zh, D.ext), a = (1 - D.out) * (1 - 0.6 * dimD) * (1 - win(tau, 0, 0.3));
       /* step a6: a line stopped at a slice that is out of focus may or may not go on. A dotted line comes and goes below the slice. */
       const v = D.maybe === undefined ? 0 : cl((P.a6 - 0.08 * D.maybe) / 0.84), maybe = D.maybe === undefined ? 0 : 0.5 - 0.5 * Math.cos(4 * Math.PI * v);
-      return {x:p.x, y:p.y, top, head:lerp(top, end, dn), on:dn > 0 && a > 0.01, a, stopped:dn >= 1 && D.ext <= 0 && a > 0.01, stopZ, atHarm:dn >= 1 && D.ext >= 1 && a > 0.01, zh, maybe,
+      return {x:p.x, y:p.y, top, head:lerp(top, end, dn), on:dn > 0 && a > 0.01, a, stopped:dn >= 1 && D.ext <= 0 && a > 0.01, stopZ, atHarm:dn >= 1 && D.ext >= 1 && a > 0.01, zh, maybe, hw:a * cl(1 - (lerp(top, end, dn) - zh) / 36),
         la:win(P[D.dn[0]], D.dn[1], D.dn[1] + 0.08) * (1 - oldOut) * labDim,
         style:'fill:none;stroke:' + C.acc + ';stroke-width:1.8;stroke-linecap:round;stroke-opacity:' + a.toFixed(2)};
     });
+    /* the part of the Harm line that is drawn: from the first to the last line that has reached it. A line on its way in
+       stretches the part smoothly, from the part already there to its own end, so neither the part nor its name jumps. */
+    const harmSpan = (() => {
+      const hs = lines.filter(L => L.hw > 0.01).map(L => ({k:harmK(ps(L.x, L.y, L.zh)), w:Math.min(1, L.hw)})); if(!hs.length) return null;
+      const top = hs.reduce((m, h) => h.w > m.w ? h : m, hs[0]), full = hs.filter(h => h.w >= 0.999);
+      const fLo = full.length ? Math.min.apply(null, full.map(h => h.k)) : top.k, fHi = full.length ? Math.max.apply(null, full.map(h => h.k)) : top.k;
+      let lo = fLo, hi = fHi;
+      hs.forEach(h => { const e = lerp(Math.max(fLo, Math.min(fHi, h.k)), h.k, h.w); lo = Math.min(lo, e); hi = Math.max(hi, e); });
+      return {lo, hi, a:top.w};
+    })();
     /* step a15: the slice added in the top layer acts on one slice of the middle layer. A dashed line joins the two. */
     const grow = ez(win(P.a15, 0.72, 1)), gh = HO.Mb[0];
     const linkA = win(P.a15, 0.55, 0.68) * (1 - win(P.a17, 0, 0.2));
@@ -504,13 +601,8 @@ class Component extends DCLogic {
       /* where a line is stopped: a dot on the slice */
       lines.forEach(L => { if(L.stopped) items.push({z:L.stopZ + 0.01, draw:() => { const c = ps(L.x, L.y, L.stopZ); put(ell(c, 4.8 * dk, Math.max(1.8, 4.8 * sinP) * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.a * (1 - 0.8 * L.maybe)).toFixed(2)); }}); });
       items.sort((a, c) => a.z - c.z);
-      /* under the stack: where the lines that get through end */
-      const arrived = lines.filter(L => L.atHarm);
-      if(arrived.length){
-        const ends = arrived.map(L => ps(L.x, L.y, L.zh)).sort((a, c) => a[0] - c[0]);
-        const a0 = ends[0], a1 = ends[ends.length - 1], aa = Math.max.apply(null, arrived.map(L => L.a));
-        put(seg([a0[0] - 9 * cr, a0[1] - 9 * sr], [a1[0] + 9 * cr, a1[1] + 9 * sr]), 'stroke:' + C.acc + ';stroke-width:1.8;stroke-linecap:round;stroke-opacity:' + aa.toFixed(2));
-      }
+      /* under the stack: a mark where each line that gets through lands, on the ground at its own place (x, y, zh) */
+      lines.forEach((L, i) => { if(L.on) impact(put, (x, y) => ps(x, y, L.zh), L.x, L.y, cl(1 - (L.head - L.zh) / 10), L.a, i + 1, kH); });
       let prev = -1e9;
       items.forEach(it => { segBetween(prev, it.z); it.draw(); prev = it.z; });
       segBetween(prev, 1e9);
@@ -573,9 +665,9 @@ class Component extends DCLogic {
       const L = lines[i], p = ps(L.x, L.y, L.top), leftSide = i < 2, w = 170;
       lab['t' + i] = show({left:px(leftSide ? p[0] - 8 - w : p[0] + 8), top:px(p[1] - (i === 1 || i === 2 ? 15 : 3)), width:w + 'px', 'font-size':fsLine + 'px'}, L.la * labA);
     }
-    let harmPos = null, harmA = 0;
-    { const arr = lines.filter(L => L.atHarm);
-      if(arr.length){ const e = arr.map(L => ps(L.x, L.y, L.zh)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length - 14 * sr, e.reduce((a, c) => a + c[1], 0) / e.length]; harmA = Math.max.apply(null, arr.map(L => L.a)) * labA; } }
+    let harmPos = null, harmA = 0, harmDrop = 7;
+    /* the name sits under the middle of the drawn part; it is let down by as much as the line falls under half its width */
+    if(harmSpan){ harmPos = onHarm((harmSpan.lo + harmSpan.hi) / 2); harmA = harmSpan.a * labA; harmDrop = 6 + 20 * Math.abs(harmD[1] / (harmD[0] || 1)) + 14 * kH * sinP * zoom; }
 
     /* ---- steps a7 to a9: one slice alone, then two ---- */
     if(tau > 0.001){
@@ -594,7 +686,8 @@ class Component extends DCLogic {
       const ip = (d, style) => { isoShapes.push({d, style:fine(style)}); };
       const ring = (fn, h, dx) => { let d = ''; for(let k = 0; k < 26; k++){ const a = k / 26 * Math.PI * 2; d += (k ? 'L' : 'M') + pt(fn(h.x + dx + h.r * Math.cos(a), h.y + h.r * Math.sin(a))); } return d + 'Z'; };
       const L4 = LI.map((L, i) => {
-        const zHi = zH + (L.x * si + L.y * ci) * sI / cI;
+        /* Harm, under the slice alone: a line parallel to the slice's front edges through pi(0, 0, zH); each line ends on it */
+        const zHi = zH + L.y * sI / (cI * ci);
         const eA = ez(margin(hA, L, dxA)), eB = ez(margin(hB, L, dxB)), stopB = lerp(zHi, zB, bIn);
         const end = eA < 1 ? lerp(zA, stopB, eA) : lerp(zB, zHi, Math.max(eB, 1 - bIn));
         const dn = ez(win(P.a7, 0.34 + i * 0.03, 0.5 + i * 0.03));
@@ -602,8 +695,7 @@ class Component extends DCLogic {
       });
       const ls = 'fill:none;stroke:' + C.acc + ';stroke-width:2;stroke-linecap:round;stroke-opacity:' + xa.toFixed(2);
       const segI = (za, zb) => { if(xa > 0.01) L4.forEach(L => { if(!L.on) return; const a = Math.max(za, L.head), c = Math.min(zb, zTop); if(c - a > 0.02) ip(seg(pi(L.x, L.y, a), pi(L.x, L.y, c)), ls); }); };
-      const got = L4.filter(L => L.harm > 0.9);
-      if(got.length && xa > 0.01){ const e = got.map(L => pi(L.x, L.y, L.zHi)).sort((a, c) => a[0] - c[0]); ip(seg([e[0][0] - 10, e[0][1]], [e[e.length - 1][0] + 10, e[e.length - 1][1]]), ls); }
+      L4.forEach((L, i) => { if(L.on && xa > 0.01) impact(ip, (x, y) => pi(x, y, L.zHi), L.x, L.y, cl(1 - (L.head - L.zHi) / 10), xa, i + 11, 1); });
       segI(-1e9, zB);
       const hover = o.hover || 0;
       const plateFill = hover > 0.005 ? this.mixHex(C.cream, C.plate, (this.state.theme === 'dark' ? 0.24 : 0.14) * hover) : C.cream;
@@ -627,9 +719,9 @@ class Component extends DCLogic {
       }
       L4.forEach(L => { if(L.dotA * xa > 0.02) ip(ell(pi(L.x, L.y, zA), 6 * dk, 3.6 * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.dotA * xa).toFixed(2)); });
       segI(zA, 1e9);
-      if(tau > 0.5){ const e = L4.map(L => pi(L.x, L.y, L.zHi)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length, e[0][1]]; harmA = Math.max.apply(null, L4.map(L => L.harm)) * xa; }
+      if(tau > 0.5){ const e = L4.map(L => pi(L.x, L.y, L.zHi)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length, e.reduce((a, c) => a + c[1], 0) / e.length]; harmA = Math.max.apply(null, L4.map(L => L.harm)) * xa; harmDrop = 6 + 20 * si * sI / ci + 13 * sI * zI; }
     }
-    lab.harm = show({left:px((harmPos ? harmPos[0] : 0) - 60), top:px((harmPos ? harmPos[1] : 0) + 7), width:'120px', 'font-size':'13px'}, harmPos ? harmA : 0);
+    lab.harm = show({left:px((harmPos ? harmPos[0] : 0) - 60), top:px((harmPos ? harmPos[1] : 0) + harmDrop), width:'120px', 'font-size':'13px'}, harmPos ? harmA : 0);
 
     /* the labels, as text for the drawing */
     const NAMES = {int:'Interventions', mon:'Monitoring', ass:'Assessments', rlhf:'RLHF', refusal:'Refusal training', guard:'Guard models', cot:'CoT monitoring', red:'Red-teaming', jail:'Jailbreak evaluations',
@@ -707,8 +799,8 @@ class Component extends DCLogic {
       out.bannerText = S({left:tx + 'px', bottom:narrow ? bh + 'px' : '0', 'max-width':Math.round(narrow ? W - 2 * tx : W - fr - bw / 2 - 200 - tx) + 'px'});
       out.bandRef = this.bandRef;
       out.mainStyle = narrow ? 'padding:32px 22px 80px;--lp:7px' : 'padding:44px 32px 110px';
-      out.story = {on:st.play, wide:W >= 700, narrow:W < 700, enter:this.enterStory, focus:this.focusStoryBtn, leave:this.leaveStory, open:this.openStory, close:this.closeStory,
-        style:S({width:W + 'px', height:V + 'px'})};
+      out.story = {on:st.play, wide:W >= 700, narrow:W < 700, enter:this.enterStory, focus:this.focusStoryBtn, leave:this.leaveStory, open:this.openStory, close:() => this.closeStory(false), finish:this.finishStory,
+        style:S({width:W + 'px', height:V + 'px', opacity:st.closing ? 0 : 1, transition:this.reduced ? 'none' : 'opacity 260ms ease'})};
     }
 
     if(m === 'w'){

@@ -7,12 +7,12 @@
 <meta name="darkreader-lock">
 <title>Why Stack? — The Safety Stack</title>
 <meta name="description" content="Why frontier AI safety relies on defence-in-depth, why deployed stacks remain opaque, and what a public inventory unlocks for researchers, policymakers, and funders.">
-<link rel="canonical" href="https://thesafetystack.ai/why.html">
+<link rel="canonical" href="https://thesafetystack.ai/why">
 <meta property="og:site_name" content="The Safety Stack">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Why Stack? — The Safety Stack">
 <meta property="og:description" content="Why frontier AI safety relies on defence-in-depth, why deployed stacks remain opaque, and what a public inventory unlocks for researchers, policymakers, and funders.">
-<meta property="og:url" content="https://thesafetystack.ai/why.html">
+<meta property="og:url" content="https://thesafetystack.ai/why">
 <meta property="og:image" content="https://thesafetystack.ai/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -44,14 +44,9 @@
   a:hover{color:var(--link-hover,#114b5f)}
   button{font-family:inherit}
   ::selection{background:var(--selection,#02809033)}
-  @keyframes fpPulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.9);opacity:0}}
-  .fp-pulse{animation:fpPulse 1.8s ease-out infinite}
-  .fp-enter{cursor:pointer;text-decoration:none;color:inherit}
-  .fp-enter .fp-play{transition:transform .2s ease}
-  .fp-enter:hover .fp-play,.fp-enter:focus-within .fp-play{transform:scale(1.12)}
-  .fp-enter .fp-fig{transition:filter .25s ease}
-  .fp-enter:hover .fp-fig,.fp-enter:focus-within .fp-fig{filter:drop-shadow(0 0 16px rgba(2,128,144,.5))}
-  @media (prefers-reduced-motion:reduce){.fp-pulse{animation:none}}
+  .why-play-btn{display:inline-flex;align-items:center;gap:8px;margin:0 0 32px;padding:7px 13px;border:1px solid var(--border-strong,#114b5f44);border-radius:var(--radius-sm,4px);background:var(--surface,#fff8ec);color:var(--heading,#114b5f);font-family:var(--font-mono,ui-monospace,Menlo,monospace);font-size:12px;line-height:1.25;font-weight:500;cursor:pointer;transition:border-color .15s ease,background-color .15s ease,color .15s ease}
+  .why-play-btn:hover{border-color:var(--link,#028090);background:var(--surface-2,#efeae0);color:var(--link,#028090)}
+  .why-play-btn:focus-visible{outline:2px solid var(--ring,#028090);outline-offset:2px}
 </style>
 </helmet>
 <div style="position:relative;overflow:hidden;{{ scStyle }}">
@@ -81,17 +76,18 @@
     </div>
 
     <div style="min-width:0;{{ textStyle }}">
-      <h1 style="margin:0 0 20px;font-size:clamp(32px,3.4vw,46px);line-height:1.08;font-weight:700;color:var(--heading,#114b5f)">Why Stack?</h1>
+      <h1 style="margin:0 0 16px;font-size:clamp(32px,3.4vw,46px);line-height:1.08;font-weight:700;color:var(--heading,#114b5f)">Why Stack?</h1>
+      <button ref="{{ playBtnRef }}" type="button" class="why-play-btn" onClick="{{ story.open }}" onMouseEnter="{{ story.warm }}" onFocus="{{ story.warm }}"><svg aria-hidden="true" width="9" height="10" viewBox="0 0 9 10" style="display:block;flex:none"><path d="M1 1L8.2 5L1 9Z" fill="currentColor"></path></svg>Play full interactive walkthrough</button>
       <p style="margin:0 0 64px;{{ argStyle }}"><span data-s="m0">The de facto plan for AI safety of frontier labs is <a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">defence-in-depth</a>.</span> <span data-s="t1">The idea is, that if you stack together enough weak alignment and control techniques, the failures of each layer will get caught by later layers.</span> <span data-s="t2">This “stack” includes all of the alignment, interpretability, and control methods that have tamed LLMs enough to make it possible to make money off of them.</span></p>
 
       <h2 data-s="h" style="margin:0 0 18px;font-size:24px;line-height:1.2;font-weight:700;color:var(--heading,#114b5f)">How good is this plan?</h2>
       <p style="margin:0 0 34px;{{ argStyle }}"><span data-s="t3">We don’t know.</span> <span data-s="t4">The actual safety stack of deployed technologies is not public. So we don’t know what many of the layers are and how the defenses and vulnerabilities line up to specific risks.</span> <span data-s="t5">Let alone how well they work individually.</span> <span data-s="t6">Let alone how the layers interact with each other.</span></p>
-      <p style="margin:0 0 34px;{{ argStyle }}"><span data-s="t7">This is because some research <a href="https://claude.ai/artifact/RAn3qmQFhrEoj9i9bEtaHp" target="_blank" rel="noopener">went dark</a> as it commercialised (and because it became irresponsible to release “dual-use” safety techniques).</span> <span data-s="t8">We call these layers <strong>dark matter</strong>: internal mitigations that are alluded to in system cards but are not in our catalogue of published techniques.</span> <span data-s="t9">We can try and infer some of the techniques a lab uses from what others write; use that others suspect but the lab does not state is what we call <strong>ghost matter.</strong></span></p>
-      <p style="margin:0 0 80px;{{ argStyle }}"><span data-s="t10">As a result, it is quite possible that the strategy is giving the world a false sense of security, because the stack might be failing to cover some hazards.</span> <span data-s="t11">It is quite possible that external research into creating new layers for the stack is wasted effort - duplicating existing private techniques.</span> <span data-s="t12">It is also quite possible that layers developed in isolation from each other end up having contradictory effects on the target model’s safety.</span> <span data-s="t13">Where, for instance, a technique in one layer can weaken a technique in another.</span> <span data-s="t14">The situation makes it impossible for policy work to be calibrated to how much mandating the use of particular techniques would actually help.</span></p>
+      <p data-s="p3" style="margin:0 0 34px;{{ argStyle }}"><span data-s="t7">This is because some research <a href="https://claude.ai/artifact/RAn3qmQFhrEoj9i9bEtaHp" target="_blank" rel="noopener">went dark</a> as it commercialised (and because it became irresponsible to release “dual-use” safety techniques).</span> <span data-s="t8">We call these layers <strong>dark matter</strong>: internal mitigations that are alluded to in system cards but are not in our catalogue of published techniques.</span> <span data-s="t9">We can also try to infer some of a lab’s techniques from what others write. We call these <strong>ghost matter</strong>: techniques that outsiders suspect a lab uses, but the lab itself does not state.</span></p>
+      <p data-s="p4" style="margin:0 0 80px;{{ argStyle }}"><span data-s="t10">As a result, it is quite possible that the strategy is giving the world a false sense of security, because the stack might be failing to cover some hazards.</span> <span data-s="t11">It is quite possible that external research into creating new layers for the stack is wasted effort - duplicating existing private techniques.</span> <span data-s="t12">It is also quite possible that layers developed in isolation from each other end up having contradictory effects on the target model’s safety.</span> <span data-s="t13">Where, for instance, a technique in one layer can weaken a technique in another.</span> <span data-s="t14">The situation makes it impossible for policy work to be calibrated to how much mandating the use of particular techniques would actually help.</span></p>
 
       <p data-s="end" style="margin:0 0 72px;{{ argStyle }}">As a first step, we built as complete an inventory of current AI safety techniques as we think can be done. We collected safety papers, posts and model cards, and had a language model label which techniques each document reports as used. We are building a safety surface model that breaks threats into concrete slices, so that you can bring your own threat model, switch safeguards and failure scenarios on and off, and see which threats have no cover or a single point of failure. All the data and code are held publicly and updated automatically on a weekly run. We’ll keep it maintained as new things get developed. We will write up our findings and point to the more glaring presuppositions the stack assumes.</p>
 
-      <h2 style="margin:0 0 18px;font-size:24px;line-height:1.2;font-weight:700;color:var(--heading,#114b5f)">This could help</h2>
+      <h2 data-s="help" style="margin:0 0 18px;font-size:24px;line-height:1.2;font-weight:700;color:var(--heading,#114b5f)">This could help</h2>
       <h3 style="margin:0 0 8px;font-weight:700;color:var(--heading,#114b5f);{{ subStyle }}">Safety researchers.</h3>
       <p style="margin:0 0 34px;{{ argStyle }}">In general, many researchers test their techniques piecemeal, comparing them individually. We can’t test the techniques in the environment (joint implementation), have no sense of how well they’re working as a whole, and have no sense of fault correlations. One of the few exceptions is a <a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">small AISI/FAR pilot study</a> which implemented and tested a few inference-time safeguards together.</p>
       <h3 style="margin:0 0 8px;font-weight:700;color:var(--heading,#114b5f);{{ subStyle }}">Policy community.</h3>
@@ -122,6 +118,15 @@
   </main>
 </div>
 </div>
+<sc-if value="{{ story.on }}" hint-placeholder-val="{{ false }}">
+<div ref="{{ storyRef }}" role="dialog" aria-modal="true" aria-label="Interactive walkthrough of the safety stack" style="position:fixed;inset:0;z-index:20;overflow:hidden;background:var(--bg,#feecd3);{{ story.style }}">
+  <sc-if value="{{ story.wide }}" hint-placeholder-val="{{ false }}"><dc-import name="Main" embedded="{{ true }}" on-done="{{ story.finish }}" return-label="Return to Why Stack?" hint-size="100%,100%"></dc-import></sc-if>
+  <sc-if value="{{ story.narrow }}" hint-placeholder-val="{{ false }}"><dc-import name="Mobile" embedded="{{ true }}" on-done="{{ story.finish }}" return-label="Return to Why Stack?" hint-size="100%,100%"></dc-import></sc-if>
+  <button type="button" aria-label="Close the walkthrough" onClick="{{ story.close }}" style="position:absolute;right:10px;top:0;z-index:30;width:44px;height:44px;margin:0;padding:0;border:0;background:none;cursor:pointer;color:var(--heading,#114b5f)">
+    <svg aria-hidden="true" width="44" height="44" style="display:block"><path d="M15 15L29 29M29 15L15 29" style="fill:none;stroke:var(--heading,#114b5f);stroke-width:2;stroke-linecap:round"></path></svg>
+  </button>
+</div>
+</sc-if>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
@@ -144,8 +149,29 @@ class Component extends DCLogic {
     ['t5', 0.4], ['a7', 1.5], ['t6', 0.4], ['a8', 1.6], ['t7', 0.5], ['a9', 1.0], ['t8', 0.5], ['a10', 0.7], ['t9', 0.5], ['a11', 0.8], ['a12', 0.7],
     ['t10', 0.5], ['a13', 0.9], ['t11', 0.5], ['a14', 0.9], ['t12', 0.5], ['a15', 1.5], ['t13', 0.45], ['a16', 0.8], ['t14', 0.5], ['a17', 1.2]];
   T1 = (() => { const m = {}; let x = 0.15; this.TL1.forEach(e => { m[e[0]] = [x, e[1]]; x += e[1]; }); this.TOT1 = x + 0.6; return m; })();
-  scRef = React.createRef(); bandRef = React.createRef();
-  state = {W:typeof window !== 'undefined' ? window.innerWidth : 1440, V:typeof window !== 'undefined' ? (window.innerHeight > 1800 ? 900 : Math.max(480, window.innerHeight)) : 900, t:0, sA:0, play:false, grown:false, clipT:0, clipB:0, open:null, live:false, theme:typeof window !== 'undefined' && window.__siteTheme ? window.__siteTheme.mode() : 'light'};
+  /* The Why Stack? sidebar tells a short version of the story, in four acts, on one number x from 0 to 5 that follows
+     the reading. Each knot of x lies half way between where its landmark of the text comes up to the reading line
+     and an even share of the scroll (weighted by how much the act shows), so the text leads and no act is squeezed
+     into a few px when its paragraph is short:
+       0..1  top of the page to "How good is this plan?"  the stack opens, its holes show, three threats come down
+                                                            and are each caught, the named techniques appear
+       1..2  to "This is because some research went dark"  the slices nobody has named go out of focus
+       2..3  to the ghost-matter sentence                   the rest is dimmed so the dark matter (dashed) stands out
+       3..4  to "As a result..."                            the ghost matter (fog) is lifted out as well
+       4..5  to "As a first step..."                         the dimming lifts; one threat goes through the ghost slice
+                                                            that seemed to stop it, a second falls through every layer,
+                                                            and both reach Harm. Past that the picture stays still.
+     Every change is a smooth function of x and the acts do not overlap, so a fast scroll (either way) is the same
+     story played quickly, never a jump. */
+  SB_IDS = ['h', 'p3', 't9', 'p4', 'end'];
+  SB_W = [1.5, 0.8, 0.9, 0.8, 1];
+  sbTrack(x){
+    const w = (a, b) => Math.max(0, Math.min(1, (x - a) / (b - a)));
+    return {a1:w(0.14, 0.46), a2:w(0, 0.44), a3:w(0.42, 0.86), a4:w(0.74, 1), a5:w(1.04, 1.92), a6:0, a7:0, a8:0, a9:0,
+      a10:w(2.02, 2.94), a11:w(3.02, 3.94), a12:w(4, 4.5), a13:w(4.08, 4.62), l2:w(4.5, 4.98), a14:0, a15:0, a16:0, a17:0, drift:x / 5};
+  }
+  scRef = React.createRef(); bandRef = React.createRef(); playBtnRef = React.createRef(); storyRef = React.createRef();
+  state = {W:typeof window !== 'undefined' ? window.innerWidth : 1440, V:typeof window !== 'undefined' ? (window.innerHeight > 1800 ? 900 : Math.max(480, window.innerHeight)) : 900, t:0, sx:0, play:false, closing:false, open:null, live:false, theme:typeof window !== 'undefined' && window.__siteTheme ? window.__siteTheme.mode() : 'light'};
 
   svgTheme(){
     if(typeof window !== 'undefined' && window.__siteTheme) return window.__siteTheme.svg();
@@ -157,75 +183,159 @@ class Component extends DCLogic {
       threat:{line:'#da532c', label:'#a83a1b'},
       brackets:{roleTint:['#3a7f8c', '#337685', '#2d6d7e']}, wire:{boxStroke:'#114b5f', dmFill:'#114b5f', dmStroke:'#114b5f'}};
   }
-  onThemeChange = () => { this.memo = {}; this.setState({theme:window.__siteTheme ? window.__siteTheme.mode() : 'light'}); };
+  onThemeChange = () => { this.memo = {}; this._sbKey = null; this.setState({theme:window.__siteTheme ? window.__siteTheme.mode() : 'light'}); };
 
   componentDidMount(){
     this.reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     document.addEventListener('pointerdown', this.onDocDown);
+    document.addEventListener('keydown', this.onKeyDown);
     window.addEventListener('site-theme-change', this.onThemeChange);
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(() => { this._sbKey = null; });
+    if(document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', this.onFonts = () => { this._sbKey = null; });
     this.t0 = performance.now();
     this.tick();
   }
   componentWillUnmount(){
-    cancelAnimationFrame(this.raf); clearTimeout(this.closeTimer); clearTimeout(this.playTimer);
+    cancelAnimationFrame(this.raf); clearTimeout(this.closeTimer); clearTimeout(this.fadeTimer);
+    this.clearScrollTail();
+    this.setBgInert(false);
     document.removeEventListener('pointerdown', this.onDocDown);
+    document.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('site-theme-change', this.onThemeChange);
+    if(this.onFonts && document.fonts && document.fonts.removeEventListener) document.fonts.removeEventListener('loadingdone', this.onFonts);
   }
-  /* Once a frame: the size of the window, and the time for the one moving picture (about 30 times a second). The page
-     scrolls inside its own area, which is as tall as the window, so it works whether or not the document around it scrolls. */
+  absorbScrollTail(){
+    this.clearScrollTail();
+    const stop = () => this.clearScrollTail();
+    /* only the rest of the downward scroll that ended the story is held back: as soon as the reader scrolls up (or the
+       finger moves down), the hold is let go at once, so the page under the story moves back with them */
+    let ty = null;
+    this._tailHandler = (e) => {
+      let down = true;
+      if(e.type === 'wheel') down = e.deltaY > 0 || (e.deltaY === 0 && e.deltaX === 0);
+      else if(e.touches && e.touches.length){ const y = e.touches[0].clientY; down = ty === null || y <= ty; ty = y; }
+      if(!down){ stop(); return; }
+      e.preventDefault();
+      clearTimeout(this._tailQuiet);
+      this._tailQuiet = setTimeout(stop, 160);
+    };
+    window.addEventListener('wheel', this._tailHandler, {passive:false, capture:true});
+    window.addEventListener('touchmove', this._tailHandler, {passive:false, capture:true});
+    this._tailQuiet = setTimeout(stop, 260);
+    this._tailMax = setTimeout(stop, 1200);
+  }
+  clearScrollTail(){
+    clearTimeout(this._tailQuiet); clearTimeout(this._tailMax);
+    if(this._tailHandler){
+      window.removeEventListener('wheel', this._tailHandler, {capture:true});
+      window.removeEventListener('touchmove', this._tailHandler, {capture:true});
+      this._tailHandler = null;
+    }
+  }
+  setBgInert(on){
+    [this.scRef.current, document.querySelector('.site-ribbon')].forEach(el => {
+      if(!el) return;
+      if(on){ el.setAttribute('aria-hidden', 'true'); el.inert = true; }
+      else { el.removeAttribute('aria-hidden'); el.inert = false; }
+    });
+  }
+  warmStory = () => {
+    if(typeof window !== 'undefined' && window.__warmDcComponent){
+      window.__warmDcComponent(this.state.W < 700 ? 'Mobile' : 'Main');
+    }
+  };
+  openStory = () => {
+    if(this.state.play) return;
+    clearTimeout(this.fadeTimer);
+    this.clearScrollTail();
+    this.warmStory();
+    this.setBgInert(true);
+    this.setState({play:true, closing:false}, () => {
+      const focusStory = (tries) => {
+        const dlg = this.storyRef.current;
+        if(!dlg || !this.state.play) return;
+        const inner = dlg.querySelector('[data-scroller="1"]');
+        if(inner){ inner.focus({preventScroll:true}); return; }
+        if(tries > 0) setTimeout(() => focusStory(tries - 1), 40);
+      };
+      focusStory(20);
+    });
+  };
+  onKeyDown = (e) => { if(e.key === 'Escape' && this.state.play) this.closeStory(false); };
+  finishStory = () => { this.closeStory(true); };
+  closeStory = (fromScroll) => {
+    if(!this.state.play) return;
+    clearTimeout(this.fadeTimer);
+    const done = () => {
+      this.setBgInert(false);
+      this.setState({play:false, closing:false}, () => {
+        if(this.playBtnRef.current) this.playBtnRef.current.focus({preventScroll:true});
+      });
+    };
+    if(fromScroll === true){
+      if(this.reduced){ done(); return; }
+      this.setState({closing:true});
+      this.fadeTimer = setTimeout(done, 220);
+    } else {
+      done();
+    }
+  };
+  /* The knots of the sidebar's story in the scroll (see SB_IDS). Measured only when the size of the window, the height
+     of the text, the theme or the fonts change, never while scrolling. Knot 0 is the very top of the page, so the
+     stack starts closed; each later knot is kept at least a little past the one before. */
+  sbKnots(sc, W, V){
+    const key = W + 'x' + V + 'x' + sc.scrollHeight;
+    if(this._sbKey === key && this._sbK) return this._sbK;
+    const top0 = sc.getBoundingClientRect().top, focus = this.readFocus(W, V), max = Math.max(1, sc.scrollHeight - sc.clientHeight);
+    const ys = this.SB_IDS.map(id => { const el = sc.querySelector('[data-s="' + id + '"]'); return el ? el.getBoundingClientRect().top - top0 + sc.scrollTop - focus : 0; });
+    const end = Math.max(300, ys[ys.length - 1]), wSum = this.SB_W.reduce((a, b) => a + b, 0), ks = [0];
+    let acc = 0;
+    ys.forEach((y, i) => { acc += this.SB_W[i]; ks.push(Math.max(ks[i] + 60, 0.5 * Math.max(0, y) + 0.5 * end * acc / wSum)); });
+    /* on a page too short to bring the last landmark up to the reading line, the knots are pressed into the scroll there is */
+    const last = ks[ks.length - 1];
+    if(last > max) for(let i = 1; i < ks.length; i++) ks[i] *= max / last;
+    this._sbKey = key; this._sbK = ks;
+    return ks;
+  }
+  /* the scroll position as a place in the sidebar's story, 0 to 5, straight through the knots */
+  sbGoal(sc, W, V){
+    const ks = this.sbKnots(sc, W, V), y = sc.scrollTop;
+    for(let i = 0; i < ks.length - 1; i++) if(y < ks[i + 1]) return i + Math.max(0, (y - ks[i]) / (ks[i + 1] - ks[i]));
+    return ks.length - 1;
+  }
+  /* Once a frame: the size of the window, and where the sidebar's story is. The drawing follows the scroll on a
+     critically damped spring (about a fifth of a second), with a cap on its speed, so a flick of the wheel or a jump
+     to the end plays the acts through in order, briskly, instead of snapping; it never fades out. */
   tick = () => {
     this.raf = requestAnimationFrame(this.tick);
     const sc = this.scRef.current; if(!sc) return;
     const st = this.state, W = sc.clientWidth || window.innerWidth, ih = window.innerHeight, V = ih > 1800 ? 900 : Math.max(480, ih);
     /* while the story is open over the page, the picture in the band stands still */
-    let t = this.reduced ? 5 : (st.play ? st.t : Math.round((performance.now() - this.t0) / 1000 * 30) / 30), sA = st.sA;
+    let t = this.reduced ? 5 : (st.play ? st.t : Math.round((performance.now() - this.t0) / 1000 * 30) / 30), sx = st.sx;
     if(this.MODE === 'w'){
-      /* The Why Stack? page: the drawing is tied to the text by the scroll position alone. Each sentence of the argument
-         carries the step of the story it belongs to. The story starts when the page is at its top and is over when the end of the
-         argument has come up to the middle of the window. In between, the sentences take their turns in order: while a
-         sentence has its turn the drawing moves from the step of that sentence to the step of the next one. The drawing takes about a fifth of a second to follow, only to even out the wheel. */
       t = 0;
-      const top0 = sc.getBoundingClientRect().top, ms = sc.querySelectorAll('[data-s]'), pts = [];
-      const val = k => k === 'm0' ? 0 : (k === 'end' ? this.T1.a17[0] + this.T1.a17[1] : (k === 'h' ? this.T1.t3[0] : this.T1[k][0] + this.T1[k][1] * 0.5));
-      for(let i = 0; i < ms.length; i++){ const k = ms[i].getAttribute('data-s'); pts.push([ms[i].getBoundingClientRect().top - top0 + sc.scrollTop, val(k), k]); }
-      let goal = 0;
-      if(pts.length > 1){
-        /* how much of the scroll each sentence gets: half by its share of the text and half by its share of the story,
-           so that a short sentence with a long step of the story is not over in a few px */
-        const n = pts.length - 1, sEnd = Math.max(120, pts[n][0] - this.readEnd(W, V)), Y = Math.max(1, pts[n][0] - pts[0][0]), G = Math.max(0.01, pts[n][1] - pts[0][1]);
-        const x = Math.min(sEnd, sc.scrollTop);
-        let c = 0, done = false;
-        for(let i = 0; i < n && !done; i++){
-          const a = pts[i], b = pts[i + 1], span = sEnd * (0.5 * (b[0] - a[0]) / Y + 0.5 * (b[1] - a[1]) / G);
-          if(x < c + span || i === n - 1){ const k = span > 0 ? Math.max(0, Math.min(1, (x - c) / span)) : 1; goal = a[1] + (b[1] - a[1]) * k; done = true; }
-          c += span;
-        }
-      }
-      const now = performance.now(), dt = Math.min(0.1, (now - (this.tPrev || now)) / 1000), d = goal - sA;
+      const now = performance.now(), dt = Math.min(0.05, Math.max(0, (now - (this.tPrev || now)) / 1000));
       this.tPrev = now;
-      sA = this.reduced || Math.abs(d) < 0.004 ? goal : sA + d * (1 - Math.exp(-dt / 0.16));
+      if(!st.play){
+        const goal = this.sbGoal(sc, W, V);
+        if(this.reduced || this.sv === undefined){ sx = goal; this.sv = 0; }
+        else {
+          const om = 11, vmax = 6;
+          let v = this.sv + (om * om * (goal - sx) - 2 * om * this.sv) * dt;
+          v = Math.max(-vmax, Math.min(vmax, v));
+          sx += v * dt;
+          if(Math.abs(goal - sx) < 0.0015 && Math.abs(v) < 0.01){ sx = goal; v = 0; }
+          this.sv = v;
+        }
+        sx = Math.max(0, Math.min(5, sx));
+      }
     }
-    if(W !== st.W || V !== st.V || t !== st.t || sA !== st.sA || !st.live) this.setState({W, V, t, sA, live:true});
-  };
-  /* The front page: the story opens inside the page. It first covers only the band it was started from and then grows
-     until it fills the window. When the reader closes it, or has scrolled to its end, it goes back into the band. */
-  openStory = () => {
-    const sc = this.scRef.current, b = this.bandRef.current; if(!sc || !b || this.state.play) return;
-    const r = sc.getBoundingClientRect(), q = b.getBoundingClientRect();
-    clearTimeout(this.playTimer);
-    this.setState({play:true, grown:false, clipT:Math.max(0, q.top - r.top), clipB:Math.max(0, r.bottom - q.bottom)});
-    this.playTimer = setTimeout(() => this.setState({grown:true}), 60);
-  };
-  closeStory = () => {
-    if(!this.state.play || !this.state.grown) return;
-    clearTimeout(this.playTimer);
-    this.setState({grown:false});
-    this.playTimer = setTimeout(() => this.setState({play:false}), this.reduced ? 0 : 620);
+    if(W !== st.W || V !== st.V || t !== st.t || sx !== st.sx || !st.live) this.setState({W, V, t, sx, live:true});
   };
   /* the Why Stack? page, narrow window: the drawing is a band that stays under the ribbon, this many px high */
   bandH(V){ return Math.round(Math.max(230, Math.min(V * 0.42, 360))); }
-  /* where in the window the end of the argument is when the story is over */
-  readEnd(W, V){ return W < 900 ? 44 + this.bandH(V) + (V - 44 - this.bandH(V)) * 0.45 : V * 0.5; }
+  /* the reading line, in px from the top of the window: a landmark of the text that reaches it has its turn */
+  readFocus(W, V){ return W < 900 ? 44 + this.bandH(V) + (V - 44 - this.bandH(V)) * 0.36 : V * 0.42; }
 
   /* ---- lists that drop down: under a box, and under an entry of the ribbon ---- */
   openBox(id){ clearTimeout(this.closeTimer); if(this.state.open !== id) this.setState({open:id}); }
@@ -322,11 +432,12 @@ class Component extends DCLogic {
     if(!this.HO){ this.HO = this.buildHoles(); this.ISO = this.buildIso(); }
     const HO = this.HO;
     const P = {};
-    Object.keys(this.T1).forEach(k => { P[k] = cl((s - this.T1[k][0]) / this.T1[k][1]); });
+    if(o.simple) Object.assign(P, this.sbTrack(s));
+    else Object.keys(this.T1).forEach(k => { P[k] = cl((s - this.T1[k][0]) / this.T1[k][1]); });
     const mA = ez(win(P.a2, 0.05, 0.85));
 
     /* camera: the turn of the visualisation's resting view; from step a2 the stack leans and is seen from a little higher */
-    const yawDeg = 45 - 5 * mA - 5 * cl((s - this.T1.t1[0]) / (this.TOT1 - this.T1.t1[0]));
+    const yawDeg = 45 - 5 * mA - 5 * (o.simple ? P.drift : cl((s - this.T1.t1[0]) / (this.TOT1 - this.T1.t1[0])));
     const sinP = 0.40 + 0.07 * mA;
     const cosP = Math.sqrt(1 - sinP * sinP), yaw = yawDeg * Math.PI / 180, cs = Math.cos(yaw), sn = Math.sin(yaw);
     const rho = (o.lean === undefined ? 12 : o.lean) * mA * Math.PI / 180, cr = Math.cos(rho), sr = Math.sin(rho);
@@ -369,37 +480,92 @@ class Component extends DCLogic {
     const fine = style => sw === 1 ? style : style.replace(/stroke-width:([0-9.]+)/g, (m, v) => 'stroke-width:' + (parseFloat(v) * sw).toFixed(2));
     const put = (d, style) => { shapes.push({d, style:fine(style)}); };
     const over = (d, style) => { overs.push({d, style:fine(style)}); };
+    /* Harm: where a threat gets through it leaves a mark on the ground under the stack, drawn flat in the ground's own
+       plane (gp maps a point (x, y) of that plane to the screen), so it turns and foreshortens with the stack. g runs from
+       0 to 1 as the line touches down: the dot lands, short cracks run out from it, then a broken ring opens round them.
+       Everything follows g, so the mark grows and shrinks with the scroll and never pops. seed gives each mark its own cracks. */
+    const impact = (out, gp, x0, y0, g, a, seed, k) => {
+      if(g <= 0.004 || a <= 0.01) return;
+      const rnd = j => { const s = Math.sin(seed * 127.1 + j * 311.7) * 43758.5453; return s - Math.floor(s); };
+      const gq = (r, t) => gp(x0 + r * Math.cos(t), y0 + r * Math.sin(t));
+      const loop = (r, t0, t1, n) => { let d = ''; for(let j = 0; j <= n; j++) d += (j ? 'L' : 'M') + pt(gq(r, lerp(t0, t1, j / n))); return d; };
+      const cG = ez(cl(g / 0.3)), qG = ez(cl((g - 0.1) / 0.6)), rG = ez(cl((g - 0.35) / 0.65));
+      out(loop(7 * k * (0.35 + 0.65 * cG), 0, 6.2832, 28) + 'Z', 'fill:' + C.acc + ';stroke:none;fill-opacity:' + (0.14 * a * cG).toFixed(3));
+      /* cracks: seven of uneven length, each bending a little half way out; between neighbours a short straight chord,
+         as in a pane that has been shot through; round all of it, a faint broken ring */
+      let d = '', w = ''; const n = 7, t0 = rnd(0) * 6.2832, r0 = 3 * k, T = [], R = [];
+      for(let j = 0; j < n; j++){
+        const t = t0 + 6.2832 * (j + 0.5 * (rnd(j + 1) - 0.5)) / n, len = (6.5 + 10 * rnd(j + 11)) * k, rm = lerp(r0, len, 0.45), r1 = lerp(r0, len, qG);
+        T.push(t); R.push(len);
+        if(r1 - r0 < 0.25) continue;
+        const t2 = t + 0.34 * (rnd(j + 21) - 0.5);
+        d += 'M' + pt(gq(r0, t)) + 'L' + pt(gq(Math.min(r1, rm), t)) + (r1 > rm ? 'L' + pt(gq(r1, lerp(t, t2, (r1 - rm) / (len - rm)))) : '');
+      }
+      if(d) out(d, 'fill:none;stroke:' + C.acc + ';stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:' + (0.92 * a * cl(qG * 3)).toFixed(2));
+      if(rG > 0.01){
+        for(let j = 0; j < n; j++){
+          if(rnd(j + 51) < 0.35) continue;
+          const j2 = (j + 1) % n, rc = Math.min(R[j], R[j2]) * (0.5 + 0.15 * rnd(j + 61)), tb = T[j2] + (j2 ? 0 : 6.2832);
+          const pa = gq(rc, T[j]), pb = gq(rc, tb), m = [lerp(pa[0], pb[0], 0.5), lerp(pa[1], pb[1], 0.5)];
+          w += 'M' + pt([lerp(m[0], pa[0], rG), lerp(m[1], pa[1], rG)]) + 'L' + pt([lerp(m[0], pb[0], rG), lerp(m[1], pb[1], rG)]);
+        }
+        if(w) out(w, 'fill:none;stroke:' + C.acc + ';stroke-width:.85;stroke-linecap:round;stroke-opacity:' + (0.75 * a * rG).toFixed(2));
+        const rr = 15 * k * lerp(0.75, 1, rG), s0 = rnd(31) * 6.2832; let e = '';
+        for(let j = 0; j < 3; j++){ const b = s0 + j * 2.0944, span = (1.1 + 0.45 * rnd(j + 41)) * rG; e += loop(rr, b, b + span, 12); }
+        out(e, 'fill:none;stroke:' + C.acc + ';stroke-width:.8;stroke-linecap:round;stroke-opacity:' + (0.38 * a * rG).toFixed(2));
+      }
+      out(loop(2.7 * k * (0.55 + 0.45 * cG), 0, 6.2832, 16) + 'Z', 'fill:' + C.acc + ';stroke:none;fill-opacity:' + (a * cG).toFixed(2));
+    };
+    /* the marks are kept near one size on the screen (about 26 px across, a little less on the phone) whatever the size of the drawing */
+    const kH = Math.max(0.75, Math.min(1.8, 0.78 / zoom)) * dk;
 
-    /* Steps a7 to a9: one slice of the stack is taken out on its own. tau runs from 0 (the stack) to 1 (the slice alone).
-       As it rises, the slices above the chosen one move up and those below move down, like an accordion opening, and fade,
-       while the chosen slice grows to its full size. The return in a9 is the same in reverse. */
-    const tau = Math.min(ez(win(P.a7, 0, 0.32)), 1 - ez(win(P.a9, 0.1, 0.45)));
+    /* Steps a7 to a9: one slice of the stack is taken out on its own. Skipped in simple sidebar mode so the stack stays calm. */
+    const tau = o.simple ? 0 : Math.min(ez(win(P.a7, 0, 0.32)), 1 - ez(win(P.a9, 0.1, 0.45)));
     const stackA = 1 - win(tau, 0.1, 0.85), labA = 1 - win(tau, 0, 0.35);
     /* while the dark and ghost matter are named, everything else in the stack is dimmed */
     const dimD = ez(win(P.a10, 0, 0.6)) * (1 - ez(win(P.a12, 0, 0.6))), fogFree = ez(win(P.a11, 0, 0.4));
     const labDim = 1 - 0.65 * dimD;
 
     /* ---- the lines from above ---- */
-    const yHarmU = uy(HW, HD, zBase) + 24;
-    const zAtHarm = L => ((L.x * sn + L.y * cs) * sinP - yHarmU) / cosP;
-    const oldOut = ez(win(P.a12, 0, 0.5));
+    /* Harm: one straight line under the stack, parallel to the front edges of its slices (ps(-HW, HD, z) to ps(HW, HD, z)),
+       a little below the lowest slice. A line that gets through goes down until it meets it, so every end lies on it.
+       harmO is a point of it, harmD its direction on the screen (1 px long), harmK the place of a point along it. */
+    const harmO = ps(0, HD, zBase - 30), harmE = ps(HW, HD, zBase - 30), harmN = Math.hypot(harmE[0] - harmO[0], harmE[1] - harmO[1]) || 1;
+    const harmD = [(harmE[0] - harmO[0]) / harmN, (harmE[1] - harmO[1]) / harmN];
+    const harmX = (vx, vy) => harmD[0] * vy - harmD[1] * vx;
+    const harmK = p => (p[0] - harmO[0]) * harmD[0] + (p[1] - harmO[1]) * harmD[1];
+    const onHarm = k => [harmO[0] + harmD[0] * k, harmO[1] + harmD[1] * k];
+    const zAtHarm = L => { const p0 = ps(L.x, L.y, 0), p1 = ps(L.x, L.y, 1); return harmX(harmO[0] - p0[0], harmO[1] - p0[1]) / harmX(p1[0] - p0[0], p1[1] - p0[1]); };
+    /* in the sidebar the caught threats stay, and the threat that no layer stops comes last, in act 4 */
+    const oldOut = o.simple ? 0 : ez(win(P.a12, 0, 0.5));
     const LD = [
-      {dn:['a3', 0.03, 0.22], stop:'Ia', ext:0, out:oldOut, maybe:0},
-      {dn:['a3', 0.25, 0.45], stop:'Ib', ext:0, out:oldOut, maybe:1},
-      {dn:['a3', 0.7, 0.98], stop:null, ext:1, out:oldOut},
-      {dn:['a3', 0.48, 0.68], stop:'Ma', ext:ez(win(P.a13, 0.1, 0.9)), out:0, maybe:2},
+      {dn:['a3', 0.03, o.simple ? 0.4 : 0.22], stop:'Ia', ext:0, out:oldOut, maybe:0},
+      {dn:['a3', o.simple ? 0.3 : 0.25, o.simple ? 0.7 : 0.45], stop:'Ib', ext:0, out:oldOut, maybe:1},
+      {dn:o.simple ? ['l2', 0, 1] : ['a3', 0.7, 0.98], stop:null, ext:1, out:oldOut},
+      {dn:['a3', o.simple ? 0.6 : 0.48, o.simple ? 0.97 : 0.68], stop:'Ma', ext:ez(win(P.a13, 0.1, 0.9)), out:0, maybe:2},
       {dn:['a15', 0, 0.26], stop:'Mb', ext:ez(win(P.a16, 0.05, 0.9)), out:0},
-      {dn:['a17', 0.45, 1], stop:null, ext:1, out:0}];
+      {dn:['a17', 0.4, 0.86], stop:null, ext:1, out:0}];
     const lines = this.LP.map((p, i) => {
       const D = LD[i], top = stackTop + (i === 0 || i === 3 ? 28 : (i > 3 ? 44 : 62)), zh = zAtHarm(p);
       const dn = ez(win(P[D.dn[0]], D.dn[1], D.dn[2]));
       const stopZ = D.stop ? Z[D.stop] : null, end = stopZ === null ? zh : lerp(stopZ, zh, D.ext), a = (1 - D.out) * (1 - 0.6 * dimD) * (1 - win(tau, 0, 0.3));
-      /* step a6: a line stopped at a slice that is out of focus may or may not go on. A dotted line comes and goes below the slice. */
-      const v = D.maybe === undefined ? 0 : cl((P.a6 - 0.08 * D.maybe) / 0.84), maybe = D.maybe === undefined ? 0 : 0.5 - 0.5 * Math.cos(4 * Math.PI * v);
-      return {x:p.x, y:p.y, top, head:lerp(top, end, dn), on:dn > 0 && a > 0.01, a, stopped:dn >= 1 && D.ext <= 0 && a > 0.01, stopZ, atHarm:dn >= 1 && D.ext >= 1 && a > 0.01, zh, maybe,
+      /* step a6: a line stopped at a slice that is out of focus may or may not go on. A dotted line comes and goes below the slice (skipped in simple sidebar mode). */
+      const v = D.maybe === undefined ? 0 : cl((P.a6 - 0.08 * D.maybe) / 0.84), maybe = (o.simple || D.maybe === undefined) ? 0 : 0.5 - 0.5 * Math.cos(4 * Math.PI * v);
+      const dotA = stopZ !== null && dn >= 1 && a > 0.01 ? (D.ext <= 0 ? 1 : 1 - cl(D.ext / 0.15)) : 0;
+      return {x:p.x, y:p.y, top, head:lerp(top, end, dn), on:dn > 0 && a > 0.01, a, stopped:dn >= 1 && D.ext <= 0 && a > 0.01, dotA, stopZ, atHarm:dn >= 1 && D.ext >= 1 && a > 0.01, zh, maybe, hw:a * cl(1 - (lerp(top, end, dn) - zh) / 36),
         la:win(P[D.dn[0]], D.dn[1], D.dn[1] + 0.08) * (1 - oldOut) * labDim,
         style:'fill:none;stroke:' + C.acc + ';stroke-width:1.8;stroke-linecap:round;stroke-opacity:' + a.toFixed(2)};
     });
+    /* the part of the Harm line that is drawn: from the first to the last line that has reached it. A line on its way in
+       stretches the part smoothly, from the part already there to its own end, so neither the part nor its name jumps. */
+    const harmSpan = (() => {
+      const hs = lines.filter(L => L.hw > 0.01).map(L => ({k:harmK(ps(L.x, L.y, L.zh)), w:Math.min(1, L.hw)})); if(!hs.length) return null;
+      const top = hs.reduce((m, h) => h.w > m.w ? h : m, hs[0]), full = hs.filter(h => h.w >= 0.999);
+      const fLo = full.length ? Math.min.apply(null, full.map(h => h.k)) : top.k, fHi = full.length ? Math.max.apply(null, full.map(h => h.k)) : top.k;
+      let lo = fLo, hi = fHi;
+      hs.forEach(h => { const e = lerp(Math.max(fLo, Math.min(fHi, h.k)), h.k, h.w); lo = Math.min(lo, e); hi = Math.max(hi, e); });
+      return {lo, hi, a:top.w};
+    })();
     /* step a15: the slice added in the top layer acts on one slice of the middle layer. A dashed line joins the two. */
     const grow = ez(win(P.a15, 0.72, 1)), gh = HO.Mb[0];
     const linkA = win(P.a15, 0.55, 0.68) * (1 - win(P.a17, 0, 0.2));
@@ -412,7 +578,7 @@ class Component extends DCLogic {
 
     /* ---- slices ---- */
     const hv = ez(win(P.a2, 0.35, 0.9)), unk = ez(win(P.a5, 0.05, 0.9)), sharpMb = ez(win(P.a15, 0.5, 0.7));
-    const mDash = ez(win(P.a9, 0.45, 0.95)), mFog = ez(win(P.a11, 0.05, 0.6));
+    const mDash = o.simple ? ez(win(P.a10, 0, 0.55)) : ez(win(P.a9, 0.45, 0.95)), mFog = ez(win(P.a11, 0.05, 0.6));
     const named = {rlhf:1, refusal:1, guard:1, cot:1, red:1, jail:1};
     const look = {Ma:'fog', Aa:'fog', Ib:'dash', Ab:'dash'};
     const zz = z => { const d = z - Z.Mb; return tau <= 0 || Math.abs(d) < 0.5 ? z : z + Math.sign(d) * (50 + 0.9 * Math.abs(d)) * tau; };
@@ -491,15 +657,10 @@ class Component extends DCLogic {
       });
       items.push({z:Z.N1, draw:() => drawSlice({id:'N1', z:Z.N1, look:'solid', a:win(P.a14, 0, 0.2), dx:-(1 - ez(win(P.a14, 0.04, 0.8))) * 400})});
       /* where a line is stopped: a dot on the slice */
-      lines.forEach(L => { if(L.stopped) items.push({z:L.stopZ + 0.01, draw:() => { const c = ps(L.x, L.y, L.stopZ); put(ell(c, 4.8 * dk, Math.max(1.8, 4.8 * sinP) * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.a * (1 - 0.8 * L.maybe)).toFixed(2)); }}); });
+      lines.forEach(L => { if(L.dotA > 0.01) items.push({z:L.stopZ + 0.01, draw:() => { const c = ps(L.x, L.y, L.stopZ); put(ell(c, 4.8 * dk, Math.max(1.8, 4.8 * sinP) * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.a * L.dotA * (1 - 0.8 * L.maybe)).toFixed(2)); }}); });
       items.sort((a, c) => a.z - c.z);
-      /* under the stack: where the lines that get through end */
-      const arrived = lines.filter(L => L.atHarm);
-      if(arrived.length){
-        const ends = arrived.map(L => ps(L.x, L.y, L.zh)).sort((a, c) => a[0] - c[0]);
-        const a0 = ends[0], a1 = ends[ends.length - 1], aa = Math.max.apply(null, arrived.map(L => L.a));
-        put(seg([a0[0] - 9 * cr, a0[1] - 9 * sr], [a1[0] + 9 * cr, a1[1] + 9 * sr]), 'stroke:' + C.acc + ';stroke-width:1.8;stroke-linecap:round;stroke-opacity:' + aa.toFixed(2));
-      }
+      /* under the stack: a mark where each line that gets through lands, on the ground at its own place (x, y, zh) */
+      lines.forEach((L, i) => { if(L.on) impact(put, (x, y) => ps(x, y, L.zh), L.x, L.y, cl(1 - (L.head - L.zh) / 10), L.a, i + 1, kH); });
       let prev = -1e9;
       items.forEach(it => { segBetween(prev, it.z); it.draw(); prev = it.z; });
       segBetween(prev, 1e9);
@@ -513,10 +674,10 @@ class Component extends DCLogic {
       for(let i = o.length - 1, lim = hi; i >= 0; i--){ const it = o[i]; if(it.t + it.h > lim) it.t = lim - it.h; lim = it.t - (it.h > 0.5 ? 4 : 0); }
       o.forEach(it => { it.c = it.t + it.h / 2; });
     };
-    const aLayer = ez(win(P.a1, 0.1, 0.8)) * labA * labDim, aSlice = ez(win(P.a4, 0.1, 0.8)) * (1 - ez(win(P.a12, 0, 0.5))) * labA * labDim;
+    const aLayer = ez(win(P.a1, 0.1, 0.8)) * labA * labDim, aSlice = ez(win(P.a4, 0.1, 0.8)) * (o.simple ? 1 : 1 - ez(win(P.a12, 0, 0.5))) * labA * labDim;
     const aDark = win(P.a10, 0.1, 0.5) * labA, aGhost = win(P.a11, 0.5, 0.9) * labA;
     /* left: the names of the layers, each with a bracket along the edge of its layer */
-    const noteIn = ez(win(P.a9, 0.5, 1));
+    const noteIn = o.simple ? ez(win(P.a10, 0, 0.5)) : ez(win(P.a9, 0.5, 1));
     const nrm = [-cr, -sr];
     const left = layers.map((l, i) => {
       const pT = ps(-HW, HD, l.top), pB = ps(-HW, HD, l.bot), bo = phone ? 7 : 12, bT = [pT[0] + nrm[0] * bo, pT[1] + nrm[1] * bo], bB = [pB[0] + nrm[0] * bo, pB[1] + nrm[1] * bo];
@@ -562,9 +723,9 @@ class Component extends DCLogic {
       const L = lines[i], p = ps(L.x, L.y, L.top), leftSide = i < 2, w = 170;
       lab['t' + i] = show({left:px(leftSide ? p[0] - 8 - w : p[0] + 8), top:px(p[1] - (i === 1 || i === 2 ? 15 : 3)), width:w + 'px', 'font-size':fsLine + 'px'}, L.la * labA);
     }
-    let harmPos = null, harmA = 0;
-    { const arr = lines.filter(L => L.atHarm);
-      if(arr.length){ const e0 = ps(0, 0, zAtHarm({x:0, y:0})); harmPos = [e0[0] - 14 * sr, e0[1]]; harmA = Math.max.apply(null, arr.map(L => L.a)) * labA; } }
+    let harmPos = null, harmA = 0, harmDrop = 7;
+    /* the name sits under the middle of the drawn part; it is let down by as much as the line falls under half its width */
+    if(harmSpan){ harmPos = onHarm((harmSpan.lo + harmSpan.hi) / 2); harmA = harmSpan.a * labA; harmDrop = 6 + 20 * Math.abs(harmD[1] / (harmD[0] || 1)) + 14 * kH * sinP * zoom; }
 
     /* ---- steps a7 to a9: one slice alone, then two ---- */
     if(tau > 0.001){
@@ -583,7 +744,8 @@ class Component extends DCLogic {
       const ip = (d, style) => { isoShapes.push({d, style:fine(style)}); };
       const ring = (fn, h, dx) => { let d = ''; for(let k = 0; k < 26; k++){ const a = k / 26 * Math.PI * 2; d += (k ? 'L' : 'M') + pt(fn(h.x + dx + h.r * Math.cos(a), h.y + h.r * Math.sin(a))); } return d + 'Z'; };
       const L4 = LI.map((L, i) => {
-        const zHi = zH + (L.x * si + L.y * ci) * sI / cI;
+        /* Harm, under the slice alone: a line parallel to the slice's front edges through pi(0, 0, zH); each line ends on it */
+        const zHi = zH + L.y * sI / (cI * ci);
         const eA = ez(margin(hA, L, dxA)), eB = ez(margin(hB, L, dxB)), stopB = lerp(zHi, zB, bIn);
         const end = eA < 1 ? lerp(zA, stopB, eA) : lerp(zB, zHi, Math.max(eB, 1 - bIn));
         const dn = ez(win(P.a7, 0.34 + i * 0.03, 0.5 + i * 0.03));
@@ -591,8 +753,7 @@ class Component extends DCLogic {
       });
       const ls = 'fill:none;stroke:' + C.acc + ';stroke-width:2;stroke-linecap:round;stroke-opacity:' + xa.toFixed(2);
       const segI = (za, zb) => { if(xa > 0.01) L4.forEach(L => { if(!L.on) return; const a = Math.max(za, L.head), c = Math.min(zb, zTop); if(c - a > 0.02) ip(seg(pi(L.x, L.y, a), pi(L.x, L.y, c)), ls); }); };
-      const got = L4.filter(L => L.harm > 0.9);
-      if(got.length && xa > 0.01){ const e = got.map(L => pi(L.x, L.y, L.zHi)).sort((a, c) => a[0] - c[0]); ip(seg([e[0][0] - 10, e[0][1]], [e[e.length - 1][0] + 10, e[e.length - 1][1]]), ls); }
+      L4.forEach((L, i) => { if(L.on && xa > 0.01) impact(ip, (x, y) => pi(x, y, L.zHi), L.x, L.y, cl(1 - (L.head - L.zHi) / 10), xa, i + 11, 1); });
       segI(-1e9, zB);
       if(bIn * xa > 0.01){
         const zb = zB - (1 - bIn) * 24, pb = (x, y) => pi(x, y, zb), a = bIn * xa;
@@ -611,9 +772,9 @@ class Component extends DCLogic {
       }
       L4.forEach(L => { if(L.dotA * xa > 0.02) ip(ell(pi(L.x, L.y, zA), 6 * dk, 3.6 * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.dotA * xa).toFixed(2)); });
       segI(zA, 1e9);
-      if(tau > 0.5){ const e = L4.map(L => pi(L.x, L.y, L.zHi)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length, e[0][1]]; harmA = Math.max.apply(null, L4.map(L => L.harm)) * xa; }
+      if(tau > 0.5){ const e = L4.map(L => pi(L.x, L.y, L.zHi)); harmPos = [e.reduce((a, c) => a + c[0], 0) / e.length, e.reduce((a, c) => a + c[1], 0) / e.length]; harmA = Math.max.apply(null, L4.map(L => L.harm)) * xa; harmDrop = 6 + 20 * si * sI / ci + 13 * sI * zI; }
     }
-    lab.harm = show({left:px((harmPos ? harmPos[0] : 0) - 60), top:px((harmPos ? harmPos[1] : 0) + 7), width:'120px', 'font-size':'13px'}, harmPos ? harmA : 0);
+    lab.harm = show({left:px((harmPos ? harmPos[0] : 0) - 60), top:px((harmPos ? harmPos[1] : 0) + harmDrop), width:'120px', 'font-size':'13px'}, harmPos ? harmA : 0);
 
     /* the labels, as text for the drawing */
     const NAMES = {int:'Interventions', mon:'Monitoring', ass:'Assessments', rlhf:'RLHF', refusal:'Refusal training', guard:'Guard models', cot:'CoT monitoring', red:'Red-teaming', jail:'Jailbreak evaluations',
@@ -697,8 +858,10 @@ class Component extends DCLogic {
       /* wide window: the drawing fills the left of the window and stays while the text scrolls at the right.
          narrow window: the drawing is a band under the ribbon and the text scrolls below it. */
       const stacked = W < 900, pw = stacked ? W : Math.round(Math.max(420, W - Math.min(720, W * 0.5))), ph = stacked ? this.bandH(V) : V - 44;
-      F.big = this.fig(st.sA, pw, ph, stacked ? {left:92, right:132, fsLayer:10.5, fsSlice:9, fsLine:8.5, fsNote:8.5, sw:0.7, dk:0.75, lean:8, top:6, bottom:6}
-        : {left:176, right:188, fsLayer:16, fsSlice:12, fsLine:11, top:24, bottom:24});
+      F.big = this.fig(st.sx, pw, ph, stacked ? {simple:true, left:106, right:118, fsLayer:10.5, fsSlice:9, fsLine:8.5, fsNote:8.5, sw:0.7, dk:0.75, lean:8, top:6, bottom:6}
+        : {simple:true, left:176, right:188, fsLayer:16, fsSlice:12, fsLine:11, top:24, bottom:24});
+      out.story = {on:st.play, wide:W >= 700, narrow:W < 700, warm:this.warmStory, open:this.openStory, close:() => this.closeStory(false), finish:this.finishStory,
+        style:S({width:W + 'px', height:V + 'px', opacity:st.closing ? 0 : 1, transition:this.reduced ? 'none' : 'opacity 260ms ease'})};
       out.mainStyle = stacked ? 'display:block;padding-top:44px;--lp:7px' : 'display:flex;align-items:flex-start';
       out.paneStyle = S(stacked ? {position:'sticky', top:'44px', height:ph + 'px', 'z-index':2, overflow:'hidden', background:'var(--bg,#feecd3)', 'border-bottom':'1px solid var(--border,#114b5f33)'}
         : {position:'sticky', top:'44px', flex:'0 0 ' + pw + 'px', height:ph + 'px'});
@@ -721,7 +884,7 @@ class Component extends DCLogic {
     const TH = this.svgTheme();
     const gridLineStyle = 'stroke:' + TH.grid.stroke + ';stroke-width:0.7;stroke-opacity:' + TH.grid.opacityPage;
     const hatchLineStyle = 'stroke:' + TH.grid.hatchStroke + ';stroke-width:1.3;stroke-opacity:' + TH.grid.hatchOpacity;
-    return Object.assign(out, {scRef:this.scRef, scStyle:'height:' + V + 'px', F, B, rb, gridLineStyle, hatchLineStyle,
+    return Object.assign(out, {scRef:this.scRef, playBtnRef:this.playBtnRef, storyRef:this.storyRef, scStyle:'height:' + V + 'px', F, B, rb, gridLineStyle, hatchLineStyle,
       ribNavD:wide ? '' : 'display:none', ribNavP:wide ? 'display:none' : ''});
   }
 }
