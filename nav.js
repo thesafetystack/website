@@ -345,8 +345,8 @@
     .site-footer-links { display: flex; flex-wrap: wrap; gap: 6px 16px; }
     .site-footer a { color: var(--muted); text-decoration-color: var(--border-strong); }
     .site-footer a:hover { color: var(--link); }
-    /* the latest release next to the Hugging Face link; nav.js sets --tss-release from release.js */
-    .site-release::after { content: " · latest weekly release " var(--tss-release, "2026-11-22"); display: inline-block; white-space: pre; }
+    /* the latest release next to the Hugging Face link; shown only once release.js loads */
+    html[data-release] .site-release::after { content: " · latest weekly release " var(--tss-release); display: inline-block; white-space: pre; }
     ${EDITORIAL_EXTRA}
   `;
 
@@ -357,11 +357,13 @@
     document.head.appendChild(style);
   }
 
-  /* The latest release, from release.js, which the summary builder writes with each release: every footer shows its id.
-     Without the file the value written in the footer rule stays. */
+  /* The latest release, from release.js, which the summary builder writes with each release: every footer shows its id. */
   function applyRelease() {
     const r = window.__TSS_RELEASE;
-    if (r && /^[0-9A-Za-z._-]+$/.test(String(r.id))) document.documentElement.style.setProperty('--tss-release', '"' + r.id + '"');
+    if (r && /^[0-9A-Za-z._-]+$/.test(String(r.id))) {
+      document.documentElement.setAttribute('data-release', String(r.id));
+      document.documentElement.style.setProperty('--tss-release', '"' + r.id + '"');
+    }
   }
   if (window.__TSS_RELEASE) applyRelease();
   else if (!document.getElementById('site-release-js')) {

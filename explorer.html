@@ -32,19 +32,21 @@
 <style>
   html,body{margin:0;height:100%;overflow:hidden;background:var(--bg,#feecd3);color:var(--ink,#333);font-family:var(--font-prose,'IBM Plex Mono',ui-monospace,Menlo,monospace)}
   /* the frame fills the window under the site header; --tss-header is the header's measured height */
-  .explorer-frame{display:block;position:fixed;left:0;right:0;top:var(--tss-header,44px);width:100%;height:calc(100vh - var(--tss-header,44px));height:calc(100dvh - var(--tss-header,44px));border:0}
-  noscript p{margin:0;padding:64px 22px}
-  noscript a{color:var(--link,#028090)}
+  .explorer-frame{display:block;position:fixed;left:0;right:0;top:var(--tss-header,44px);width:100%;height:calc(100vh - var(--tss-header,44px));height:calc(100dvh - var(--tss-header,44px));border:0;z-index:1}
+  .explorer-frame:not([src]){display:none}
+  .explorer-fallback,noscript p{margin:0;padding:64px 22px;position:relative;z-index:0}
+  .explorer-fallback a,noscript a{color:var(--link,#028090)}
 </style>
 </head>
 <body>
 <script src="./nav.js"></script>
-<iframe class="explorer-frame" title="Dataset explorer"></iframe>
-<noscript><p>The Dataset explorer needs JavaScript to be shown inside this page. Open it directly: <a href="https://stack-model-explorer.gavento.workers.dev/">Dataset explorer</a>.</p></noscript>
+<iframe class="explorer-frame" title="Dataset explorer" referrerpolicy="no-referrer"></iframe>
+<p class="explorer-fallback">Loading the Dataset explorer… If it does not appear, open it directly: <a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Dataset explorer</a>.</p>
+<noscript><style>.explorer-fallback{display:none}</style><p>The Dataset explorer needs JavaScript to be shown inside this page. Open it directly: <a href="https://stack-model-explorer.gavento.workers.dev/">Dataset explorer</a>.</p></noscript>
 <script>
 (() => {
   /* The Dataset explorer, shown in a frame under the site header. The page sets the frame's address once, with the
-     site's theme at load, and afterwards only tells the explorer when the site theme changes. */
+     site's theme at load, and afterwards tells the explorer when the site theme changes (and once more on load). */
   const EXPLORER = 'https://stack-model-explorer.gavento.workers.dev/';
   const origin = new URL(EXPLORER).origin;
   const frame = document.querySelector('.explorer-frame');
@@ -54,13 +56,15 @@
     if (t === 'dark' || t === 'light') return t;
     return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   };
+  const syncTheme = () => {
+    if (frame.contentWindow) frame.contentWindow.postMessage({ type: 'tss-theme', theme: mode() }, origin);
+  };
   const src = new URL(EXPLORER);
   src.searchParams.set('embed', '1');
   src.searchParams.set('theme', mode());
+  frame.addEventListener('load', syncTheme);
   frame.src = src.href;
-  window.addEventListener('site-theme-change', () => {
-    if (frame.contentWindow) frame.contentWindow.postMessage({ type: 'tss-theme', theme: mode() }, origin);
-  });
+  window.addEventListener('site-theme-change', syncTheme);
   /* the header's real height, so the frame starts right under it */
   const header = document.querySelector('.site-ribbon');
   const fit = () => {
