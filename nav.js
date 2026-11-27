@@ -412,7 +412,7 @@
     .join('');
 
   const exploreLis = `<li><a href="stack.html${STYLE === 'brand' ? '?style=classic' : ''}" data-page="stack">The safety stack by lab</a></li>`
-    + '<li><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model explorer (demo)</a></li>';
+    + '<li><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model explorer (prototype)</a></li>';
 
   const LOGO_SVG = '<svg width="18" height="18" viewBox="0 0 64 64" aria-hidden="true" style="display:block;flex:none"><polygon points="4,38 32,24 60,38 32,52" style="fill:var(--logo-slab);opacity:0.52"/><polygon points="4,28 32,14 60,28 32,42" style="fill:var(--logo-slab)"/><line x1="32" y1="4" x2="32" y2="60" style="stroke:var(--accent)" stroke-width="3.4" stroke-linecap="round"/></svg>';
   const styleQ = STYLE === 'brand' ? '?style=classic' : '';
