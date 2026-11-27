@@ -345,6 +345,8 @@
     .site-footer-links { display: flex; flex-wrap: wrap; gap: 6px 16px; }
     .site-footer a { color: var(--muted); text-decoration-color: var(--border-strong); }
     .site-footer a:hover { color: var(--link); }
+    /* the latest release next to the Hugging Face link; nav.js sets --tss-release from release.js */
+    .site-release::after { content: " · release " var(--tss-release, "2026-11-22"); display: inline-block; white-space: pre; }
     ${EDITORIAL_EXTRA}
   `;
 
@@ -353,6 +355,21 @@
     style.id = 'site-nav-css';
     style.textContent = CSS;
     document.head.appendChild(style);
+  }
+
+  /* The latest release, from release.js, which the summary builder writes with each release: every footer shows its id
+     and the front page its number of documents. Without the file the values written in the pages stay. */
+  function applyRelease() {
+    const r = window.__TSS_RELEASE;
+    if (r && /^[0-9A-Za-z._-]+$/.test(String(r.id))) document.documentElement.style.setProperty('--tss-release', '"' + r.id + '"');
+  }
+  if (window.__TSS_RELEASE) applyRelease();
+  else if (!document.getElementById('site-release-js')) {
+    const s = document.createElement('script');
+    s.id = 'site-release-js';
+    s.src = new URL('release.js', (document.currentScript && document.currentScript.src) || location.href).href;
+    s.onload = () => { applyRelease(); window.dispatchEvent(new CustomEvent('site-release')); };
+    document.head.appendChild(s);
   }
 
   /* Capture support.js's React root handle so client-side navigation can unmount cleanly */

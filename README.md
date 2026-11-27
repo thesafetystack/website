@@ -13,7 +13,7 @@ This repository holds the website of The Safety Stack as plain files. Nothing is
 | `stack.html` | The stack visualisation. |
 | `nav.js` | Shared navigation ribbon, light/dark theme tokens and toggle, and instant client-side page switching across the four pages. Pass `?style=classic` to preview the earlier cream/monospace palette. |
 | `summary.json`, `summary.js` | The data of the stack visualisation. Both hold the same content. The page reads `summary.json` when it is served from a web address and `summary.js` when it is opened from disk. |
-| `release.js` | The id, date and number of documents of the release the summary files were built from, as `window.__TSS_RELEASE = {id, created_at, documents}` (about 100 bytes). The front page loads it and shows the release id and the number of documents from it; when the file is missing it shows the values written in the page. |
+| `release.js` | The id, date and number of documents of the release the summary files were built from, as `window.__TSS_RELEASE = {id, created_at, documents}` (about 100 bytes). `nav.js` loads it on every page: each footer shows the release id next to the Hugging Face link, and the front page shows the number of documents. When the file is missing the pages show the values written in them. |
 | `support.js` | The Design Components runtime used by the interactive pages. |
 | `vendor/` | Local copies of React 18.3.1 UMD (`react.production.min.js`, `react-dom.production.min.js`) so pages render with zero third-party runtime requests. |
 | `favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, `og-image.png` | Site icons (transparent adaptive SVG + PNG/ICO fallbacks) and 1200×630 Open Graph preview image. |
