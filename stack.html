@@ -103,6 +103,7 @@
                 <div style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted,#5c7f88);margin-bottom:8px">How to use</div>
                 <ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px">
                   <li><strong style="color:var(--heading,#114b5f)">Spread slices</strong> — Move your cursor up and down a stack to fan out nearby techniques.</li>
+                  <li><strong style="color:var(--heading,#114b5f)">Step in order</strong> — Press <span style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11px;color:var(--muted,#5c7f88)">↑</span> / <span style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11px;color:var(--muted,#5c7f88)">↓</span> to move through techniques one by one (<span style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11px;color:var(--muted,#5c7f88)">PgUp</span>/<span style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11px;color:var(--muted,#5c7f88)">PgDn</span> jumps layers, <span style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11px;color:var(--muted,#5c7f88)">Enter</span> opens the dossier).</li>
                   <li><strong style="color:var(--heading,#114b5f)">Inspect a technique</strong> — Hover any slice to preview; click to open its evidence dossier.</li>
                   <li><strong style="color:var(--heading,#114b5f)">Open a layer</strong> — Click a layer name on the left to list all its techniques.</li>
                   <li><strong style="color:var(--heading,#114b5f)">Compare labs</strong> — Tick up to 4 labs (or Full catalogue) side by side. <span style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11px;color:var(--muted,#5c7f88)">Esc</span> or clicking outside closes open views.</li>
@@ -175,12 +176,12 @@
 
           <g>
             <sc-for list="{{ qHits }}" as="h" hint-placeholder-count="0">
-              <polygon points="{{ h.pts }}" data-k="{{ h.k }}" style="{{ h.style }}" onMouseEnter="{{ h.onEnter }}" onMouseMove="{{ h.onEnter }}" onMouseLeave="{{ h.onLeave }}" onClick="{{ h.onClick }}"></polygon>
+              <polygon points="{{ h.pts }}" data-k="{{ h.k }}" style="{{ h.style }}" onMouseEnter="{{ h.onEnter }}" onMouseLeave="{{ h.onLeave }}" onClick="{{ h.onClick }}"></polygon>
             </sc-for>
           </g>
           <g data-focus="1">
             <sc-for list="{{ oHits }}" as="h" hint-placeholder-count="0">
-              <polygon points="{{ h.pts }}" data-k="{{ h.k }}" tabindex="0" role="button" aria-label="{{ h.aria }}" style="{{ h.style }}" onMouseEnter="{{ h.onEnter }}" onMouseMove="{{ h.onEnter }}" onMouseLeave="{{ h.onLeave }}" onFocus="{{ h.onEnter }}" onClick="{{ h.onClick }}" onKeyDown="{{ h.onKey }}"></polygon>
+              <polygon points="{{ h.pts }}" data-k="{{ h.k }}" tabindex="0" role="button" aria-label="{{ h.aria }}" style="{{ h.style }}" onMouseEnter="{{ h.onEnter }}" onMouseLeave="{{ h.onLeave }}" onFocus="{{ h.onFocus }}" onClick="{{ h.onClick }}" onKeyDown="{{ h.onKey }}"></polygon>
             </sc-for>
           </g>
         </svg>
@@ -206,6 +207,7 @@
                 </div>
               </div>
             </sc-for>
+            <div style="{{ hoverFootStyle }}">{{ hoverFoot }}</div>
           </div>
         </sc-if>
       </div>
@@ -226,7 +228,12 @@
               <div style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11px;color:var(--muted,#5c7f88);margin-top:4px">{{ dKind }}</div>
               <div style="font-size:11px;color:var(--muted,#5c7f88);margin-top:2px">{{ dAliases }}</div>
             </div>
-            <button ref="{{ closeRef }}" onClick="{{ onClose }}" aria-label="Close dossier" style="flex:none;background:none;border:1px solid var(--link,#028090);color:var(--link,#028090);font-size:12px;padding:5px 9px;cursor:pointer;border-radius:var(--radius-sm,2px)">Close</button>
+            <div style="display:flex;align-items:center;gap:6px;flex:none">
+              <span style="font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:10.5px;color:var(--muted,#5c7f88);margin-right:2px;white-space:nowrap">{{ dPos }}</span>
+              <button type="button" onClick="{{ onPrevSlice }}" disabled="{{ dPrevDisabled }}" aria-label="Previous technique" title="Previous technique (↑)" style="{{ dPrevStyle }}">&#8593;</button>
+              <button type="button" onClick="{{ onNextSlice }}" disabled="{{ dNextDisabled }}" aria-label="Next technique" title="Next technique (↓)" style="{{ dNextStyle }}">&#8595;</button>
+              <button ref="{{ closeRef }}" onClick="{{ onClose }}" aria-label="Close dossier" style="flex:none;background:none;border:1px solid var(--link,#028090);color:var(--link,#028090);font-size:12px;padding:5px 9px;cursor:pointer;border-radius:var(--radius-sm,2px)">Close</button>
+            </div>
           </div>
 
           <div style="{{ hStyle }}">Definition</div>
@@ -373,7 +380,7 @@ class Component extends DCLogic {
   /* how many lab stacks may be drawn side by side: four, and one in a narrow window. The scene is drawn smaller when they do not fit. */
   maxLabs(){ return window.innerWidth < 1020 ? 1 : 4; }
   componentWillUnmount(){
-    cancelAnimationFrame(this.raf); cancelAnimationFrame(this.raf2); clearTimeout(this.lensTimer);
+    cancelAnimationFrame(this.raf); cancelAnimationFrame(this.raf2); cancelAnimationFrame(this.lensRaf); clearTimeout(this.lensTimer);
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('hashchange', this.readHash);
@@ -432,29 +439,168 @@ class Component extends DCLogic {
     if(vis.length > max){ const keep = vis.slice(-max); patch.stacks = this.state.stacks.map(s => keep.indexOf(s) >= 0 ? s : Object.assign({}, s, {dir:-1})); }
     this.setState(patch, () => { if(patch.stacks) this.kick(); });
   };
-  /* The lens follows the slice under the cursor. Anywhere else in the scene it stays where it is. */
+  /* Ordered list of navigable slices (top to bottom): the open layer when one is expanded, otherwise the whole stack. */
+  navSlices(){
+    if(!this.blocks) return [];
+    const sel = this.state.selected;
+    if(sel){
+      const blk = this.blocks.find(b => b.role === sel);
+      return blk ? blk.slices : [];
+    }
+    const out = [];
+    this.blocks.forEach(b => { if(!b.flat) b.slices.forEach(sl => out.push(sl)); });
+    return out;
+  }
+  activeSlug(){
+    const st = this.state;
+    if(st.open) return st.open;
+    if(st.hover && st.hover.kind === 'slice') return st.hover.slug;
+    return st.lens;
+  }
+  stepToSlice(slug){
+    if(!slug || !this.tech || !this.tech[slug]) return;
+    clearTimeout(this.lensTimer);
+    cancelAnimationFrame(this.lensRaf);
+    this.lensRaf = 0;
+    this.lensWant = slug;
+    /* Hold off stray mouse events while stepping by keyboard until the pointer deliberately moves >= 8px. */
+    if(this.lastMouse) this.kbLock = {x:this.lastMouse.x, y:this.lastMouse.y};
+    else this.kbLock = {x:-9999, y:-9999};
+    const st = this.state;
+    /* Place the preview box opposite the active label column: right when collapsed (left brackets), left when a layer is open (right names). */
+    const side = st.selected ? 'right' : 'left';
+    const patch = {lens:slug, hover:{kind:'slice', key:slug, slug}, side};
+    if(st.open){
+      patch.open = slug;
+      patch.ev = null;
+      this.set(patch);
+      if(this.drawerRef.current) this.drawerRef.current.scrollTop = 0;
+    } else {
+      this.setState(patch);
+    }
+  }
+  stepSlice(delta){
+    const list = this.navSlices();
+    if(!list.length) return;
+    const cur = this.activeSlug();
+    const idx = cur ? list.findIndex(s => s.slug === cur) : -1;
+    let next;
+    if(idx < 0) next = delta > 0 ? 0 : list.length - 1;
+    else next = Math.max(0, Math.min(list.length - 1, idx + delta));
+    this.stepToSlice(list[next].slug);
+  }
+  jumpLayer(delta){
+    if(!this.blocks) return;
+    const layers = this.blocks.filter(b => !b.flat && b.slices.length);
+    if(!layers.length) return;
+    if(this.state.selected){
+      const curL = layers.findIndex(b => b.role === this.state.selected);
+      const nextL = Math.max(0, Math.min(layers.length - 1, (curL < 0 ? 0 : curL) + delta));
+      if(layers[nextL].role !== this.state.selected){
+        this.selectBlock(layers[nextL].role);
+        this.stepToSlice(layers[nextL].slices[0].slug);
+      }
+      return;
+    }
+    const cur = this.activeSlug(), curTech = cur ? this.tech[cur] : null;
+    const curL = curTech ? layers.findIndex(b => b.role === curTech.kind) : -1;
+    let nextL;
+    if(curL < 0) nextL = delta > 0 ? 0 : layers.length - 1;
+    else nextL = Math.max(0, Math.min(layers.length - 1, curL + delta));
+    this.stepToSlice(layers[nextL].slices[0].slug);
+  }
+  onPrevSlice = (e) => { if(e) e.stopPropagation(); this.stepSlice(-1); };
+  onNextSlice = (e) => { if(e) e.stopPropagation(); this.stepSlice(1); };
+  pointerUnlocked(e){
+    if(!e) return !this.kbLock;
+    const x = e.clientX, y = e.clientY;
+    this.lastMouse = {x, y};
+    if(!this.kbLock) return true;
+    if(Math.hypot(x - this.kbLock.x, y - this.kbLock.y) < 8) return false;
+    this.kbLock = null;
+    return true;
+  }
+  /* The lens follows the slice under the cursor, batched to one update per frame with a short settle delay so
+     moving across the stack does not jitter or fight the pointer. */
   onLens = (e) => {
+    if(!this.pointerUnlocked(e)) return;
     const box = this.boxRef.current;
+    let nextSide = this.state.side;
     /* which part of the scene the cursor is in: the hover box sits in the other half; in an open layer it sits at the left, away from the names, unless the cursor is where the box would be */
-    if(box){ const r = box.getBoundingClientRect(), x = e.clientX - r.left, side = (this.state.selected ? x > 370 : x > r.width / 2) ? 'right' : 'left'; if(side !== this.state.side) this.setState({side}); }
+    if(box){ const r = box.getBoundingClientRect(), x = e.clientX - r.left; nextSide = (this.state.selected ? x > 370 : x > r.width / 2) ? 'right' : 'left'; }
     const k = e.target && e.target.getAttribute ? (e.target.getAttribute('data-k') || '') : '';
     const mm = k.match(/^[^-]+-[hg]-(.+)$/);
-    if(!mm){ clearTimeout(this.lensTimer); this.lensWant = this.state.lens; return; }
-    const slug = mm[1];
-    if(slug === this.lensWant) return;
-    clearTimeout(this.lensTimer); this.lensWant = slug;
-    const apply = () => { if(this.state.lens !== slug) this.setState({lens:slug}); };
-    /* in an open layer the lens waits a moment, so the cursor can cross the stack to the names without changing them */
-    if(this.state.selected) this.lensTimer = setTimeout(apply, 90); else apply();
+    this._pendingSide = nextSide;
+    if(mm){
+      const slug = mm[1];
+      this._pendingHover = {kind:'slice', key:slug, slug};
+      if(slug !== this.lensWant){
+        clearTimeout(this.lensTimer);
+        this.lensWant = slug;
+        const delay = this.state.selected ? 90 : 55;
+        this.lensTimer = setTimeout(() => { if(this.state.lens !== slug) this.setState({lens:slug}); }, delay);
+      }
+    } else {
+      clearTimeout(this.lensTimer);
+      this.lensWant = this.state.lens;
+    }
+    if(!this.lensRaf){
+      this.lensRaf = requestAnimationFrame(() => {
+        this.lensRaf = 0;
+        const patch = {};
+        let dirty = false;
+        if(this._pendingSide && this._pendingSide !== this.state.side){ patch.side = this._pendingSide; dirty = true; }
+        const ph = this._pendingHover;
+        this._pendingHover = null;
+        if(ph && (!this.state.hover || this.state.hover.key !== ph.key)){ patch.hover = ph; dirty = true; }
+        if(dirty) this.setState(patch);
+      });
+    }
   };
-  onLensOut = () => { clearTimeout(this.lensTimer); this.lensWant = null; if(this.state.lens !== null) this.setState({lens:null}); };
+  onLensOut = () => {
+    if(this.kbLock) return;
+    clearTimeout(this.lensTimer);
+    cancelAnimationFrame(this.lensRaf);
+    this.lensRaf = 0;
+    this.lensWant = null;
+    if(this.state.lens !== null || (this.state.hover && this.state.hover.kind === 'slice')){
+      this.setState({lens:null, hover:this.state.hover && this.state.hover.kind === 'slice' ? null : this.state.hover});
+    }
+  };
   onHelpToggle = () => { this.setState({helpOpen:!this.state.helpOpen}); };
   onKeyDown = (e) => {
-    if(e.key !== 'Escape') return;
-    if(this.state.helpOpen) this.setState({helpOpen:false});
-    else if(this.state.search) this.setState({search:''});
-    else if(this.state.open) this.set({open:null, ev:null});
-    else if(this.state.selected) this.selectBlock(null);
+    if(e.metaKey || e.ctrlKey || e.altKey) return;
+    const tag = e.target && e.target.tagName ? e.target.tagName.toUpperCase() : '';
+    const inField = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (e.target && e.target.isContentEditable);
+    if(e.key === 'Escape'){
+      if(this.state.helpOpen) this.setState({helpOpen:false});
+      else if(this.state.search) this.setState({search:''});
+      else if(this.state.open) this.set({open:null, ev:null});
+      else if(this.state.selected) this.selectBlock(null);
+      else if(this.state.hover || this.state.lens){ this.kbLock = null; this.lensWant = null; this.setState({hover:null, lens:null}); }
+      return;
+    }
+    if(inField || !this.state.ready || !this.D) return;
+    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      e.preventDefault();
+      this.stepSlice(e.key === 'ArrowDown' ? 1 : -1);
+      return;
+    }
+    if((e.key === 'PageDown' || e.key === 'PageUp') && !this.state.open){
+      e.preventDefault();
+      this.jumpLayer(e.key === 'PageDown' ? 1 : -1);
+      return;
+    }
+    if((e.key === 'Home' || e.key === 'End') && !this.state.open){
+      const list = this.navSlices();
+      if(list.length){ e.preventDefault(); this.stepToSlice(list[e.key === 'Home' ? 0 : list.length - 1].slug); }
+      return;
+    }
+    if((e.key === 'Enter' || e.key === ' ') && !this.state.open && this.kbLock && this.state.hover && this.state.hover.kind === 'slice'){
+      if(tag === 'BUTTON' || tag === 'A') return;
+      e.preventDefault();
+      this.set({open:this.state.hover.slug, ev:null});
+    }
   };
   /* a press of the mouse outside the dossier closes it; outside the search box it closes the list of results */
   onDocDown = (e) => {
@@ -572,7 +718,13 @@ class Component extends DCLogic {
     return this.D.techniques.filter(t => t.name.toLowerCase().indexOf(q) >= 0 || (t.aliases || []).some(a => a.toLowerCase().indexOf(q) >= 0));
   }
   /* open a technique's dossier, and spread the stacks at its slice */
-  pick(slug){ this.lensWant = slug; this.set({open:slug, ev:null, search:'', lens:slug}); }
+  pick(slug){
+    const tech = this.tech && this.tech[slug];
+    this.lensWant = slug;
+    const patch = {open:slug, ev:null, search:'', lens:slug, hover:{kind:'slice', key:slug, slug}};
+    if(this.state.selected && tech && tech.kind !== this.state.selected){ patch.selected = tech.kind; patch.expandT = 1; }
+    this.set(patch);
+  }
 
   /* ---- heights: every slice has a fixed place; an open layer takes the room of the other two ---- */
   layout(sel){
@@ -703,14 +855,14 @@ class Component extends DCLogic {
       boxRef:this.boxRef, wrapRef:this.wrapRef, barRef:this.barRef, closeRef:this.closeRef, drawerRef:this.drawerRef, searchRef:this.searchRef, helpRef:this.helpRef,
       drawerStyle:this.drawerStyle(), hStyle:this.hStyle(), viewBox:'0 0 ' + sceneW + ' ' + K.H, sceneW:sceneW + 800,
       isoGridStyle:'stroke:' + TH.grid.stroke + ';stroke-width:0.7;stroke-opacity:' + TH.grid.opacityStack,
-      onSceneClick:this.onSceneClick, onStop:this.onStop, onClose:this.onClose, onLens:this.onLens, onLensOut:this.onLensOut,
+      onSceneClick:this.onSceneClick, onStop:this.onStop, onClose:this.onClose, onPrevSlice:this.onPrevSlice, onNextSlice:this.onNextSlice, onLens:this.onLens, onLensOut:this.onLensOut,
       onSearch:this.onSearch, onSearchKey:this.onSearchKey, hoverBoxStyle:this.hoverBoxStyle(),
       onHelpToggle:this.onHelpToggle, helpOpen:st.helpOpen
     };
     const emptyScene = {oHits:[], qHits:[], brackets:[], leaders:[], sliceLabels:[], wPolys:[], wEdges:[], wRings:[], wTags:[]};
     if(!st.ready || !this.D){
       return Object.assign(common, this.emptyDossier(), emptyScene, {
-        labToggles:[], keyItems:[], stripeDefs:[], keyNotes:[], hoverSections:[], hoverShow:false, hoverTitle:'', hoverSub:'', dossierOpen:false,
+        labToggles:[], keyItems:[], stripeDefs:[], keyNotes:[], hoverSections:[], hoverShow:false, hoverTitle:'', hoverSub:'', hoverFoot:'', hoverFootStyle:'display:none', dossierOpen:false,
         intro:st.failed ? 'The summary file could not be loaded. It is expected beside this page as summary.json or summary.js.' : 'loading data…',
         stopHint:'', stopLabels:[], labsNote:'', stop:0, stopDisabled:true, stopSliderStyle:'width:100%',
         search:'', searchOpen:false, searchResults:[], searchNote:''});
@@ -768,8 +920,8 @@ class Component extends DCLogic {
     const oxAt = i => leftCol + groupPad + slotW * (i + 0.5) - rhOff;
     const OX0 = oxAt(0);
     const zEntry = K.AVAIL + 60;
-    const setHover = (kind, payload) => () => { const h = this.state.hover; if(h && h.key === payload.key) return; this.setState({hover:Object.assign({kind}, payload)}); };
-    const clearHover = () => { if(this.state.hover) this.setState({hover:null}); };
+    const setHover = (kind, payload) => (e) => { if(e && !this.pointerUnlocked(e)) return; const h = this.state.hover; if(h && h.key === payload.key) return; this.setState({hover:Object.assign({kind}, payload)}); };
+    const clearHover = (e) => { if(this.kbLock) return; if(this.state.hover) this.setState({hover:null}); };
     const hov = st.hover;
     const hovSlug = hov && hov.kind === 'slice' ? hov.slug : null;
     const stackInfo = [];
@@ -799,7 +951,7 @@ class Component extends DCLogic {
           for(let i = dms.length - 1; i >= 0; i--){
             const dm = dms[i], z = zTop - lay.dmOffs[i], pts = face(z, 16, K.PW - 16, 0, K.PD), key = 'dm-' + lab + '-' + i;
             P.polys.push({k:pre + 'dm' + i, pts, style:'fill:' + TH.wire.dmFill + ';fill-opacity:' + (0.22 * alpha).toFixed(2) + ';stroke:' + TH.wire.dmStroke + ';stroke-width:1.1;stroke-dasharray:3 3;stroke-opacity:' + (0.9 * alpha * mt).toFixed(2)});
-            P.hits.push({k:pre + 'hdm' + i, pts, aria:'Dark matter: ' + dm.name, style:'fill:transparent;stroke:none;cursor:pointer;outline:none', onEnter:setHover('dm', {key, lab, i}), onLeave:clearHover,
+            P.hits.push({k:pre + 'hdm' + i, pts, aria:'Dark matter: ' + dm.name, style:'fill:transparent;stroke:none;cursor:pointer;outline:none', onEnter:setHover('dm', {key, lab, i}), onLeave:clearHover, onFocus:setHover('dm', {key, lab, i}),
               onClick:(e) => { e.stopPropagation(); const u = (d.documents[dm.d] || {}).u; if(u) window.open(u, '_blank', 'noopener'); }, onKey:() => {}});
             if(hov && hov.key === key) P.rings.push({k:pre + 'rdm' + i, pts, style:'fill:none;stroke:' + C.acc + ';stroke-width:1.8'});
           }
@@ -835,14 +987,19 @@ class Component extends DCLogic {
           const disp = !!(lab && mt > 0.5 && mi.ev && mi.ev.argues_not);
           const fl = hex => disp ? this.stripe(hex) : hex;
           if(m.fog){
-            /* ghost matter: the slice is see-through and blurred, with no edge */
-            const blur = ';filter:blur(' + (Math.max(0.8, Math.min(2.8, localPitch * 0.3)) * mt).toFixed(1) + 'px)';
+            /* ghost matter: edge-less soft double-shell mist (avoids per-polygon CSS filter:blur across dozens of moving slices,
+               which causes severe lag in Firefox) */
+            const pad = Math.max(1.5, Math.min(4, localPitch * 0.35)) * mt;
             const ss = sides(z, slTh, 0, K.PW);
             const gF = TH.ghost.frontOpacity / Math.max(0.01, TH.ghost.topOpacity);
             const gR = TH.ghost.rightOpacity / Math.max(0.01, TH.ghost.topOpacity);
-            P.polys.push({k:pre + 'a-' + s.slug, pts:ss[0], style:'fill:' + TH.ghost.fill + ';fill-opacity:' + (op * gF * dim).toFixed(2) + blur});
-            P.polys.push({k:pre + 'b-' + s.slug, pts:ss[1], style:'fill:' + TH.ghost.fill + ';fill-opacity:' + (op * gR * dim).toFixed(2) + blur});
-            P.polys.push({k:pre + 't-' + s.slug, pts:tf, style:'fill:' + fl(TH.ghost.fill) + ';fill-opacity:' + (op * dim).toFixed(2) + blur});
+            if(mt > 0.15){
+              const halo = face(z, -pad, K.PW + pad, -pad, K.PD + pad);
+              P.polys.push({k:pre + 'h0-' + s.slug, pts:halo, style:'fill:' + TH.ghost.fill + ';fill-opacity:' + (op * 0.38 * dim).toFixed(2)});
+            }
+            P.polys.push({k:pre + 'a-' + s.slug, pts:ss[0], style:'fill:' + TH.ghost.fill + ';fill-opacity:' + (op * gF * dim).toFixed(2)});
+            P.polys.push({k:pre + 'b-' + s.slug, pts:ss[1], style:'fill:' + TH.ghost.fill + ';fill-opacity:' + (op * gR * dim).toFixed(2)});
+            P.polys.push({k:pre + 't-' + s.slug, pts:tf, style:'fill:' + fl(TH.ghost.fill) + ';fill-opacity:' + (op * 0.82 * dim).toFixed(2)});
           } else {
             /* an outline-only slice in a compact layer is a hairline, so a run of them reads as pale, not solid */
             const strokeOp = mi.filled ? Math.min(0.92, 0.3 + localPitch / 8) : Math.min(TH.none.maxOpacity, 0.06 + localPitch / 14);
@@ -852,7 +1009,7 @@ class Component extends DCLogic {
               P.polys.push({k:pre + 'a-' + s.slug, pts:ss[0], style:'fill:' + fl(mi.front) + ';fill-opacity:' + (op * 0.97 * dim).toFixed(2)});
               P.polys.push({k:pre + 'b-' + s.slug, pts:ss[1], style:'fill:' + fl(mi.right) + ';fill-opacity:' + (op * 0.97 * dim).toFixed(2)});
             }
-            P.polys.push({k:pre + 't-' + s.slug, pts:tf, style:'fill:' + (mi.filled ? fl(mi.top) : (disp ? this.stripe(null) : 'none')) + ';fill-opacity:' + ((mi.filled ? op * 0.97 : 1) * dim).toFixed(2) + ';stroke:' + (mt > 0.5 ? m.stroke : solid.stroke) + ';stroke-width:' + strokeW.toFixed(2) + ';stroke-opacity:' + (strokeOp * dim).toFixed(2) + ';transition:fill-opacity 400ms ease,stroke-opacity 400ms ease'});
+            P.polys.push({k:pre + 't-' + s.slug, pts:tf, style:'fill:' + (mi.filled ? fl(mi.top) : (disp ? this.stripe(null) : 'none')) + ';fill-opacity:' + ((mi.filled ? op * 0.97 : 1) * dim).toFixed(2) + ';stroke:' + (mt > 0.5 ? m.stroke : solid.stroke) + ';stroke-width:' + strokeW.toFixed(2) + ';stroke-opacity:' + (strokeOp * dim).toFixed(2)});
             if(mi.filled && localPitch > 2.4){
               const e1 = proj(0, K.PD, z), e2 = proj(K.PW, K.PD, z);
               P.edges.push({k:pre + 'e-' + s.slug, x1:e1[0].toFixed(1), y1:e1[1].toFixed(1), x2:e2[0].toFixed(1), y2:e2[1].toFixed(1), style:'stroke:' + (mt > 0.5 ? m.edge : solid.edge) + ';stroke-width:1;stroke-opacity:' + (0.95 * dim).toFixed(2)});
@@ -880,7 +1037,8 @@ class Component extends DCLogic {
           const zDown = i < b.n - 1 ? zTop - lay.offs[i + 1] : zTop - th;
           const hit = {aria:s.name + ', ' + b.label + (lab ? ', ' + this.lookWord(mi.look) : ''), style:'fill:transparent;stroke:none;cursor:pointer;outline:none',
             onEnter:setHover('slice', {key:s.slug, slug:s.slug}), onLeave:clearHover,
-            onClick:(e) => { e.stopPropagation(); this.set({open:s.slug, ev:null}); },
+            onFocus:() => this.stepToSlice(s.slug),
+            onClick:(e) => { e.stopPropagation(); this.kbLock = null; this.set({open:s.slug, ev:null, lens:s.slug, hover:{kind:'slice', key:s.slug, slug:s.slug}}); },
             onKey:(e) => this.sliceKey(e, s.slug)};
           P.fills.push(Object.assign({k:pre + 'g-' + s.slug, pts:box(zDown)}, hit));
           P.hits.push(Object.assign({k:pre + 'h-' + s.slug, pts:box(z - slTh)}, hit));
@@ -963,7 +1121,7 @@ class Component extends DCLogic {
       const y0 = Math.max(colTop, Math.min(colBot - n * lp, mid - n * lp / 2));
       items.forEach((it, i) => { it.ly = y0 + (i + 0.5) * lp; });
       tags.push({k:'hdr', x:colX0, y:vbY0 + 14, w:colW2, h:44 * ts, text:'Layer ' + (b.idx + 1) + ' · ' + b.label,
-        text2:b.n + ' techniques · ' + (fitsAll ? '' : 'move the cursor over the layer to name its slices · ') + 'click a name for its dossier · Esc closes'
+        text2:b.n + ' techniques · ↑↓ step · ' + (fitsAll ? '' : 'move the cursor over the layer to name its slices · ') + 'click a name for its dossier · Esc closes'
           + (stackInfo.length ? ' · the squares before a name show ' + stackInfo.map(x => x.name).join(', ') : ''),
         style:'font-size:' + (14 * ts).toFixed(1) + 'px;font-weight:800;color:' + TH.svgHeading + ';line-height:1.2;opacity:' + op.toFixed(2), style2:'font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:' + (10 * ts).toFixed(1) + 'px;line-height:1.35;color:' + TH.svgMuted + ';opacity:' + op.toFixed(2)});
       items.forEach(it => {
@@ -986,12 +1144,15 @@ class Component extends DCLogic {
     }
 
     /* hover box: a title, then sections, each with a heading and a rule */
-    let hoverShow = false, hoverTitle = '', hoverSub = '', hoverSections = [];
+    let hoverShow = false, hoverTitle = '', hoverSub = '', hoverSections = [], hoverFoot = '', hoverFootStyle = 'display:none';
     const sec = (title, o) => Object.assign({k:title, title, lines:[], rows:[], chips:[]}, o);
     const line = (text, kind) => ({k:text.slice(0, 20), t:text, style:this.lineStyle(kind || '')});
     if(hov && hov.kind === 'slice' && this.tech[hov.slug]){
       const tech = this.tech[hov.slug], blk = blocks.find(b => b.role === tech.kind);
+      const navList = this.navSlices(), navIdx = navList.findIndex(sl => sl.slug === hov.slug);
       hoverShow = true; hoverTitle = tech.name; hoverSub = blk.label.toLowerCase();
+      hoverFoot = (navIdx >= 0 ? (navIdx + 1) + ' / ' + navList.length + ' · ' : '') + '↑ ↓ step · Enter or click for dossier';
+      hoverFootStyle = 'font-family:var(--font-mono,\'IBM Plex Mono\',monospace);font-size:10px;color:var(--muted,#5c7f88);margin-top:10px;padding-top:7px;border-top:1px solid var(--border,#114b5f22)';
       hoverSections.push(sec('Definition', {lines:[line(tech.definition)]}));
       if(stackInfo.length) hoverSections.push(sec('Labs', {rows:stackInfo.map(si2 => { const ev = this.evOf(tech, si2.lab);
         return {k:si2.lab, name:si2.name, swatch:this.swatchStyle(this.lookOf(ev, 0), !!ev.argues_not), text:this.evidenceWords(ev)}; })}));
@@ -1045,15 +1206,14 @@ class Component extends DCLogic {
         {k:'dark', text:this.keyText.dark || '', style:'fill:' + TH.wire.dmFill + ';fill-opacity:.22;stroke:' + TH.wire.dmStroke + ';stroke-width:1;stroke-dasharray:2 2.5', hole:'display:none'},
         {k:'hole', text:this.keyText.hole || '', style:'fill:' + TH.plate.top + ';stroke:' + TH.plate.stroke + ';stroke-width:.8', hole:'fill:' + TH.hole.interior + ';stroke:' + TH.hole.rimWall + ';stroke-width:1'}]),
       keyNotes:d.notes.map((n, i) => ({k:'n' + i, t:n})),
-      hoverShow, hoverTitle, hoverSub, hoverSections, dossierOpen:!!dz,
+      hoverShow, hoverTitle, hoverSub, hoverSections, hoverFoot, hoverFootStyle, dossierOpen:!!dz,
       /* last, so that it holds every stripe pattern asked for above */
       stripeDefs:Object.keys(this.stripes).map(k => this.stripes[k])
     });
   }
 
   sliceKey(e, slug){
-    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); this.set({open:slug, ev:null}); return; }
-    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){ e.preventDefault(); const all = Array.prototype.slice.call(document.querySelectorAll('g[data-focus] polygon')); const i = all.indexOf(e.currentTarget); const nx = all[i + (e.key === 'ArrowDown' ? -1 : 1)]; if(nx) nx.focus(); }
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); this.set({open:slug, ev:null, lens:slug, hover:{kind:'slice', key:slug, slug}}); return; }
   }
   hoverBoxStyle(){
     /* the box sits in the part of the scene the cursor is not in */
@@ -1092,7 +1252,7 @@ class Component extends DCLogic {
   /* ---- dossier: everything the summary holds about one technique ---- */
   emptyDossier(){
     return {dName:'', dKind:'', dAliases:'', dDescription:'', dParent:'', dDocsLine:'', dYears:[], dYearFirst:'', dYearLast:'', dYearsNote:'', dYearsStyle:'',
-      dModelsLine:'', dModelBars:[], dEvidence:[], dEvidenceNote:''};
+      dModelsLine:'', dModelBars:[], dEvidence:[], dEvidenceNote:'', dPos:'', dPrevDisabled:true, dNextDisabled:true, dPrevStyle:'', dNextStyle:''};
   }
   dossier(slug){
     const d = this.D, tech = slug ? this.tech[slug] : null; if(!tech) return null;
@@ -1141,7 +1301,12 @@ class Component extends DCLogic {
     const ys = []; tech.years.forEach(y => { while(ys.length && ys[ys.length - 1][0] < y[0] - 1) ys.push([ys[ys.length - 1][0] + 1, 0]); ys.push(y); });
     const maxY = Math.max.apply(null, [1].concat(ys.map(y => y[1])));
     const maxM = Math.max.apply(null, [1].concat(tech.models.map(o => o[1])));
+    const navList = this.navSlices(), navIdx = navList.findIndex(sl => sl.slug === slug);
+    const dPrevDisabled = navIdx <= 0, dNextDisabled = navIdx < 0 || navIdx >= navList.length - 1;
+    const navBtn = dis => 'flex:none;background:none;border:1px solid var(--border-strong,#114b5f55);color:var(--heading,#114b5f);font-family:var(--font-mono,\'IBM Plex Mono\',monospace);font-size:12px;line-height:1;padding:6px 8px;border-radius:var(--radius-sm,2px);cursor:' + (dis ? 'default' : 'pointer') + ';opacity:' + (dis ? '0.35' : '1');
     return {
+      dPos:navIdx >= 0 ? (navIdx + 1) + ' / ' + navList.length : '',
+      dPrevDisabled, dNextDisabled, dPrevStyle:navBtn(dPrevDisabled), dNextStyle:navBtn(dNextDisabled),
       dName:tech.name,
       dKind:d.layers[li].name.toLowerCase() + ' · layer ' + (li + 1) + ' of ' + d.layers.length + ' · ' + tech.id,
       dAliases:(tech.aliases && tech.aliases.length) ? 'also called: ' + tech.aliases.join(', ') : '',
