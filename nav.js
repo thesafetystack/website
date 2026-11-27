@@ -386,10 +386,10 @@
   let currentKey = pageKeyFromPath(location.pathname) || 'index';
 
   const DATA_LINKS = [
-    ['https://stack-model-explorer.gavento.workers.dev/', 'Model-by-technique matrix'],
     ['https://huggingface.co/datasets/thesafetystack/the-safety-stack', 'Dataset on Hugging Face'],
+    ['https://github.com/thesafetystack/the-safety-stack-pipeline', 'Pipeline source code'],
     ['https://github.com/thesafetystack/the-safety-stack', 'Taxonomies on GitHub'],
-    ['https://github.com/thesafetystack/the-safety-stack-pipeline', 'Pipeline code on GitHub'],
+    ['https://stack-model-explorer.gavento.workers.dev/', 'Model explorer (demo)'],
   ];
   const dataLis = DATA_LINKS
     .map(([u, t]) => `<li><a href="${u}" target="_blank" rel="noopener">${t}</a></li>`)

@@ -54,10 +54,10 @@
       <div data-box="r-data" style="position:relative;display:flex;align-items:center" onMouseEnter="{{ rb.data.enter }}" onMouseLeave="{{ rb.data.leave }}" onFocus="{{ rb.data.enter }}" onBlur="{{ rb.data.blur }}">
         <button type="button" onPointerDown="{{ rb.data.down }}" onClick="{{ rb.data.click }}" style="display:flex;align-items:center;gap:4px;height:44px;color:var(--heading,#114b5f);background:none;border:0;padding:0;margin:0;font-size:13px;font-weight:700;white-space:nowrap;cursor:pointer">Use the data<span aria-hidden="true" style="font-size:10px;opacity:0.65">&#9662;</span></button>
         <ul style="position:absolute;right:0;top:100%;margin:0;padding:10px 14px;list-style:none;min-width:230px;background:var(--surface,#feecd3);border:1px solid var(--border-strong,#114b5f33);font-weight:400;line-height:1.4;{{ rb.data.list }}">
-          <li style="margin:0 0 6px"><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model-by-technique matrix</a></li>
           <li style="margin:0 0 6px"><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Dataset on Hugging Face</a></li>
+          <li style="margin:0 0 6px"><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline source code</a></li>
           <li style="margin:0 0 6px"><a href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Taxonomies on GitHub</a></li>
-          <li style="margin:0"><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline code on GitHub</a></li>
+          <li style="margin:0"><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model explorer (demo)</a></li>
         </ul>
       </div>
       <a href="team.html" style="display:flex;align-items:center;height:44px;color:var(--heading,#114b5f);text-decoration:none;white-space:nowrap">Team</a>
@@ -153,10 +153,10 @@
       <div data-box="data" style="position:absolute;left:0;top:0;{{ bx.data.wrap }}" onMouseEnter="{{ bx.data.enter }}" onMouseLeave="{{ bx.data.leave }}" onPointerDown="{{ bx.data.down }}" onFocus="{{ bx.data.enter }}" onBlur="{{ bx.data.blur }}">
         <button type="button" onClick="{{ bx.data.click }}" style="position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center;font-size:14px;font-weight:700;line-height:1.2;color:var(--heading,#114b5f);background:none;border:0;padding:0;margin:0;cursor:default;{{ bx.data.hit }}"><span style="display:flex;align-items:flex-end;justify-content:center;{{ bx.data.name }}">Use the data</span></button>
         <ul style="position:absolute;list-style:none;margin:0;font-size:12.5px;line-height:1.4;color:var(--ink,#333);{{ bx.data.list }}">
-          <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:var(--heading,#114b5f);{{ bx.data.tick }}"></span><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model-by-technique matrix</a></li>
           <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:var(--heading,#114b5f);{{ bx.data.tick }}"></span><a href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Dataset on Hugging Face</a></li>
+          <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:var(--heading,#114b5f);{{ bx.data.tick }}"></span><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline source code</a></li>
           <li style="position:relative;margin:0 0 6px;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:var(--heading,#114b5f);{{ bx.data.tick }}"></span><a href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Taxonomies on GitHub</a></li>
-          <li style="position:relative;margin:0;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:var(--heading,#114b5f);{{ bx.data.tick }}"></span><a href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline code on GitHub</a></li>
+          <li style="position:relative;margin:0;{{ liP }}"><span aria-hidden="true" style="position:absolute;top:0.66em;width:7px;height:1px;background:var(--heading,#114b5f);{{ bx.data.tick }}"></span><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Model explorer (demo)</a></li>
         </ul>
       </div>
 
