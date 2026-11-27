@@ -75,8 +75,8 @@
             </div>
           </div>
           <div style="flex:0 1 250px;min-width:205px">
-            <label style="display:block;font-size:11px;font-weight:700;color:var(--heading,#114b5f);margin-bottom:3px">Evidence of use <span style="font-weight:400;color:var(--muted,#5c7f88);font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:10px">{{ stopHint }}</span></label>
-            <input type="range" min="0" max="2" step="1" value="{{ stop }}" disabled="{{ stopDisabled }}" onChange="{{ onStop }}" onInput="{{ onStop }}" aria-label="Evidence of use" style="{{ stopSliderStyle }}">
+            <label style="display:block;font-size:11px;font-weight:700;color:var(--heading,#114b5f);margin-bottom:3px">Evidence level <span style="font-weight:400;color:var(--muted,#5c7f88);font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:10px">{{ stopHint }}</span></label>
+            <input type="range" min="0" max="2" step="1" value="{{ stop }}" disabled="{{ stopDisabled }}" onChange="{{ onStop }}" onInput="{{ onStop }}" aria-label="Evidence level" style="{{ stopSliderStyle }}">
             <div style="display:flex;justify-content:space-between;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:10px;line-height:1.2">
               <sc-for list="{{ stopLabels }}" as="s" hint-placeholder-count="3"><span style="{{ s.style }}">{{ s.t }}</span></sc-for>
             </div>
@@ -233,7 +233,7 @@
           <p style="font-size:14px;line-height:1.55;margin:0 0 6px">{{ dDescription }}</p>
           <div style="font-size:12px;color:var(--heading,#114b5f);font-style:italic">{{ dParent }}</div>
 
-          <div style="{{ hStyle }}">Use by lab</div>
+          <div style="{{ hStyle }}">Public evidence by lab</div>
           <div style="display:grid;grid-template-columns:minmax(74px,112px) repeat(4,minmax(0,1fr));gap:6px;align-items:end;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:9.5px;line-height:1.25;color:var(--muted,#5c7f88);padding-bottom:5px">
             <div></div><div>stated in lab's cards</div><div>used in lab's papers</div><div>suspected</div><div>disputed</div>
           </div>
