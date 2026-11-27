@@ -80,8 +80,9 @@
 
   <div class="fp-enter" ref="{{ bandRef }}" style="position:relative;margin-top:44px;border-bottom:1px solid var(--border,#114b5f33);overflow:hidden;{{ bannerStyle }}">
     <span class="fp-fig" style="position:absolute;top:0;display:block;{{ bannerFig }}"><span style="position:relative;display:block;{{ F.banner.box }}"><svg aria-hidden="true" width="{{ F.banner.w }}" height="{{ F.banner.h }}" style="display:block;overflow:visible"><sc-for list="{{ F.banner.paths }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></svg><sc-for list="{{ F.banner.texts }}" as="t" hint-placeholder-count="0"><span aria-hidden="true" style="{{ t.style }}">{{ t.t }}</span></sc-for></span></span>
-    <div style="position:absolute;left:0;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;gap:26px;{{ bannerText }}">
-      <h1 style="margin:0;font-size:clamp(34px,4.6vw,64px);line-height:1.02;font-weight:700;color:var(--heading,#114b5f)">Why Stack?</h1>
+    <div ref="{{ bannerTextRef }}" style="position:absolute;left:0;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;gap:26px;{{ bannerText }}">
+      <h1 style="margin:0;font-size:clamp(30px,3.4vw,46px);line-height:1.02;font-weight:700;color:var(--heading,#114b5f)">A public inventory of AI safety techniques</h1>
+      <div style="font-size:14px;line-height:1.55;color:var(--muted,#5c7f88);text-wrap:pretty"><div>Latest release <span>{{ rel.id }}</span> · <span>{{ rel.documents }}</span> documents selected from over 200,000 candidates across 43 sources · labelled by a language model, not individually verified</div><div>Built by a <a href="team.html" style="position:relative;z-index:1">small research team</a> · funded by a grantmaking.ai Launch Round grant and via Manifund</div></div>
       <span aria-hidden="true" class="fp-play" style="position:relative;display:block;width:64px;height:64px"><span class="fp-pulse" style="position:absolute;left:0;top:0;width:64px;height:64px;border-radius:50%;border:2px solid var(--heading,#114b5f)"></span><svg width="64" height="64" style="position:absolute;left:0;top:0;display:block"><circle cx="32" cy="32" r="30" style="fill:var(--heading,#114b5f)"></circle><path d="M26 19L47 32L26 45Z" style="fill:var(--bg,#feecd3)"></path></svg></span>
     </div>
     <button ref="{{ playBtnRef }}" type="button" aria-label="Play the story of the stack" onClick="{{ story.open }}" style="position:absolute;left:0;top:0;width:100%;height:100%;margin:0;padding:0;border:0;background:none;cursor:pointer"></button>
@@ -121,8 +122,8 @@ class Component extends DCLogic {
     ['t5', 0.4], ['a7', 1.5], ['t6', 0.4], ['a8', 1.6], ['t7', 0.5], ['a9', 1.0], ['t8', 0.5], ['a10', 0.7], ['t9', 0.5], ['a11', 0.8], ['a12', 0.7],
     ['t10', 0.5], ['a13', 0.9], ['t11', 0.5], ['a14', 0.9], ['t12', 0.5], ['a15', 1.5], ['t13', 0.45], ['a16', 0.8], ['t14', 0.5], ['a17', 1.2]];
   T1 = (() => { const m = {}; let x = 0.15; this.TL1.forEach(e => { m[e[0]] = [x, e[1]]; x += e[1]; }); this.TOT1 = x + 0.6; return m; })();
-  scRef = React.createRef(); bandRef = React.createRef(); playBtnRef = React.createRef(); storyRef = React.createRef();
-  state = {W:typeof window !== 'undefined' ? window.innerWidth : 1440, V:typeof window !== 'undefined' ? (window.innerHeight > 1800 ? 900 : Math.max(480, window.innerHeight)) : 900, t:0, sA:0, play:false, grown:false, clipT:0, clipB:0, open:null, live:false, theme:typeof window !== 'undefined' && window.__siteTheme ? window.__siteTheme.mode() : 'light'};
+  scRef = React.createRef(); bandRef = React.createRef(); bannerTextRef = React.createRef(); playBtnRef = React.createRef(); storyRef = React.createRef();
+  state = {W:typeof window !== 'undefined' ? window.innerWidth : 1440, V:typeof window !== 'undefined' ? (window.innerHeight > 1800 ? 900 : Math.max(480, window.innerHeight)) : 900, t:0, sA:0, play:false, grown:false, clipT:0, clipB:0, open:null, live:false, tH:0, rel:typeof window !== 'undefined' ? window.__TSS_RELEASE : null, theme:typeof window !== 'undefined' && window.__siteTheme ? window.__siteTheme.mode() : 'light'};
 
   svgTheme(){
     if(typeof window !== 'undefined' && window.__siteTheme) return window.__siteTheme.svg();
@@ -143,6 +144,14 @@ class Component extends DCLogic {
     document.addEventListener('keydown', this.onKeyDown);
     this.t0 = performance.now();
     this.tick();
+    /* the latest release and its number of documents, from release.js, which the summary builder writes with each release;
+       until it has loaded, or when it is missing, the page shows the values written below in renderVals */
+    if(!window.__TSS_RELEASE){
+      const s = document.createElement('script');
+      s.src = 'release.js';
+      s.onload = () => { if(window.__TSS_RELEASE) this.setState({rel:window.__TSS_RELEASE}); };
+      document.head.appendChild(s);
+    }
   }
   setBgInert(on){
     const rib = document.querySelector('.site-ribbon');
@@ -194,7 +203,9 @@ class Component extends DCLogic {
       this.tPrev = now;
       sA = this.reduced || Math.abs(d) < 0.004 ? goal : sA + d * (1 - Math.exp(-dt / 0.16));
     }
-    if(W !== st.W || V !== st.V || t !== st.t || sA !== st.sA || !st.live) this.setState({W, V, t, sA, live:true});
+    /* the height of the text in the band, which the band makes room for */
+    const tb = this.bannerTextRef.current, tH = tb ? Math.ceil([...tb.children].reduce((h, c) => h + c.offsetHeight, 0) + 26 * (tb.children.length - 1)) : st.tH;
+    if(W !== st.W || V !== st.V || t !== st.t || sA !== st.sA || tH !== st.tH || !st.live) this.setState({W, V, t, sA, tH, live:true});
   };
   /* The front page: the story opens inside the page. It first covers only the band it was started from and then grows
      until it fills the window. When the reader closes it, or has scrolled to its end, it goes back into the band. */
@@ -683,9 +694,14 @@ class Component extends DCLogic {
       /* the picture is taller than the band and hangs from above it, so the lines come in from the band's upper edge */
       const bh = narrow ? Math.round(Math.max(210, Math.min(330, V * 0.36))) : 400, over = narrow ? 96 : 112, bw = Math.round(narrow ? W : Math.min(W * 0.6, 860)), k = (t % 20) / 20, pp = k < 0.5 ? k * 2 : 2 - k * 2;
       F.banner = this.fig(at('a8', 0.2 + 0.8 * pp), bw, bh + over + 18, {labels:false, zoomCap:narrow ? 1.35 : 1.9, sw:narrow ? 0.8 : 1.1});
-      out.bannerStyle = S({height:(narrow ? bh + 140 : bh) + 'px'});
-      out.bannerFig = S(narrow ? {left:'0', top:(140 - over) + 'px'} : {right:Math.max(0, (W - 1180) / 2) + 'px', top:-over + 'px'});
-      out.bannerText = S({left:Math.max(32, (W - 1180) / 2 + 32) + 'px', bottom:narrow ? bh + 'px' : '0'});
+      /* on a narrow window the text sits above the picture in a strip as tall as it needs; on a wide one it stops short of the
+         picture, and the band grows when the text is taller than the band */
+      const tx = Math.max(32, (W - 1180) / 2 + 32), fr = Math.max(0, (W - 1180) / 2), top = narrow ? Math.max(140, st.tH + 48) : 0;
+      out.bannerStyle = S({height:(narrow ? bh + top : Math.max(bh, st.tH + 88)) + 'px'});
+      out.bannerFig = S(narrow ? {left:'0', top:(top - over) + 'px'} : {right:fr + 'px', top:-over + 'px'});
+      out.bannerText = S({left:tx + 'px', bottom:narrow ? bh + 'px' : '0', 'max-width':Math.round(narrow ? W - 2 * tx : W - fr - bw / 2 - 200 - tx) + 'px'});
+      const rel = st.rel || {};
+      out.rel = {id:rel.id || '2026-11-22', documents:rel.documents ? rel.documents.toLocaleString('en-US') : '43,826'};
       out.bandRef = this.bandRef;
       out.mainStyle = narrow ? 'padding:32px 22px 80px;--lp:7px' : 'padding:44px 32px 110px';
       out.story = {on:st.play, wide:W >= 700, narrow:W < 700, open:this.openStory, close:this.closeStory,
@@ -718,7 +734,7 @@ class Component extends DCLogic {
     const TH = this.svgTheme();
     const gridLineStyle = 'stroke:' + TH.grid.stroke + ';stroke-width:0.7;stroke-opacity:' + TH.grid.opacityPage;
     const hatchLineStyle = 'stroke:' + TH.grid.hatchStroke + ';stroke-width:1.3;stroke-opacity:' + TH.grid.hatchOpacity;
-    return Object.assign(out, {scRef:this.scRef, playBtnRef:this.playBtnRef, storyRef:this.storyRef, scStyle:'height:' + V + 'px', F, B, rb, gridLineStyle, hatchLineStyle,
+    return Object.assign(out, {scRef:this.scRef, bannerTextRef:this.bannerTextRef, playBtnRef:this.playBtnRef, storyRef:this.storyRef, scStyle:'height:' + V + 'px', F, B, rb, gridLineStyle, hatchLineStyle,
       ribNavD:wide ? '' : 'display:none', ribNavP:wide ? 'display:none' : ''});
   }
 }

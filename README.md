@@ -13,17 +13,18 @@ This repository holds the website of The Safety Stack as plain files. Nothing is
 | `stack.html` | The stack visualisation. |
 | `nav.js` | Shared navigation ribbon, light/dark theme tokens and toggle, and instant client-side page switching across the four pages. Pass `?style=classic` to preview the earlier cream/monospace palette. |
 | `summary.json`, `summary.js` | The data of the stack visualisation. Both hold the same content. The page reads `summary.json` when it is served from a web address and `summary.js` when it is opened from disk. |
+| `release.js` | The id, date and number of documents of the release the summary files were built from, as `window.__TSS_RELEASE = {id, created_at, documents}` (about 100 bytes). The front page loads it and shows the release id and the number of documents from it; when the file is missing it shows the values written in the page. |
 | `support.js` | The Design Components runtime used by the interactive pages. |
 | `vendor/` | Local copies of React 18.3.1 UMD (`react.production.min.js`, `react-dom.production.min.js`) so pages render with zero third-party runtime requests. |
 | `favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, `og-image.png` | Site icons (transparent adaptive SVG + PNG/ICO fallbacks) and 1200×630 Open Graph preview image. |
 | `404.html`, `robots.txt`, `sitemap.xml` | Custom error page and crawler metadata. |
 | `.nojekyll` | An empty file that tells GitHub Pages to serve the files unchanged. |
-| `tools/build_summary.py` | The script that builds `summary.json` and `summary.js` from one dataset release. |
+| `tools/build_summary.py` | The script that builds `summary.json`, `summary.js` and `release.js` from one dataset release. |
 | `tools/SUMMARY-FORMAT.md` | The description of the summary file. |
 
 ## Updating the data of the stack visualisation
 
-The two summary files in this repository were built from release 2026-11-08 of the dataset [thesafetystack/the-safety-stack](https://huggingface.co/datasets/thesafetystack/the-safety-stack). The stack visualisation shows newer data only after both files at the top level are replaced.
+The two summary files in this repository were built from release 2026-11-08 of the dataset [thesafetystack/the-safety-stack](https://huggingface.co/datasets/thesafetystack/the-safety-stack). The stack visualisation shows newer data only after both files at the top level are replaced, and the front page shows the newer release only after `release.js` is replaced with them.
 
 ```
 python tools/build_summary.py <release folder> <output folder>

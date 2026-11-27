@@ -6,7 +6,9 @@
 The release folder is a release of thesafetystack/the-safety-stack as published
 (release.json, data/corpus.parquet, taxonomies/). The script writes summary.json
 into the output folder, and summary.js, which holds the same content in a form
-the page can also load when it is opened from disk.
+the page can also load when it is opened from disk. It also writes release.js,
+a few hundred bytes with the release id, its date and its number of documents,
+which the front page reads.
 
 All counting is done by the DuckDB queries in QUERIES and OUTPUTS below. The
 Python around them only reads the taxonomy files (DuckDB cannot read YAML), runs
@@ -620,6 +622,10 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "summary.json").write_text(text + "\n", encoding="utf-8")
     (out_dir / "summary.js").write_text("window.STACK_SUMMARY = " + text + ";\n", encoding="utf-8")
+    rel = summary["release"]
+    rel_text = json.dumps({"id": rel["id"], "created_at": rel["created_at"], "documents": rel["documents"]},
+                          ensure_ascii=False, separators=(",", ":"))
+    (out_dir / "release.js").write_text("window.__TSS_RELEASE = " + rel_text + ";\n", encoding="utf-8")
     print(f"release {summary['release']['id']}: {len(summary['techniques'])} techniques, {len(summary['labs'])} labs, "
           f"{len(summary['documents'])} documents referenced, {len(text) / 1e6:.2f} MB")
 
