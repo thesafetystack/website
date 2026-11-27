@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="darkreader-lock">
+<title>Dataset explorer — The Safety Stack</title>
+<meta name="description" content="Browse the documents of The Safety Stack dataset, and the models and safety techniques they discuss.">
+<link rel="canonical" href="https://thesafetystack.ai/explorer.html">
+<meta property="og:site_name" content="The Safety Stack">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dataset explorer — The Safety Stack">
+<meta property="og:description" content="Browse the documents of The Safety Stack dataset, and the models and safety techniques they discuss.">
+<meta property="og:url" content="https://thesafetystack.ai/explorer.html">
+<meta property="og:image" content="https://thesafetystack.ai/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Safety Stack — stacked isometric layers representing AI safety techniques">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dataset explorer — The Safety Stack">
+<meta name="twitter:description" content="Browse the documents of The Safety Stack dataset, and the models and safety techniques they discuss.">
+<meta name="twitter:image" content="https://thesafetystack.ai/og-image.png">
+<meta name="twitter:image:alt" content="The Safety Stack — stacked isometric layers representing AI safety techniques">
+<meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c1317" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg?v=2">
+<link rel="icon" href="./favicon.ico?v=2" sizes="32x32">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png?v=2">
+<style>:root{color-scheme:light dark}html,body{margin:0;background:#f6f4ef;color:#1f292e}@media (prefers-color-scheme:dark){html:not([data-theme="light"]),html:not([data-theme="light"]) body{background:#0c1317;color:#dce4e8}}html[data-theme="dark"],html[data-theme="dark"] body{background:#0c1317;color:#dce4e8}</style>
+<script>try{var t=localStorage.getItem('tss-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;background:var(--bg,#feecd3);color:var(--ink,#333);font-family:var(--font-prose,'IBM Plex Mono',ui-monospace,Menlo,monospace)}
+  /* the frame fills the window under the site header; --tss-header is the header's measured height */
+  .explorer-frame{display:block;position:fixed;left:0;right:0;top:var(--tss-header,44px);width:100%;height:calc(100vh - var(--tss-header,44px));height:calc(100dvh - var(--tss-header,44px));border:0}
+  noscript p{margin:0;padding:64px 22px}
+  noscript a{color:var(--link,#028090)}
+</style>
+</head>
+<body>
+<script src="./nav.js"></script>
+<iframe class="explorer-frame" title="Dataset explorer"></iframe>
+<noscript><p>The Dataset explorer needs JavaScript to be shown inside this page. Open it directly: <a href="https://stack-model-explorer.gavento.workers.dev/">Dataset explorer</a>.</p></noscript>
+<script>
+(() => {
+  /* The Dataset explorer, shown in a frame under the site header. The page sets the frame's address once, with the
+     site's theme at load, and afterwards only tells the explorer when the site theme changes. */
+  const EXPLORER = 'https://stack-model-explorer.gavento.workers.dev/';
+  const origin = new URL(EXPLORER).origin;
+  const frame = document.querySelector('.explorer-frame');
+  const mode = () => {
+    if (window.__siteTheme) return window.__siteTheme.mode();
+    const t = document.documentElement.getAttribute('data-theme');
+    if (t === 'dark' || t === 'light') return t;
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
+  const src = new URL(EXPLORER);
+  src.searchParams.set('embed', '1');
+  src.searchParams.set('theme', mode());
+  frame.src = src.href;
+  window.addEventListener('site-theme-change', () => {
+    if (frame.contentWindow) frame.contentWindow.postMessage({ type: 'tss-theme', theme: mode() }, origin);
+  });
+  /* the header's real height, so the frame starts right under it */
+  const header = document.querySelector('.site-ribbon');
+  const fit = () => {
+    const h = header ? Math.ceil(header.getBoundingClientRect().bottom) : 44;
+    document.documentElement.style.setProperty('--tss-header', h + 'px');
+  };
+  fit();
+  if (header && window.ResizeObserver) new ResizeObserver(fit).observe(header);
+  window.addEventListener('resize', fit);
+})();
+</script>
+</body>
+</html>

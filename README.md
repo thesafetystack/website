@@ -11,6 +11,7 @@ This repository holds the website of The Safety Stack as plain files. Nothing is
 | `team.html` | The Team page. |
 | `Main.dc.html`, `Mobile.dc.html` | The scroll story for wide and for narrow windows. They are no longer linked from the front page or any other page; they open only by their own address. |
 | `stack.html` | The stack visualisation. |
+| `explorer.html` | The Dataset explorer, shown in a frame under the site header. The explorer's address is a constant at the top of the page's script; the frame gets `?embed=1&theme=` with `light` or `dark`, and the page posts `{type: "tss-theme", theme}` to the frame when the site theme changes. The page is reached and left by ordinary page loads, not by the in-page page switching of `nav.js`. |
 | `nav.js` | Shared navigation ribbon, light/dark theme tokens and toggle, and instant client-side page switching across the four pages. Pass `?style=classic` to preview the earlier cream/monospace palette. |
 | `summary.json`, `summary.js` | The data of the stack visualisation. Both hold the same content. The page reads `summary.json` when it is served from a web address and `summary.js` when it is opened from disk. |
 | `release.js` | The id, date and number of documents of the release the summary files were built from, as `window.__TSS_RELEASE = {id, created_at, documents}` (about 100 bytes). `nav.js` loads it on every page, and each footer shows the release id next to the Hugging Face link. When the file is missing the footers show the value written in `nav.js`. |

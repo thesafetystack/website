@@ -400,7 +400,10 @@
     return null;
   }
 
-  let currentKey = pageKeyFromPath(location.pathname) || 'index';
+  /* explorer.html holds the Dataset explorer in a frame. It is reached and left by ordinary page loads: pageKeyFromPath
+     does not know it, so links to it are not switched in-page, and on it the in-page switching below is not set up. */
+  const ON_EXPLORER = /(^|\/)explorer(\.html)?$/i.test(location.pathname.replace(/\/+$/, ''));
+  let currentKey = ON_EXPLORER ? 'explorer' : (pageKeyFromPath(location.pathname) || 'index');
 
   const DATA_LINKS = [
     ['https://huggingface.co/datasets/thesafetystack/the-safety-stack', 'Dataset on Hugging Face'],
@@ -412,7 +415,7 @@
     .join('');
 
   const exploreLis = `<li><a href="stack.html${STYLE === 'brand' ? '?style=classic' : ''}" data-page="stack">The safety stack by lab</a></li>`
-    + '<li><a href="https://stack-model-explorer.gavento.workers.dev/" target="_blank" rel="noopener">Dataset explorer</a></li>';
+    + `<li><a href="explorer.html${STYLE === 'brand' ? '?style=classic' : ''}" data-page="explorer">Dataset explorer</a></li>`;
 
   const LOGO_SVG = '<svg width="18" height="18" viewBox="0 0 64 64" aria-hidden="true" style="display:block;flex:none"><polygon points="4,38 32,24 60,38 32,52" style="fill:var(--logo-slab);opacity:0.52"/><polygon points="4,28 32,14 60,28 32,42" style="fill:var(--logo-slab)"/><line x1="32" y1="4" x2="32" y2="60" style="stroke:var(--accent)" stroke-width="3.4" stroke-linecap="round"/></svg>';
   const styleQ = STYLE === 'brand' ? '?style=classic' : '';
@@ -425,7 +428,7 @@
     <a href="index.html${styleQ}" class="site-brand">${LOGO_SVG}The Safety Stack</a>
     <nav class="site-nav-wide" aria-label="Primary">
       <a href="why.html${styleQ}" data-page="why">Why Stack?</a>
-      <div class="site-nav-item" data-navbox="r-explore" data-page-group="stack">
+      <div class="site-nav-item" data-navbox="r-explore" data-page-group="stack explorer">
         <button type="button" aria-expanded="false">Explore<span aria-hidden="true" style="font-size:10px;opacity:0.65">&#9662;</span></button>
         <ul class="site-nav-drop">${exploreLis}</ul>
       </div>
@@ -470,7 +473,7 @@
       if (a.getAttribute('data-page') === key) a.setAttribute('aria-current', 'page');
       else a.removeAttribute('aria-current');
     });
-    header.querySelectorAll('[data-page-group]').forEach((el) => el.classList.toggle('current', el.getAttribute('data-page-group') === key));
+    header.querySelectorAll('[data-page-group]').forEach((el) => el.classList.toggle('current', el.getAttribute('data-page-group').split(' ').indexOf(key) >= 0));
   }
   syncCurrentNav(currentKey);
 
@@ -539,6 +542,7 @@
 
   /* ---- Instant client-side navigation (HTTP/HTTPS only; file:// uses normal links) ---- */
   if (location.protocol !== 'http:' && location.protocol !== 'https:') return;
+  if (ON_EXPLORER) return;
 
   const pageCache = new Map();
   const registered = new Set();
