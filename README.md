@@ -13,7 +13,7 @@ This repository holds the website of The Safety Stack as plain files. Nothing is
 | `stack.html` | The stack visualisation. |
 | `nav.js` | Shared navigation ribbon, light/dark theme tokens and toggle, and instant client-side page switching across the four pages. Pass `?style=classic` to preview the earlier cream/monospace palette. |
 | `summary.json`, `summary.js` | The data of the stack visualisation. Both hold the same content. The page reads `summary.json` when it is served from a web address and `summary.js` when it is opened from disk. |
-| `release.js` | The id, date and number of documents of the release the summary files were built from, as `window.__TSS_RELEASE = {id, created_at, documents}` (about 100 bytes). `nav.js` loads it on every page: each footer shows the release id next to the Hugging Face link, and the front page shows the number of documents. When the file is missing the pages show the values written in them. |
+| `release.js` | The id, date and number of documents of the release the summary files were built from, as `window.__TSS_RELEASE = {id, created_at, documents}` (about 100 bytes). `nav.js` loads it on every page, and each footer shows the release id next to the Hugging Face link. When the file is missing the footers show the value written in `nav.js`. |
 | `support.js` | The Design Components runtime used by the interactive pages. |
 | `vendor/` | Local copies of React 18.3.1 UMD (`react.production.min.js`, `react-dom.production.min.js`) so pages render with zero third-party runtime requests. |
 | `favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, `og-image.png` | Site icons (transparent adaptive SVG + PNG/ICO fallbacks) and 1200×630 Open Graph preview image. |
@@ -24,7 +24,7 @@ This repository holds the website of The Safety Stack as plain files. Nothing is
 
 ## Updating the data of the stack visualisation
 
-The two summary files and `release.js` in this repository were built from release 2026-11-22 of the dataset [thesafetystack/the-safety-stack](https://huggingface.co/datasets/thesafetystack/the-safety-stack). The stack visualisation shows newer data only after both files at the top level are replaced, and the front page shows the newer release only after `release.js` is replaced with them.
+The two summary files and `release.js` in this repository were built from release 2026-11-22 of the dataset [thesafetystack/the-safety-stack](https://huggingface.co/datasets/thesafetystack/the-safety-stack). The stack visualisation shows newer data only after both files at the top level are replaced, and the footers show the newer release only after `release.js` is replaced with them.
 
 ```
 python tools/build_summary.py <release folder> <output folder>

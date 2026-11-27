@@ -357,8 +357,8 @@
     document.head.appendChild(style);
   }
 
-  /* The latest release, from release.js, which the summary builder writes with each release: every footer shows its id
-     and the front page its number of documents. Without the file the values written in the pages stay. */
+  /* The latest release, from release.js, which the summary builder writes with each release: every footer shows its id.
+     Without the file the value written in the footer rule stays. */
   function applyRelease() {
     const r = window.__TSS_RELEASE;
     if (r && /^[0-9A-Za-z._-]+$/.test(String(r.id))) document.documentElement.style.setProperty('--tss-release', '"' + r.id + '"');
@@ -368,7 +368,7 @@
     const s = document.createElement('script');
     s.id = 'site-release-js';
     s.src = new URL('release.js', (document.currentScript && document.currentScript.src) || location.href).href;
-    s.onload = () => { applyRelease(); window.dispatchEvent(new CustomEvent('site-release')); };
+    s.onload = applyRelease;
     document.head.appendChild(s);
   }
 
