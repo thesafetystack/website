@@ -346,7 +346,7 @@
     .site-footer a { color: var(--muted); text-decoration-color: var(--border-strong); }
     .site-footer a:hover { color: var(--link); }
     /* the latest release next to the Hugging Face link; nav.js sets --tss-release from release.js */
-    .site-release::after { content: " · release " var(--tss-release, "2026-11-22"); display: inline-block; white-space: pre; }
+    .site-release::after { content: " · latest weekly release " var(--tss-release, "2026-11-22"); display: inline-block; white-space: pre; }
     ${EDITORIAL_EXTRA}
   `;
 
