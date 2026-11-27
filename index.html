@@ -44,6 +44,9 @@
   a:hover{color:var(--link-hover,#114b5f)}
   button{font-family:inherit}
   ::selection{background:var(--selection,#02809033)}
+  .fp-fig-btn{position:absolute;top:0;display:block;margin:0;padding:0;border:0;background:none;cursor:pointer;text-align:left;color:inherit;outline:none}
+  .fp-fig-btn:focus,.fp-fig-btn:focus-visible{outline:none}
+  .fp-fig{display:block;position:relative}
   .tile-head{margin:0 0 14px;padding:0 0 10px;border-bottom:1px solid var(--tile-rule,#114b5f);display:flex;flex-direction:column;justify-content:flex-end;gap:4px}
   .tile-status{font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11px;line-height:1.2;font-weight:500;color:var(--muted,#5c7f88)}
   .tile-head h2{margin:0;font-size:17px;line-height:1.3;font-weight:700;color:var(--heading,#114b5f)}
@@ -76,7 +79,7 @@
   </svg>
 
   <div ref="{{ bandRef }}" style="position:relative;margin-top:44px;border-bottom:1px solid var(--border,#114b5f33);overflow:hidden;{{ bannerStyle }}">
-    <span style="position:absolute;top:0;display:block;{{ bannerFig }}"><span style="position:relative;display:block;{{ F.banner.box }}"><svg aria-hidden="true" width="{{ F.banner.w }}" height="{{ F.banner.h }}" style="display:block;overflow:visible"><sc-for list="{{ F.banner.paths }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></svg><sc-for list="{{ F.banner.texts }}" as="t" hint-placeholder-count="0"><span aria-hidden="true" style="{{ t.style }}">{{ t.t }}</span></sc-for></span></span>
+    <button ref="{{ playBtnRef }}" type="button" class="fp-fig-btn" aria-label="Open interactive walkthrough of the safety stack" onClick="{{ story.open }}" onMouseEnter="{{ story.enter }}" onMouseLeave="{{ story.leave }}" onFocus="{{ story.focus }}" onBlur="{{ story.leave }}" style="{{ bannerFig }}"><span class="fp-fig" style="{{ F.banner.box }}"><svg aria-hidden="true" width="{{ F.banner.w }}" height="{{ F.banner.h }}" style="display:block;overflow:visible"><sc-for list="{{ F.banner.paths }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></svg><sc-for list="{{ F.banner.texts }}" as="t" hint-placeholder-count="0"><span aria-hidden="true" style="{{ t.style }}">{{ t.t }}</span></sc-for></span></button>
     <div ref="{{ bannerTextRef }}" style="position:absolute;left:0;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;gap:26px;{{ bannerText }}">
       <h1 style="margin:0;font-size:clamp(30px,3.4vw,46px);line-height:1.02;font-weight:700;color:var(--heading,#114b5f)">A public inventory of AI safety techniques</h1>
     </div>
@@ -85,6 +88,15 @@
   <main style="position:relative;max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:60px;font-size:15px;line-height:1.7;{{ mainStyle }}"><section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr));gap:var(--lead-gap,18px 20px);margin:0;font-size:16.5px;line-height:1.7"><p style="margin:0;text-wrap:pretty"><strong style="color:var(--heading,#114b5f)">The Safety Stack</strong> is a public inventory of the techniques used to make frontier AI models safe. Currently, frontier labs rely on a <a href="https://www.far.ai/blog/defense-in-depth" target="_blank" rel="noopener">defence-in-depth</a> approach that compiles many weak safety techniques together so that the failures of one layer (hopefully) get caught by the next. We don’t know how good a strategy this is, as the actual stack deployed in any given lab is not public.</p><p style="margin:0;text-wrap:pretty">So we tried to find out. We built the inventory from published papers and from open-source evidence of what labs are probably using. It now covers over 40,000 documents, selected from more than 200,000 candidates across more than 40 sources; you can browse them in the <a href="explorer.html">dataset explorer</a>. The labels are a language model’s readings of the documents and have not been individually verified. Alongside it we are building a model that breaks threats into concrete slices, so that you can see which threats may have no cover or depend on only a single safeguard. All data and code are public and are updated every week. <a href="why.html" style="font-weight:700;white-space:nowrap">Read more <span aria-hidden="true">&rarr;</span></a></p></section><section class="tiles"><div><div class="tile-head"><h2>Explorers</h2></div><ul style="list-style:none;margin:0;padding:0;font-size:14.5px;line-height:1.55"><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="stack.html">The safety stack by lab</a><span style="display:block;color:var(--muted,#5c7f88)">What public documents say about each lab’s safeguards.</span></li><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="explorer.html">Dataset explorer</a><span style="display:block;color:var(--muted,#5c7f88)">Browse the documents, and the models and techniques they discuss.</span></li></ul></div><div class="tile-wide"><div class="tile-head"><h2>Data and code</h2></div><ul style="list-style:none;margin:0;padding:0;font-size:14.5px;line-height:1.55"><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Dataset on Hugging Face</a><span style="display:block;color:var(--muted,#5c7f88)">40k+ safety-relevant papers, posts, pages, model cards and other documents, each annotated by a language model with the techniques and models it discusses. Released weekly.</span></li><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="https://github.com/thesafetystack/the-safety-stack-pipeline" target="_blank" rel="noopener">Pipeline source code</a><span style="display:block;color:var(--muted,#5c7f88)">The data processing pipeline, on GitHub.</span></li><li style="margin:0 0 7px"><a style="display:inline-block;padding:var(--lp,0px) 0" href="https://github.com/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Taxonomies</a><span style="display:block;color:var(--muted,#5c7f88)">The dataset’s taxonomies of techniques, models and organisations, current and in development, on GitHub.</span></li></ul></div><div class="tile-stack"><div><div class="tile-head"><span class="tile-status">in development</span><h2>Inference over lab safety stacks</h2></div><ul style="list-style:none;margin:0;padding:0;font-size:14.5px;line-height:1.55"><li style="margin:0 0 7px">Probabilistic inference over frontier labs’ safety stacks: estimating which safeguards are deployed, how they overlap, and where their failures are correlated.</li></ul></div><div><div class="tile-head"><span class="tile-status">coming soon</span><h2>Blog</h2></div></div></div></section><footer class="site-footer" aria-label="Site footer"><div>The Safety Stack · Data &amp; taxonomies: <a href="https://github.com/thesafetystack/the-safety-stack/blob/main/LICENSE" target="_blank" rel="noopener">CC0 1.0</a> · Pipeline code: <a href="https://github.com/thesafetystack/the-safety-stack-pipeline/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a></div><div class="site-footer-links"><a href="https://github.com/thesafetystack" target="_blank" rel="noopener">GitHub</a><a class="site-release" href="https://huggingface.co/datasets/thesafetystack/the-safety-stack" target="_blank" rel="noopener">Hugging Face</a><a href="https://github.com/thesafetystack/the-safety-stack/issues" target="_blank" rel="noopener">Corrections</a><a href="mailto:info@thesafetystack.ai">info@thesafetystack.ai</a><a href="team.html">Team</a></div></footer></main>
 </div>
 </div>
+<sc-if value="{{ story.on }}" hint-placeholder-val="{{ false }}">
+<div ref="{{ storyRef }}" role="dialog" aria-modal="true" aria-label="Interactive walkthrough of the safety stack" style="position:fixed;inset:0;z-index:20;overflow:hidden;background:var(--bg,#feecd3);{{ story.style }}">
+  <sc-if value="{{ story.wide }}" hint-placeholder-val="{{ false }}"><dc-import name="Main" embedded="{{ true }}" on-done="{{ story.close }}" hint-size="100%,100%"></dc-import></sc-if>
+  <sc-if value="{{ story.narrow }}" hint-placeholder-val="{{ false }}"><dc-import name="Mobile" embedded="{{ true }}" on-done="{{ story.close }}" hint-size="100%,100%"></dc-import></sc-if>
+  <button type="button" aria-label="Close the walkthrough" onClick="{{ story.close }}" style="position:absolute;right:10px;top:0;z-index:30;width:44px;height:44px;margin:0;padding:0;border:0;background:none;cursor:pointer;color:var(--heading,#114b5f)">
+    <svg aria-hidden="true" width="44" height="44" style="display:block"><path d="M15 15L29 29M29 15L15 29" style="fill:none;stroke:var(--heading,#114b5f);stroke-width:2;stroke-linecap:round"></path></svg>
+  </button>
+</div>
+</sc-if>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
@@ -107,8 +119,8 @@ class Component extends DCLogic {
     ['t5', 0.4], ['a7', 1.5], ['t6', 0.4], ['a8', 1.6], ['t7', 0.5], ['a9', 1.0], ['t8', 0.5], ['a10', 0.7], ['t9', 0.5], ['a11', 0.8], ['a12', 0.7],
     ['t10', 0.5], ['a13', 0.9], ['t11', 0.5], ['a14', 0.9], ['t12', 0.5], ['a15', 1.5], ['t13', 0.45], ['a16', 0.8], ['t14', 0.5], ['a17', 1.2]];
   T1 = (() => { const m = {}; let x = 0.15; this.TL1.forEach(e => { m[e[0]] = [x, e[1]]; x += e[1]; }); this.TOT1 = x + 0.6; return m; })();
-  scRef = React.createRef(); bandRef = React.createRef(); bannerTextRef = React.createRef();
-  state = {W:typeof window !== 'undefined' ? window.innerWidth : 1440, V:typeof window !== 'undefined' ? (window.innerHeight > 1800 ? 900 : Math.max(480, window.innerHeight)) : 900, t:0, sA:0, clipT:0, clipB:0, open:null, live:false, tH:0, theme:typeof window !== 'undefined' && window.__siteTheme ? window.__siteTheme.mode() : 'light'};
+  scRef = React.createRef(); bandRef = React.createRef(); bannerTextRef = React.createRef(); playBtnRef = React.createRef(); storyRef = React.createRef();
+  state = {W:typeof window !== 'undefined' ? window.innerWidth : 1440, V:typeof window !== 'undefined' ? (window.innerHeight > 1800 ? 900 : Math.max(480, window.innerHeight)) : 900, t:0, sA:0, hoverA:0, play:false, open:null, live:false, tH:0, theme:typeof window !== 'undefined' && window.__siteTheme ? window.__siteTheme.mode() : 'light'};
 
   svgTheme(){
     if(typeof window !== 'undefined' && window.__siteTheme) return window.__siteTheme.svg();
@@ -125,22 +137,72 @@ class Component extends DCLogic {
   componentDidMount(){
     this.reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     document.addEventListener('pointerdown', this.onDocDown);
+    document.addEventListener('keydown', this.onKeyDown);
     window.addEventListener('site-theme-change', this.onThemeChange);
     this.t0 = performance.now();
     this.tick();
   }
   componentWillUnmount(){
     cancelAnimationFrame(this.raf); clearTimeout(this.closeTimer);
+    this.setBgInert(false);
     document.removeEventListener('pointerdown', this.onDocDown);
+    document.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('site-theme-change', this.onThemeChange);
   }
+  setBgInert(on){
+    [this.scRef.current, document.querySelector('.site-ribbon')].forEach(el => {
+      if(!el) return;
+      if(on){ el.setAttribute('aria-hidden', 'true'); el.inert = true; }
+      else { el.removeAttribute('aria-hidden'); el.inert = false; }
+    });
+  }
+  warmStory = () => {
+    if(typeof window !== 'undefined' && window.__warmDcComponent){
+      window.__warmDcComponent(this.state.W < 700 ? 'Mobile' : 'Main');
+    }
+  };
+  enterStory = () => { this.figHot = true; this.warmStory(); };
+  focusStoryBtn = (e) => {
+    this.warmStory();
+    if(this.skipFocusTint){ this.skipFocusTint = false; return; }
+    if(e && e.currentTarget && e.currentTarget.matches && e.currentTarget.matches(':focus-visible')) this.figHot = true;
+  };
+  leaveStory = () => { this.figHot = false; };
+  openStory = () => {
+    if(this.state.play) return;
+    this.figHot = false;
+    this.warmStory();
+    this.setBgInert(true);
+    this.setState({play:true}, () => {
+      const focusStory = (tries) => {
+        const dlg = this.storyRef.current;
+        if(!dlg || !this.state.play) return;
+        const inner = dlg.querySelector('[data-scroller="1"]');
+        if(inner){ inner.focus({preventScroll:true}); return; }
+        if(tries > 0) setTimeout(() => focusStory(tries - 1), 40);
+      };
+      focusStory(20);
+    });
+  };
+  onKeyDown = (e) => { if(e.key === 'Escape' && this.state.play) this.closeStory(); };
+  closeStory = () => {
+    if(!this.state.play) return;
+    this.setBgInert(false);
+    this.setState({play:false}, () => {
+      if(this.playBtnRef.current){ this.skipFocusTint = true; this.playBtnRef.current.focus({preventScroll:true}); }
+    });
+  };
   /* Once a frame: the size of the window, and the time for the one moving picture (about 30 times a second). The page
      scrolls inside its own area, which is as tall as the window, so it works whether or not the document around it scrolls. */
   tick = () => {
     this.raf = requestAnimationFrame(this.tick);
     const sc = this.scRef.current; if(!sc) return;
     const st = this.state, W = sc.clientWidth || window.innerWidth, ih = window.innerHeight, V = ih > 1800 ? 900 : Math.max(480, ih);
-    let t = this.reduced ? 5 : Math.round((performance.now() - this.t0) / 1000 * 30) / 30, sA = st.sA;
+    let t = this.reduced ? 5 : (st.play ? st.t : Math.round((performance.now() - this.t0) / 1000 * 30) / 30), sA = st.sA;
+    const hGoal = this.figHot && !st.play ? 1 : 0, hNow = performance.now(), hDt = Math.min(0.1, (hNow - (this.hPrev || hNow)) / 1000);
+    this.hPrev = hNow;
+    const hDiff = hGoal - st.hoverA;
+    const hoverA = this.reduced || Math.abs(hDiff) < 0.01 ? hGoal : Math.round((st.hoverA + hDiff * (1 - Math.exp(-hDt / 0.1))) * 100) / 100;
     if(this.MODE === 'w'){
       /* The Why Stack? page: the drawing is tied to the text by the scroll position alone. Each sentence of the argument
          carries the step of the story it belongs to. The story starts when the page is at its top and is over when the end of the
@@ -169,7 +231,7 @@ class Component extends DCLogic {
     }
     /* the height of the text in the band, which the band makes room for */
     const tb = this.bannerTextRef.current, tH = tb ? Math.ceil([...tb.children].reduce((h, c) => h + c.offsetHeight, 0) + 26 * (tb.children.length - 1)) : st.tH;
-    if(W !== st.W || V !== st.V || t !== st.t || sA !== st.sA || tH !== st.tH || !st.live) this.setState({W, V, t, sA, tH, live:true});
+    if(W !== st.W || V !== st.V || t !== st.t || sA !== st.sA || hoverA !== st.hoverA || tH !== st.tH || !st.live) this.setState({W, V, t, sA, hoverA, tH, live:true});
   };
   /* the Why Stack? page, narrow window: the drawing is a band that stays under the ribbon, this many px high */
   bandH(V){ return Math.round(Math.max(230, Math.min(V * 0.42, 360))); }
@@ -543,20 +605,25 @@ class Component extends DCLogic {
       const got = L4.filter(L => L.harm > 0.9);
       if(got.length && xa > 0.01){ const e = got.map(L => pi(L.x, L.y, L.zHi)).sort((a, c) => a[0] - c[0]); ip(seg([e[0][0] - 10, e[0][1]], [e[e.length - 1][0] + 10, e[e.length - 1][1]]), ls); }
       segI(-1e9, zB);
+      const hover = o.hover || 0;
+      const plateFill = hover > 0.005 ? this.mixHex(C.cream, C.plate, (this.state.theme === 'dark' ? 0.24 : 0.14) * hover) : C.cream;
+      const plateStroke = hover > 0.005 ? this.mixHex(C.wire, C.teal, hover) : C.wire;
+      const plateSW = (1.4 + 0.65 * hover).toFixed(2);
+      const plateFO = (0.78 + 0.14 * hover).toFixed(2);
       if(bIn * xa > 0.01){
         const zb = zB - (1 - bIn) * 24, pb = (x, y) => pi(x, y, zb), a = bIn * xa;
         ip(poly([pb(-HW + dxB, -HD), pb(HW + dxB, -HD), pb(HW + dxB, HD), pb(-HW + dxB, HD)]) + hB.map(h => ring(pb, h, dxB)).join(''),
-          'fill:' + C.cream + ';fill-opacity:' + (0.78 * a).toFixed(2) + ';fill-rule:evenodd;stroke:' + C.wire + ';stroke-width:1.4;stroke-linejoin:round;stroke-opacity:' + (0.95 * a).toFixed(2));
+          'fill:' + plateFill + ';fill-opacity:' + (Number(plateFO) * a).toFixed(2) + ';fill-rule:evenodd;stroke:' + plateStroke + ';stroke-width:' + plateSW + ';stroke-linejoin:round;stroke-opacity:' + (0.95 * a).toFixed(2));
         L4.forEach(L => { if(L.dotB > 0.02) ip(ell(pi(L.x, L.y, zB), 6 * dk, 3.6 * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.dotB * xa).toFixed(2)); });
       }
       segI(zB, zA);
       { /* the first slice. In the stack it is out of focus and has the stack's holes; alone it is sharp and has holes that move. */
         const outline = poly([pm(-HW + dxA, -HD), pm(HW + dxA, -HD), pm(HW + dxA, HD), pm(-HW + dxA, HD)]);
         const soft = unk * (1 - tau), blurS = soft > 0.03 ? ';filter:blur(' + (2.6 * sw * soft).toFixed(1) + 'px)' : '';
-        ip(outline + hA.map(h => ring(pm, h, dxA)).join(''), 'fill:' + C.cream + ';fill-rule:evenodd;fill-opacity:' + (0.78 * tau).toFixed(2));
-        ip(outline, 'fill:none;stroke:' + C.wire + ';stroke-linejoin:round;stroke-width:' + lerp(lerp(1, 3.2, soft), 1.4, tau).toFixed(1) + ';stroke-opacity:' + lerp(lerp(0.85, 0.62, soft), 0.95, tau).toFixed(2) + blurS);
+        ip(outline + hA.map(h => ring(pm, h, dxA)).join(''), 'fill:' + plateFill + ';fill-rule:evenodd;fill-opacity:' + (Number(plateFO) * tau).toFixed(2));
+        ip(outline, 'fill:none;stroke:' + plateStroke + ';stroke-linejoin:round;stroke-width:' + lerp(lerp(1, 3.2, soft), Number(plateSW), tau).toFixed(2) + ';stroke-opacity:' + lerp(lerp(0.85, 0.62, soft), 0.95, tau).toFixed(2) + blurS);
         if(tau < 0.98) ip(HO.Mb.map(h => ring(pm, h, 0)).join(''), 'fill:none;stroke:' + C.wire + ';stroke-width:' + lerp(0.9, 2.4, soft).toFixed(1) + ';stroke-opacity:' + (lerp(0.85, 0.5, soft) * hv * (1 - tau)).toFixed(2) + blurS);
-        ip(hA.map(h => ring(pm, h, dxA)).join(''), 'fill:none;stroke:' + C.wire + ';stroke-width:1.4;stroke-opacity:' + (0.95 * tau).toFixed(2));
+        ip(hA.map(h => ring(pm, h, dxA)).join(''), 'fill:none;stroke:' + plateStroke + ';stroke-width:' + plateSW + ';stroke-opacity:' + (0.95 * tau).toFixed(2));
       }
       L4.forEach(L => { if(L.dotA * xa > 0.02) ip(ell(pi(L.x, L.y, zA), 6 * dk, 3.6 * dk), 'fill:' + C.acc + ';fill-opacity:' + (L.dotA * xa).toFixed(2)); });
       segI(zA, 1e9);
@@ -631,7 +698,7 @@ class Component extends DCLogic {
          the lines through them are stopped and let through in turn */
       /* the picture is taller than the band and hangs from above it, so the lines come in from the band's upper edge */
       const bh = narrow ? Math.round(Math.max(210, Math.min(330, V * 0.36))) : 400, over = narrow ? 96 : 112, bw = Math.round(narrow ? W : Math.min(W * 0.6, 860)), k = (t % 20) / 20, pp = k < 0.5 ? k * 2 : 2 - k * 2;
-      F.banner = this.fig(at('a8', 0.2 + 0.8 * pp), bw, bh + over + 18, {labels:false, zoomCap:narrow ? 1.35 : 1.9, sw:narrow ? 0.8 : 1.1});
+      F.banner = this.fig(at('a8', 0.2 + 0.8 * pp), bw, bh + over + 18, {labels:false, zoomCap:narrow ? 1.35 : 1.9, sw:narrow ? 0.8 : 1.1, hover:st.hoverA});
       /* on a narrow window the text sits above the picture in a strip as tall as it needs; on a wide one it stops short of the
          picture, and the band grows when the text is taller than the band */
       const tx = Math.max(32, (W - 1180) / 2 + 32), fr = Math.max(0, (W - 1180) / 2), top = narrow ? Math.max(140, st.tH + 100) : 0;
@@ -640,6 +707,8 @@ class Component extends DCLogic {
       out.bannerText = S({left:tx + 'px', bottom:narrow ? bh + 'px' : '0', 'max-width':Math.round(narrow ? W - 2 * tx : W - fr - bw / 2 - 200 - tx) + 'px'});
       out.bandRef = this.bandRef;
       out.mainStyle = narrow ? 'padding:32px 22px 80px;--lp:7px' : 'padding:44px 32px 110px';
+      out.story = {on:st.play, wide:W >= 700, narrow:W < 700, enter:this.enterStory, focus:this.focusStoryBtn, leave:this.leaveStory, open:this.openStory, close:this.closeStory,
+        style:S({width:W + 'px', height:V + 'px'})};
     }
 
     if(m === 'w'){
@@ -664,10 +733,11 @@ class Component extends DCLogic {
       rb.data = Object.assign(this.boxHandlers('r-data', false), {list:S({opacity:open ? 1 : 0, visibility:open ? 'visible' : 'hidden'})}); }
     { const open = st.open === 'r-menu';
       rb.menu = {toggle:() => this.setState({open:this.state.open === 'r-menu' ? null : 'r-menu'}), list:S({width:W + 'px', 'max-height':(V - 44) + 'px', visibility:open ? 'visible' : 'hidden'})}; }
+    if(!out.story) out.story = {on:false};
     const TH = this.svgTheme();
     const gridLineStyle = 'stroke:' + TH.grid.stroke + ';stroke-width:0.7;stroke-opacity:' + TH.grid.opacityPage;
     const hatchLineStyle = 'stroke:' + TH.grid.hatchStroke + ';stroke-width:1.3;stroke-opacity:' + TH.grid.hatchOpacity;
-    return Object.assign(out, {scRef:this.scRef, bannerTextRef:this.bannerTextRef, scStyle:'height:' + V + 'px', F, B, rb, gridLineStyle, hatchLineStyle,
+    return Object.assign(out, {scRef:this.scRef, bannerTextRef:this.bannerTextRef, playBtnRef:this.playBtnRef, storyRef:this.storyRef, scStyle:'height:' + V + 'px', F, B, rb, gridLineStyle, hatchLineStyle,
       ribNavD:wide ? '' : 'display:none', ribNavP:wide ? 'display:none' : ''});
   }
 }

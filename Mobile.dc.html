@@ -26,6 +26,7 @@
   a:hover{color:var(--link-hover,#114b5f)}
   button{font-family:inherit}
   ::selection{background:var(--selection,#02809033)}
+  .fp-fixed-stage a,.fp-fixed-stage button{pointer-events:auto}
 </style>
 </helmet>
 <div ref="{{ scRef }}" data-scroller="1" tabindex="0" style="position:relative;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;overflow-anchor:none;background:var(--bg,#feecd3);color:var(--ink,#333);font-family:var(--font-prose,'IBM Plex Mono',ui-monospace,Menlo,monospace);{{ scStyle }}">
@@ -44,7 +45,7 @@
     <rect x="0" y="0" width="100%" height="100%" style="fill:url(#fpStoryGridB)"></rect>
   </svg>
 
-  <div style="position:sticky;top:0;height:0;z-index:6">
+  <div class="fp-fixed-stage" style="{{ ribWrapStyle }}">
     <div style="position:absolute;left:0;right:0;top:0;height:44px;background:var(--surface-glass,#feecd3f2);border-bottom:1px solid var(--border,#114b5f2b);transition:opacity 300ms ease;{{ ribBar }}"></div>
     <a href="index.html" onClick="{{ onBrandClick }}" style="position:absolute;left:20px;top:0;height:44px;display:flex;align-items:center;white-space:nowrap;font-family:var(--font-nav,ui-monospace,monospace);font-size:14px;line-height:1.3;font-weight:700;letter-spacing:-0.015em;gap:8px;color:var(--heading,#114b5f);text-decoration:none"><svg width="18" height="18" viewBox="0 0 64 64" aria-hidden="true" style="display:block;flex:none"><polygon points="4,38 32,24 60,38 32,52" style="fill:var(--logo-slab,#114b5f);opacity:0.52"/><polygon points="4,28 32,14 60,28 32,42" style="fill:var(--logo-slab,#114b5f)"/><line x1="32" y1="4" x2="32" y2="60" style="stroke:var(--accent,#da532c)" stroke-width="3.4" stroke-linecap="round"/></svg>The Safety Stack</a>
     <div style="position:absolute;white-space:nowrap;font-family:var(--font-mono,'IBM Plex Mono',monospace);font-size:11px;line-height:1.3;color:var(--heading,#114b5f);pointer-events:none;transition:opacity 200ms ease;{{ cueStyle }}">Scroll</div>
@@ -66,7 +67,7 @@
   </div>
 
   <div ref="{{ t1Ref }}" style="position:relative;{{ t1Style }}">
-    <div style="position:sticky;top:0;overflow:hidden;{{ sceneStyle }}">
+    <div class="fp-fixed-stage" style="{{ scene1Style }}">
       <svg aria-hidden="true" width="{{ SW }}" height="{{ SH }}" style="position:absolute;left:0;top:0;display:block">
         <g style="{{ stackG }}"><sc-for list="{{ shapes }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></g>
         <g style="{{ oversG }}"><sc-for list="{{ overs }}" as="s" hint-placeholder-count="0"><path d="{{ s.d }}" style="{{ s.style }}"></path></sc-for></g>
@@ -350,13 +351,13 @@ class Component extends DCLogic {
       sc.scrollTop = g.target - left;
       if(Math.abs(left) < 0.5 || (Math.abs(sc.scrollTop - before) < 0.01 && performance.now() - g.t0 > 120)) this.glide = null;
     }
-    const scTop = sc.getBoundingClientRect().top;
+    const emb = this.props.embedded === true;
     const r3 = n => Math.round(n * 1000) / 1000;
-    const s = r3(Math.max(0, Math.min(this.TOT1, (scTop - t1.getBoundingClientRect().top) / U)));
+    const s = emb ? r3(Math.max(0, Math.min(this.TOT1, sc.scrollTop / U)))
+      : r3(Math.max(0, Math.min(this.TOT1, (sc.getBoundingClientRect().top - t1.getBoundingClientRect().top) / U)));
     /* embedded: this page is shown inside the front page, which has the destinations itself. Only the stack story is
        played; when the reader has scrolled to its end, the front page is told, and it takes the story away again. */
-    const emb = this.props.embedded === true;
-    const q = emb ? 0 : r3(Math.max(0, Math.min(this.TOT2, (scTop - t2.getBoundingClientRect().top) / U)));
+    const q = emb ? 0 : r3(Math.max(0, Math.min(this.TOT2, (sc.getBoundingClientRect().top - t2.getBoundingClientRect().top) / U)));
     if(emb && s >= this.TOT1 - 0.02 && !this.toldDone){ this.toldDone = true; if(typeof this.props.onDone === 'function') this.props.onDone(); }
     const p1 = this.p1Ref.current, a = this.aRef.current, reel = this.reelRef.current;
     const p1H = (p1 && p1.offsetHeight) || st.p1H, aH = (a && a.offsetHeight) || st.aH;
@@ -776,7 +777,7 @@ class Component extends DCLogic {
     let off = ctr(0);
     for(let k = 0; k < 15; k++){
       const a = rv[k] * lerp(1, 0.4, nextOf[k] < 0 ? 0 : rv[nextOf[k]]) * (1 - gOut[grp[k]]) * (phone && k < 13 ? 1 - rv[k + 2] : 1);
-      ln['l' + k] = a > 0.005 ? 'opacity:' + a.toFixed(2) : 'opacity:0;visibility:hidden';
+      ln['l' + k] = a > 0.005 ? 'opacity:' + a.toFixed(2) : 'opacity:0;pointer-events:none';
       if(k !== 2) off = lerp(off, ctr(k), rv[k]);
     }
     const p1Out = ez(win(P.a2, 0, 0.3));
@@ -877,15 +878,19 @@ class Component extends DCLogic {
     { const open = st.done && st.open === 'r-menu';
       rb.menu = {toggle:() => this.setState({open:this.state.open === 'r-menu' ? null : 'r-menu'}), list:S({width:W + 'px', 'max-height':(V - 44) + 'px', visibility:open ? 'visible' : 'hidden'})}; }
 
+    const emb = this.props.embedded === true;
     return {
       scRef:this.scRef, rootRef:this.rootRef, onBrandClick:this.onBrandClick, t1Ref:this.t1Ref, t2Ref:this.t2Ref, p1Ref:this.p1Ref, reelRef:this.reelRef, aRef:this.aRef,
-      scStyle:'height:' + V + 'px' + (phone ? ';touch-action:none' : ''), sceneStyle:'height:' + V + 'px', SW, SH, shapes, overs, isoShapes, lab, ln, sv, bx, boxG, rb,
+      scStyle:'height:' + V + 'px' + (phone ? ';touch-action:none' : ''), sceneStyle:'height:' + V + 'px',
+      scene1Style:emb ? ('position:fixed;left:0;top:0;width:' + W + 'px;height:' + V + 'px;overflow:hidden;pointer-events:none') : ('position:sticky;top:0;overflow:hidden;height:' + V + 'px'),
+      ribWrapStyle:emb ? ('position:fixed;left:0;top:0;width:' + W + 'px;height:0;z-index:6;pointer-events:none') : 'position:sticky;top:0;height:0;z-index:6',
+      SW, SH, shapes, overs, isoShapes, lab, ln, sv, bx, boxG, rb,
       stackG:'opacity:' + stackA.toFixed(3), oversG:'opacity:' + labA.toFixed(3),
-      t1Style:'height:' + Math.round(V + this.TOT1 * U) + 'px', t2Style:this.props.embedded === true ? 'display:none' : 'height:' + Math.round(V + this.TOT2 * U) + 'px',
+      t1Style:'height:' + Math.round(V + this.TOT1 * U) + 'px', t2Style:emb ? 'display:none' : 'height:' + Math.round(V + this.TOT2 * U) + 'px',
       p1Style:show(Object.assign({left:px((W - p1W) / 2), top:px(p1Top - (still ? 0 : 30 * p1Out)), width:px(p1W)}, phone ? {'font-size':'15px', 'line-height':'1.55'} : {}), 1 - p1Out),
-      colStyle:S(phone ? {left:'20px', top:textTop + 'px', width:(W - 40) + 'px', height:textH + 'px', 'font-size':'14px', 'line-height':'1.6', visibility:P.t1 > 0 ? 'visible' : 'hidden'}
-        : {left:colX + 'px', width:colW + 'px', height:V + 'px', visibility:P.t1 > 0 ? 'visible' : 'hidden'}),
-      reelStyle:'transform:translateY(' + ((phone ? textH * 0.32 : Math.max(190, V * 0.36)) - off).toFixed(1) + 'px)',
+      colStyle:S(phone ? {left:'20px', top:textTop + 'px', width:(W - 40) + 'px', height:textH + 'px', 'font-size':'14px', 'line-height':'1.6', 'pointer-events':'none'}
+        : {left:colX + 'px', width:colW + 'px', height:V + 'px', 'pointer-events':'none'}),
+      reelStyle:'will-change:transform;transform:translate3d(0,' + ((phone ? textH * 0.32 : Math.max(190, V * 0.36)) - off).toFixed(1) + 'px,0)',
       cueStyle:S(Object.assign({top:(V - 28) + 'px', opacity:(p1Out * (1 - inF)).toFixed(2)}, phone ? {left:px(W / 2 - 40), width:'80px', 'text-align':'center'} : {right:'20px'})),
       liP:phone ? 'padding:11px 0;margin:0' : '', cp,
       aStyle:S({left:px((W - aW) / 2), top:px(aTop - (still ? 0 : 30 * mx)), width:px(aW), opacity:(1 - mx).toFixed(2), visibility:mx < 0.99 ? 'visible' : 'hidden'}),

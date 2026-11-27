@@ -774,7 +774,27 @@
     if (key) navigate(u, false);
   });
 
-  /* Warm small page shells in idle; warm heavy summary.json only on stack intent */
+  /* Warm small page shells in idle; warm heavy summary.json and story DC components only on intent */
+  const warmedDc = new Set();
+  function warmDcComponent(name) {
+    if (warmedDc.has(name)) return Promise.resolve();
+    warmedDc.add(name);
+    return fetch(new URL('./' + name + '.dc.html', location.href).href)
+      .then((r) => (r.ok ? r.text() : ''))
+      .then((html) => {
+        if (!html) { warmedDc.delete(name); return; }
+        const rec = parsePageHtml(name, html);
+        if (rec.kind !== 'dc') return;
+        return waitForDcRuntime().then(() => {
+          if (rec.propsRaw) window.__dcUpdate(name, 'props', rec.propsRaw, false);
+          window.__dcUpdate(name, 'html', '', true);
+          window.__dcUpdate(name, 'html', rec.template, false);
+          window.__dcUpdate(name, 'js', rec.js, false);
+        });
+      })
+      .catch(() => { warmedDc.delete(name); });
+  }
+  window.__warmDcComponent = warmDcComponent;
   const warmAll = () => {
     const saveData = navigator.connection && navigator.connection.saveData;
     if (saveData) return;
