@@ -467,9 +467,8 @@ class Component extends DCLogic {
     if(this.lastMouse) this.kbLock = {x:this.lastMouse.x, y:this.lastMouse.y};
     else this.kbLock = {x:-9999, y:-9999};
     const st = this.state;
-    /* Place the preview box opposite the active label column: right when collapsed (left brackets), left when a layer is open (right names). */
-    const side = st.selected ? 'right' : 'left';
-    const patch = {lens:slug, hover:{kind:'slice', key:slug, slug}, side};
+    /* Place the preview box on the left margin so all lab stacks (and right-hand slice names in open layers) stay fully visible. */
+    const patch = {lens:slug, hover:{kind:'slice', key:slug, slug}, side:'right'};
     if(st.open){
       patch.open = slug;
       patch.ev = null;
