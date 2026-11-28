@@ -285,32 +285,95 @@ class Component extends DCLogic {
   ptx = 0; pty = 0;
 
   onStageWheel = (e) => {
+    this.stepAnim = null;
     if(this.props.embedded !== true) return;
     const sc = this.scRef.current; if(!sc || !e.deltaY) return;
     const mul = e.deltaMode === 1 ? 40 : (e.deltaMode === 2 ? (sc.clientHeight || 600) : 1);
     sc.scrollTop += e.deltaY * mul;
     e.preventDefault();
   };
+  cancelStepAnim = () => { this.stepAnim = null; };
+  stepStops(){
+    const T = this.T1, end = k => T[k][0] + T[k][1];
+    const s1 = [0, end('a3'), end('a4'), end('a5'), end('a6'), end('a7'), end('a8'), end('a9'),
+      end('a10'), end('a11'), end('a13'), end('a14'), end('a15'), end('a16'), this.TOT1];
+    if(this.props.embedded === true) return s1.map(v => ({scene:1, v}));
+    const T2 = this.T2, e2 = k => T2[k][0] + T2[k][1];
+    return s1.map(v => ({scene:1, v})).concat(['c1', 'c2', 'c3', 'c4', 'h1', 'h2', 'h3', 'f'].map(k => ({scene:2, v:e2(k)})));
+  }
+  stepBy(delta){
+    const sc = this.scRef.current, t1 = this.t1Ref.current, t2 = this.t2Ref.current; if(!sc || !t1) return;
+    const ih = window.innerHeight, V = ih > 1800 ? 900 : Math.max(480, ih), U = this.unit(V);
+    const maxTop = Math.max(0, sc.scrollHeight - sc.clientHeight);
+    const s2Off = t2 ? Math.max(0, t2.offsetTop - t1.offsetTop) : 0;
+    const stops = this.stepStops();
+    const tops = stops.map(st => Math.max(0, Math.min(maxTop, Math.round((st.scene === 2 ? s2Off : 0) + st.v * U))));
+    let idx;
+    if(this.stepAnim){
+      idx = Math.max(0, Math.min(stops.length - 1, this.stepAnim.idx + delta));
+    } else {
+      const cur = sc.scrollTop, eps = Math.max(24, U * 0.08);
+      if(delta > 0){
+        idx = tops.findIndex(y => y > cur + eps);
+        if(idx < 0) idx = stops.length - 1;
+      } else {
+        idx = 0;
+        for(let i = tops.length - 1; i >= 0; i--){ if(tops[i] < cur - eps){ idx = i; break; } }
+      }
+    }
+    this.goToStop(idx, tops[idx], U);
+  }
+  goToStop(idx, to, U){
+    const sc = this.scRef.current; if(!sc) return;
+    this.glide = null;
+    const from = sc.scrollTop, dist = Math.abs(to - from);
+    if(dist < 1){ this.stepAnim = null; return; }
+    if(this.reducedMotion()){ sc.scrollTop = to; this.stepAnim = null; return; }
+    const dur = Math.max(460, Math.min(1450, 300 + (dist / U) * 380));
+    this.stepAnim = {from, to, t0:performance.now(), dur, idx};
+  }
+  onKeyDown = (e) => {
+    if(e.metaKey || e.ctrlKey || e.altKey) return;
+    const tag = e.target && e.target.tagName ? e.target.tagName.toUpperCase() : '';
+    if(tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (e.target && e.target.isContentEditable)) return;
+    if(e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown'){ e.preventDefault(); this.stepBy(1); }
+    else if(e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); this.stepBy(-1); }
+    else if(e.key === 'Home' || e.key === 'End'){
+      const sc = this.scRef.current; if(!sc) return;
+      const ih = window.innerHeight, V = ih > 1800 ? 900 : Math.max(480, ih), U = this.unit(V);
+      const stops = this.stepStops(), maxTop = Math.max(0, sc.scrollHeight - sc.clientHeight);
+      e.preventDefault();
+      this.goToStop(e.key === 'Home' ? 0 : stops.length - 1, e.key === 'Home' ? 0 : maxTop, U);
+    }
+  };
   componentDidMount(){
     this.reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     window.addEventListener('pointermove', this.onPointer, {passive:true});
+    window.addEventListener('keydown', this.onKeyDown);
     document.addEventListener('pointerdown', this.onDocDown);
     window.addEventListener('site-theme-change', this.onThemeChange);
     const st1 = this.stage1Ref.current;
     if(st1) st1.addEventListener('wheel', this.onStageWheel, {passive:false});
-    if(this.MODE === 'phone'){
-      const sc = this.scRef.current;
-      if(sc){ sc.addEventListener('pointerdown', this.dragStart); sc.addEventListener('pointermove', this.dragMove); sc.addEventListener('pointerup', this.dragEnd); sc.addEventListener('pointercancel', this.dragEnd); sc.addEventListener('click', this.dragClick, true); }
+    const sc = this.scRef.current;
+    if(sc){
+      sc.addEventListener('wheel', this.cancelStepAnim, {passive:true});
+      sc.addEventListener('touchstart', this.cancelStepAnim, {passive:true});
+      if(this.MODE === 'phone'){ sc.addEventListener('pointerdown', this.dragStart); sc.addEventListener('pointermove', this.dragMove); sc.addEventListener('pointerup', this.dragEnd); sc.addEventListener('pointercancel', this.dragEnd); sc.addEventListener('click', this.dragClick, true); }
     }
     this.tick();
   }
   componentWillUnmount(){
     cancelAnimationFrame(this.raf); clearTimeout(this.closeTimer);
     const sc0 = this.scRef.current;
-    if(sc0){ sc0.removeEventListener('pointerdown', this.dragStart); sc0.removeEventListener('pointermove', this.dragMove); sc0.removeEventListener('pointerup', this.dragEnd); sc0.removeEventListener('pointercancel', this.dragEnd); sc0.removeEventListener('click', this.dragClick, true); }
+    if(sc0){
+      sc0.removeEventListener('wheel', this.cancelStepAnim);
+      sc0.removeEventListener('touchstart', this.cancelStepAnim);
+      sc0.removeEventListener('pointerdown', this.dragStart); sc0.removeEventListener('pointermove', this.dragMove); sc0.removeEventListener('pointerup', this.dragEnd); sc0.removeEventListener('pointercancel', this.dragEnd); sc0.removeEventListener('click', this.dragClick, true);
+    }
     const st1 = this.stage1Ref.current;
     if(st1) st1.removeEventListener('wheel', this.onStageWheel);
     window.removeEventListener('pointermove', this.onPointer);
+    window.removeEventListener('keydown', this.onKeyDown);
     document.removeEventListener('pointerdown', this.onDocDown);
     window.removeEventListener('site-theme-change', this.onThemeChange);
   }
@@ -332,6 +395,7 @@ class Component extends DCLogic {
     if(e.target && e.target.closest && e.target.closest('[data-box="r-menu"]')) return;
     if(e.pointerType === 'mouse' && e.target && e.target.closest && e.target.closest('[data-selectable="1"]')) return;
     this.glide = null;
+    this.stepAnim = null;
     const sc = this.scRef.current;
     this.drag = {id:e.pointerId, y:e.clientY, y0:e.clientY, t:performance.now(), v:0, moved:false};
     if(e.pointerType === 'mouse' && !(e.target.closest && e.target.closest('a,button'))) e.preventDefault();
@@ -366,7 +430,12 @@ class Component extends DCLogic {
     const W = sc.clientWidth || window.innerWidth, ih = window.innerHeight;
     /* a window this tall is a frame sized to hold a whole page: the scrolling area then takes the height of an ordinary window */
     const V = ih > 1800 ? 900 : Math.max(480, ih), U = this.unit(V);
-    if(this.glide){
+    if(this.stepAnim){
+      const a = this.stepAnim, k = Math.min(1, (performance.now() - a.t0) / a.dur);
+      const e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+      sc.scrollTop = a.from + (a.to - a.from) * e;
+      if(k >= 1) this.stepAnim = null;
+    } else if(this.glide){
       const g = this.glide, left = g.amp * Math.exp(-(performance.now() - g.t0) / 500), before = sc.scrollTop;
       sc.scrollTop = g.target - left;
       if(Math.abs(left) < 0.5 || (Math.abs(sc.scrollTop - before) < 0.01 && performance.now() - g.t0 > 120)) this.glide = null;
